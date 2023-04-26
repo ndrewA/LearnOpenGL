@@ -1,73 +1,11 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+#include <stb_image/stb_image.h>
+
 #include <iostream>
-#include <string>
-#include <fstream>
-#include <iterator>
 
-static std::string getShaderString(const std::string path)
-{
-    std::fstream file(path);
-    if (!file.is_open())
-    {
-        std::cout << "cannot open file\n";
-        return "";
-    }
-    std::string shaderString(std::istreambuf_iterator<char>{file}, {});
-    return shaderString;
-}
-
-static unsigned int makeShader(const std::string shaderPath, const unsigned int shaderType)
-{
-    unsigned int shader = glCreateShader(shaderType);
-
-    std::string shaderString = getShaderString(shaderPath);
-    char* shaderSource = new char[shaderString.length() + 1];
-    strcpy(shaderSource, shaderString.c_str());
-    glShaderSource(shader, 1, &shaderSource, nullptr);
-    glCompileShader(shader);
-
-    int succes;
-    const unsigned int infoLogLength = 512;
-    char infoLog[infoLogLength];
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &succes);
-
-    if (!succes) {
-        glGetShaderInfoLog(shader, infoLogLength, nullptr, infoLog);
-        std::cout << (shaderType == GL_VERTEX_SHADER ? "vertex" : "fragment") 
-                  << " shader compilation failed: " << infoLog << '\n';
-        __debugbreak();
-    }
-    return shader;
-}
-
-static unsigned int makeProgram(const std::string vertexPath, const std::string fragmentPath)
-{
-    unsigned int vertexShader = makeShader("src/Shaders/shader.vert", GL_VERTEX_SHADER);
-    unsigned int fragmentShader = makeShader("src/Shaders/shader.frag", GL_FRAGMENT_SHADER);
-    unsigned int shaderProgram = glCreateProgram();
-
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    int succes;
-    const unsigned int infoLogLength = 512;
-    char infoLog[infoLogLength];
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &succes);
-    if (!succes) {
-        glGetProgramInfoLog(shaderProgram, infoLogLength, nullptr, infoLog);
-        std::cout << "program failed: " << infoLog << '\n';
-        __debugbreak();
-    }
-
-    return shaderProgram;
-}
+#include "Shader.h"
 
 int main()
 {
@@ -96,14 +34,16 @@ int main()
     }
 
     float vertices[] = {
-           // positions         // colors
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+         // positions         // colors           // texture coords
+         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
     };
 
-    unsigned int indices[] = { 
-        0, 1, 2
+    unsigned int indices[] = {
+        0, 1, 2,
+        0, 2, 3
     };
 
     unsigned int vertexArray;
@@ -114,31 +54,91 @@ int main()
     glGenBuffers(1, &vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
+
     unsigned int elementBuffer;
     glGenBuffers(1, &elementBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3*sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
-    unsigned int shaderProgram = makeProgram("src/Shaders/shader.vert", "src/Shaders/shader.frag");
+    Shader shaderProgram("src/Shaders/shader.vert", "src/Shaders/shader.frag");
 
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    stbi_set_flip_vertically_on_load(true);
+
+    unsigned int texture1;
+    glGenTextures(1, &texture1);
+    glBindTexture(GL_TEXTURE_2D, texture1);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    {
+        int width, height, channelNumber;
+        unsigned char* data = stbi_load("res/container.jpg", &width, &height, &channelNumber, 0);
+
+        if (data) {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else {
+            std::cout << "failed to load texture\n";
+            __debugbreak();
+        }
+        stbi_image_free(data);
+    }
+    unsigned int texture2;
+    glGenTextures(1, &texture2);
+    glBindTexture(GL_TEXTURE_2D, texture2);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    {
+        int width, height, channelNumber;
+        unsigned char* data = stbi_load("res/awesomeface.png", &width, &height, &channelNumber, 0);
+
+        if (data) {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else {
+            std::cout << "failed to load texture\n";
+            __debugbreak();
+        }
+        stbi_image_free(data);
+    }
+
+    shaderProgram.use();
+    shaderProgram.setInt("texSampler1", 0);
+    shaderProgram.setInt("texSampler2", 1);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
 
-        glUseProgram(shaderProgram);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
+        shaderProgram.use();
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texture2);
         glBindVertexArray(vertexArray);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -146,7 +146,6 @@ int main()
         /* Poll for and process events */
         glfwPollEvents();
     }
-
     glfwTerminate();
     return 0;
 }

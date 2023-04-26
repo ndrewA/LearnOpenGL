@@ -33,14 +33,19 @@ project "LearnOpengl"
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/glm/glm/**.hpp",
-        "%{prj.name}/vendor/glm/glm/**.inl"
+        "%{prj.name}/vendor/glm/glm/**.inl",
+        "%{prj.name}/res/*.jpg",
+        "%{prj.name}/src/Shaders/*.frag",
+        "%{prj.name}/src/Shaders/*.vert",
+        "%{prj.name}/vendor/stb_image/stb_image.h"
     }
 
     includedirs
     {
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.glad}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{prj.name}/vendor"
     }
 
     links
@@ -53,7 +58,8 @@ project "LearnOpengl"
     defines
     {
         "GLFW_INCLUDE_NONE",
-        "_CRT_SECURE_NO_WARNINGS"
+        "_CRT_SECURE_NO_WARNINGS",
+        "STB_IMAGE_IMPLEMENTATION"
     }
     
     cppdialect "C++17"
