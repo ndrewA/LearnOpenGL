@@ -45,27 +45,37 @@ void Shader::use() const
 
 void Shader::setBool(const std::string name, bool value) const
 {
-    glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
+    glUniform1i(getLocation(name), (int)value);
 }
 
 void Shader::setInt(const std::string name, int value) const
 {
-    glUniform1i(glGetUniformLocation(id, name.c_str()), value);
+    glUniform1i(getLocation(name), value);
 }
 
 void Shader::setFloat(const std::string name, float value) const
 {
-    glUniform1f(glGetUniformLocation(id, name.c_str()), value);
+    glUniform1f(getLocation(name), value);
 }
 
 void Shader::setMat4(const std::string name, const glm::mat4 matrix) const
 {
-    glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
+    glUniformMatrix4fv(getLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void Shader::setVec3(const std::string name, const glm::vec3 vector) const
 {
-    glUniform3f(glGetUniformLocation(id, name.c_str()), vector.x, vector.y, vector.z);
+    glUniform3f(getLocation(name), vector.x, vector.y, vector.z);
+}
+
+int Shader::getLocation(const std::string name) const
+{
+    auto location = glGetUniformLocation(id, name.c_str());
+    if (location == -1) {
+        std::cout << name << " not found in shader\n";
+        __debugbreak();
+    }
+    return location;
 }
 
 std::string Shader::getShaderString(const std::string path) const

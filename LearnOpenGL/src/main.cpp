@@ -62,8 +62,11 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
+    const int WINDOW_WIDTH = 640;
+    const int WINDOW_HEIGHT = 480;
+
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "OpenGL", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -184,14 +187,31 @@ int main()
         glm::mat4 view = camera.getViewMatrix();
     
         glm::mat4 projection;
-        projection = glm::perspective(camera.getFOV(), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(camera.getFOV(), (float)WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 100.0f);
 
         cubeShader.use();
 
-        cubeShader.setVec3("objectColor", { 1.0f, 0.5f, 0.31f });
+        glm::vec3 lightColor
+        {
+            sin(glfwGetTime() * 2.0f),
+            sin(glfwGetTime() * 0.7f),
+            sin(glfwGetTime() * 1.3f)
+        };
 
-        cubeShader.setVec3("lightColor", { 1.0f, 1.0f, 1.0f });
-        cubeShader.setVec3("lightPos", lightPos);
+        glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+        glm::vec3 ambientColor = lightColor * glm::vec3(0.2f);
+
+
+
+        cubeShader.setVec3("material.ambient", { 1.0f, 0.5f, 0.31f });
+        cubeShader.setVec3("material.diffuse", { 1.0f, 0.5f, 0.31f });
+        cubeShader.setVec3("material.specular", { 0.5f, 0.5f, 0.5f });
+        cubeShader.setFloat("material.shininess", 32.0f);
+
+        cubeShader.setVec3("light.position", lightPos);
+        cubeShader.setVec3("light.ambient", ambientColor);
+        cubeShader.setVec3("light.diffuse", diffuseColor);
+        cubeShader.setVec3("light.specular", { 1.0f, 1.0f, 1.0f });
 
         cubeShader.setVec3("viewPos", camera.getPosition());
 

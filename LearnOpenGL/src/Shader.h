@@ -23,6 +23,7 @@ public:
 private:
 	std::string getShaderString(const std::string path) const;
 	unsigned int makeShader(const std::string shaderPath, const unsigned int shaderType) const;
+	int getLocation(const std::string name) const;
 
 private:
 	std::string vertexPath;
