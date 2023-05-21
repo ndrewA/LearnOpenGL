@@ -10,6 +10,47 @@
 #include <iostream>
 
 #include "Shader.h"
+#include "Camera.h"
+
+Camera camera;
+
+static void mouseMoveCallBack(GLFWwindow* window, double xPos, double yPos)
+{
+    static float lastX = 0.0f;
+    static float lastY = 0.0f;
+
+    float xOffset = (float)xPos - lastX;
+    float yOffset = (float)yPos - lastY;
+
+    lastX = (float)xPos;
+    lastY = (float)yPos;
+
+    camera.processMouseMovement(xOffset, yOffset);
+}
+
+static void scrollCallBack(GLFWwindow* window, double xOffset, double yOffset)
+{
+    camera.processMouseScroll((float)yOffset);
+}
+
+bool keyIsPressed(GLFWwindow* window, int key)
+{
+    return glfwGetKey(window, key) == GLFW_PRESS;
+}
+
+static void checkKeyboard(GLFWwindow* window)
+{
+    char directionMask = 0x0;
+    if (keyIsPressed(window, GLFW_KEY_W))
+        directionMask |= Camera::direction::front;
+    if (keyIsPressed(window, GLFW_KEY_S))
+        directionMask |= Camera::direction::back;
+    if (keyIsPressed(window, GLFW_KEY_A))
+        directionMask |= Camera::direction::left;
+    if (keyIsPressed(window, GLFW_KEY_D))
+        directionMask |= Camera::direction::right;
+    camera.processKeyboard(directionMask);
+}
 
 int main()
 {
@@ -35,7 +76,13 @@ int main()
     {
         std::cout << "failed to initialize GLAD" << std::endl;
         return -1;
+ 
     }
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    glfwSetCursorPosCallback(window, mouseMoveCallBack);
+    glfwSetScrollCallback(window, scrollCallBack);
 
     float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -194,12 +241,12 @@ int main()
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
 
-        glm::mat4 view = glm::mat4(1.0f);
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+        checkKeyboard(window);
+        glm::mat4 view = camera.getViewMatrix();
         shaderProgram.setMat4("view", view);
-
+         
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(camera.getFOV(), 800.0f / 600.0f, 0.1f, 100.0f);
         shaderProgram.setMat4("projection", projection);
 
         for (unsigned int i = 0; i < 10; i++) {
