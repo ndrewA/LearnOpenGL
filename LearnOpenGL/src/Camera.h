@@ -20,7 +20,8 @@ public:
 	};
 
 	glm::mat4 getViewMatrix() const { return glm::lookAt(position, position + cameraFront, worldUp); }
-	float getFOV() const { return glm::radians(fov); }
+	float getFOV() const { return glm::radians(fov); }	
+	glm::vec3 getPosition() const { return position; }
 
 	void processMouseMovement(const float xOffset, const float yOffset);
 	void processMouseScroll(const float yOffset);

@@ -189,9 +189,11 @@ int main()
         cubeShader.use();
 
         cubeShader.setVec3("objectColor", { 1.0f, 0.5f, 0.31f });
+
         cubeShader.setVec3("lightColor", { 1.0f, 1.0f, 1.0f });
-        
         cubeShader.setVec3("lightPos", lightPos);
+
+        cubeShader.setVec3("viewPos", camera.getPosition());
 
         cubeShader.setMat4("view", view);
 
