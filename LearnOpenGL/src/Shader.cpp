@@ -63,6 +63,11 @@ void Shader::setMat4(const std::string name, const glm::mat4 matrix) const
     glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
+void Shader::setVec3(const std::string name, const glm::vec3 vector) const
+{
+    glUniform3f(glGetUniformLocation(id, name.c_str()), vector.x, vector.y, vector.z);
+}
+
 std::string Shader::getShaderString(const std::string path) const
 {
     std::fstream file(path);

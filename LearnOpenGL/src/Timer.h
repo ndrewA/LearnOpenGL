@@ -10,7 +10,7 @@ namespace utilities
 		using time = std::chrono::steady_clock::time_point;
 
 	public:
-		Timer() {}
+		Timer() { }
 		float getDeltaTime();
 		void resetTimer();
 

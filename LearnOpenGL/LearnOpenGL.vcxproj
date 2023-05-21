@@ -519,8 +519,10 @@
     <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Shaders\shader.frag" />
-    <None Include="src\Shaders\shader.vert" />
+    <None Include="src\Shaders\CubeShaders\shader.frag" />
+    <None Include="src\Shaders\CubeShaders\shader.vert" />
+    <None Include="src\Shaders\ShaderForLightSources\shader.frag" />
+    <None Include="src\Shaders\ShaderForLightSources\shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\awesomeface.png" />
