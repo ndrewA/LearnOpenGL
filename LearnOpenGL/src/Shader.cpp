@@ -73,7 +73,7 @@ int Shader::getLocation(const std::string name) const
     auto location = glGetUniformLocation(id, name.c_str());
     if (location == -1) {
         std::cout << name << " not found in shader\n";
-        __debugbreak();
+        //__debugbreak();
     }
     return location;
 }

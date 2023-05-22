@@ -1317,5 +1317,7 @@
       <Filter>res</Filter>
     </Image>
     <Image Include="res\awesomeface.png" />
+    <Image Include="res\container2.png" />
+    <Image Include="res\container2_specular.png" />
   </ItemGroup>
 </Project>
