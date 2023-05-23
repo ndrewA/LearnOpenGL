@@ -62,8 +62,8 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
-    const int WINDOW_WIDTH = 640;
-    const int WINDOW_HEIGHT = 480;
+    const int WINDOW_WIDTH = 1920;
+    const int WINDOW_HEIGHT = 1080;
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "OpenGL", NULL, NULL);
@@ -225,13 +225,27 @@ int main()
 
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
+    glm::vec3 cubePositions[] = {
+    glm::vec3(0.0f,  0.0f,  0.0f),
+    glm::vec3(2.0f,  5.0f, -15.0f),
+    glm::vec3(-1.5f, -2.2f, -2.5f),
+    glm::vec3(-3.8f, -2.0f, -12.3f),
+    glm::vec3(2.4f, -0.4f, -3.5f),
+    glm::vec3(-1.7f,  3.0f, -7.5f),
+    glm::vec3(1.3f, -2.0f, -2.5f),
+    glm::vec3(1.5f,  2.0f, -2.5f),
+    glm::vec3(1.5f,  0.2f, -1.5f),
+    glm::vec3(-1.3f,  1.0f, -1.5f)
+    };
+
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
 
-        //glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
@@ -253,11 +267,18 @@ int main()
         cubeShader.setInt("material.specular", 1);
         cubeShader.setFloat("material.shininess", 128.0f);
 
-        cubeShader.setVec3("lightPosition", lightPos);
-
-        cubeShader.setVec3("light.ambient", { 0.2f, 0.2f, 0.2f });
-        cubeShader.setVec3("light.diffuse", { 0.5f, 0.5f, 0.5f });
+        cubeShader.setVec3("light.ambient", { 0.4f, 0.4f, 0.4f });
+        cubeShader.setVec3("light.diffuse", { 0.9f, 0.9f, 0.9f });
         cubeShader.setVec3("light.specular", { 1.0f, 1.0f, 1.0f });
+        
+        cubeShader.setVec3("light.position", camera.getPosition());
+        cubeShader.setVec3("light.direction", camera.getFront());
+        cubeShader.setFloat("light.innerCutOff", glm::cos(glm::radians(12.5f)));
+        cubeShader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+
+        cubeShader.setFloat("light.constant", 1.0f);
+        cubeShader.setFloat("light.linear", 0.09f);
+        cubeShader.setFloat("light.quadratic", 0.032f);
 
         cubeShader.setVec3("viewPos", camera.getPosition());
 
@@ -265,12 +286,24 @@ int main()
 
         cubeShader.setMat4("projection", projection);
 
-        glm::mat4 model = glm::mat4(1.0f);
+        //glm::mat4 model = glm::mat4(1.0f);
 
-        cubeShader.setMat4("model", model);
+        //cubeShader.setMat4("model", model);
 
-        glBindVertexArray(cubeVertexArray);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        //glBindVertexArray(cubeVertexArray);
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        for (unsigned int i = 0; i < 10; i++)
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            float angle = 20.0f * i;
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            cubeShader.setMat4("model", model);
+
+            glBindVertexArray(cubeVertexArray);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
+        }
 
         lighShader.use();
 
@@ -278,18 +311,15 @@ int main()
 
         lighShader.setMat4("projection", projection);
 
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, lightPos);
-        model = glm::scale(model, glm::vec3(0.2f));
-        lighShader.setMat4("model", model);
+        glm::mat4 lightModel = glm::mat4(1.0f);
+        lightModel = glm::translate(lightModel, lightPos);
+        lightModel = glm::scale(lightModel, glm::vec3(0.2f));
+        lighShader.setMat4("model", lightModel);
 
         glBindVertexArray(lightVertexArray);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
-        /* Swap front and back buffers */
         glfwSwapBuffers(window);
-
-        /* Poll for and process events */
         glfwPollEvents();
     }
     glDeleteVertexArrays(1, &cubeVertexArray);

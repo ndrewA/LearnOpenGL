@@ -24,8 +24,8 @@ void Camera::processMouseScroll(const float yOffset)
 
     if (fov < 1.0f)
         fov = 1.0f;
-    else if (fov > 45.0f)
-        fov = 45.0f;
+    else if (fov > 120.0f)
+        fov = 120.0f;
     updateCameraRotation();
 }
 
