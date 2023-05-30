@@ -2,14 +2,14 @@
 
 #include <time.h>
 
-const float Camera::MOVEMENT_SPEED = 2.5f;
+const float Camera::MOVEMENT_SPEED = 4.5f;
 const float Camera::SCROLL_SENSITIVITY = 2.5f;
 const float Camera::MOUSE_SENSITIVITY = 0.1f;
 
 void Camera::processMouseMovement(const float xOffset, const float yOffset)
 {
-    yaw     += xOffset * MOUSE_SENSITIVITY;
-    pitch   -= yOffset * MOUSE_SENSITIVITY;
+    yaw     += xOffset * MOUSE_SENSITIVITY * fov / 70;
+    pitch   -= yOffset * MOUSE_SENSITIVITY * fov / 70;
 
     if (pitch > 89.0f)
         pitch = 89.0f;
@@ -41,6 +41,10 @@ void Camera::processKeyboard(const char directionMask)
         position -= speedOnDeltaTime * glm::normalize(glm::cross(cameraFront, worldUp));
     if (directionMask & direction::right)
         position += speedOnDeltaTime * glm::normalize(glm::cross(cameraFront, worldUp));
+    if (directionMask & direction::up)
+        position += speedOnDeltaTime * worldUp;
+    if (directionMask & direction::down)
+        position -= speedOnDeltaTime * worldUp;
     if (directionMask & (char)0x0)
         timer.resetTimer();
 }
@@ -53,6 +57,7 @@ void Camera::updateCameraRotation()
         sin(glm::radians(pitch)),
         sin(glm::radians(yaw)) * cos(glm::radians(pitch))
     };
-
     cameraFront = glm::normalize(direction);
+
+    cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
 }
