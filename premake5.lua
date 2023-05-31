@@ -11,19 +11,25 @@ workspace "LearnOpengl"
     outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
     IncludeDir = {}
-    IncludeDir["GLFW"] = "LearnOpengl/vendor/GLFW/include"
-    IncludeDir["glad"] = "LearnOpengl/vendor/glad/include"
-    IncludeDir["glm"] = "LearnOpengl/vendor/glm"
+    IncludeDir["GLFW"]      = "LearnOpengl/vendor/GLFW/include"
+    IncludeDir["glad"]      = "LearnOpengl/vendor/glad/include"
+    IncludeDir["assimp"]    = "LearnOpengl/vendor/assimp/include"
+    IncludeDir["glm"]       = "LearnOpengl/vendor/glm"
 
     group "Dependencies"
         include "LearnOpengl/vendor/GLFW"
         include "LearnOpengl/vendor/glad"
+        include "LearnOpengl/vendor/assimp"
     group ""
 
 project "LearnOpengl"
     location "LearnOpengl"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++17"
+
+    runtime "Debug"
+    symbols "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -44,6 +50,7 @@ project "LearnOpengl"
     {
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.glad}",
+        "%{IncludeDir.assimp}",
         "%{IncludeDir.glm}",
         "%{prj.name}/vendor"
     }
@@ -52,6 +59,7 @@ project "LearnOpengl"
     {
         "GLFW",
         "glad",
+        "assimp",
         "opengl32.lib"
     }
 
@@ -62,7 +70,4 @@ project "LearnOpengl"
         "STB_IMAGE_IMPLEMENTATION"
     }
     
-    cppdialect "C++17"
-    runtime "Debug"
-    symbols "On"
     systemversion "latest"
