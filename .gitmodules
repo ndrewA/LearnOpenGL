@@ -4,3 +4,6 @@
 [submodule "LearnOpengl/vendor/glm"]
 	path = LearnOpengl/vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "vendor/aasimp"]
+	path = LearnOpengl/vendor/assimp
+	url = https://github.com/assimp/assimp
