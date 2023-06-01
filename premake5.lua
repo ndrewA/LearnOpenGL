@@ -11,10 +11,10 @@ workspace "LearnOpengl"
     outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
     IncludeDir = {}
-    IncludeDir["GLFW"]      = "LearnOpengl/vendor/GLFW/include"
-    IncludeDir["glad"]      = "LearnOpengl/vendor/glad/include"
-    IncludeDir["assimp"]    = "LearnOpengl/vendor/assimp/include"
-    IncludeDir["glm"]       = "LearnOpengl/vendor/glm"
+    IncludeDir["GLFW"]      = "LearnOpenGL/vendor/GLFW/include"
+    IncludeDir["glad"]      = "LearnOpenGL/vendor/glad/include"
+    IncludeDir["assimp"]    = "LearnOpenGL/vendor/assimp/include"
+    IncludeDir["glm"]       = "LearnOpenGL/vendor/glm"
 
     group "Dependencies"
         include "LearnOpengl/vendor/GLFW"
@@ -30,6 +30,8 @@ project "LearnOpengl"
 
     runtime "Debug"
     symbols "on"
+
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -70,4 +72,5 @@ project "LearnOpengl"
         "STB_IMAGE_IMPLEMENTATION"
     }
     
-    systemversion "latest"
+    filter "system:windows"
+        systemversion "latest"
