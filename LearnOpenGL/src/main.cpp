@@ -9,6 +9,8 @@
 #include "Camera.h"
 #include "Model.h"
 
+#include "Events/EventDispatcher.h"
+
 #include <filesystem>
 #include <iostream>
 
@@ -76,9 +78,27 @@ void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
 
 int main()
 {
+    //Create EventDispatcher instance
+    EventDispatcher eventDispatcher;
+
+    // Create commands
+    std::shared_ptr<Command> keyPressCommand = std::make_shared<KeyPressCommand>();
+    eventDispatcher.registerEventListener<MousePressEvent>(keyPressCommand);
+
+    std::shared_ptr<Command> mouseMoveCommand = std::make_shared<MouseMoveCommand>();
+    eventDispatcher.registerEventListener<MouseReleaseEvent>(mouseMoveCommand);
+
+    MousePressEvent mousePressEvent;
+    MouseReleaseEvent mouseReleaseEvent;
+    eventDispatcher.dispatchEvent(mouseReleaseEvent);
+    eventDispatcher.dispatchEvent(mouseReleaseEvent);
+    eventDispatcher.dispatchEvent(mousePressEvent);
+
+
+    return 0;
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
@@ -102,6 +122,7 @@ int main()
     }
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_STENCIL_TEST);
     // glDepthFunc(GL_ALWAYS);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -116,6 +137,7 @@ int main()
     utilities::Timer t;
     while (!glfwWindowShouldClose(window))
     {
+        glStencilMask(0x00);
         if (t.getDeltaTime() >= 1.0f) {
             std::cout << "fps: " << static_cast<float>(frames) / t.getDeltaTime() << '\n';
             t.resetTimer();
@@ -130,7 +152,7 @@ int main()
         processInput(window);
 
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         ourShader.use();
 
