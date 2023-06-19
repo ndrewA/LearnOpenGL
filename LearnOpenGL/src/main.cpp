@@ -102,6 +102,8 @@ int main()
     }
 
     glEnable(GL_DEPTH_TEST);
+    // glDepthFunc(GL_ALWAYS);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     std::string shaderVertexPath = std::filesystem::absolute("../LearnOpengl/src/Shaders/shader.vert").string();
     std::string shaderFragmentPath = std::filesystem::absolute("../LearnOpengl/src/Shaders/shader.frag").string();
@@ -115,7 +117,7 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         if (t.getDeltaTime() >= 1.0f) {
-            std::cout << "fps: " << (double)frames / t.getDeltaTime() << '\n';
+            std::cout << "fps: " << static_cast<float>(frames) / t.getDeltaTime() << '\n';
             t.resetTimer();
             frames = 0;
         }
