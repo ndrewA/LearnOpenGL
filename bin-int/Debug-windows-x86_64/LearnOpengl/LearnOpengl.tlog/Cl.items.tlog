@@ -1,7 +1,8 @@
-C:\dev\LearnOpengl\LearnOpengl\src\Camera.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Camera.obj
-C:\dev\LearnOpengl\LearnOpengl\src\Mesh.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Mesh.obj
-C:\dev\LearnOpengl\LearnOpengl\src\Model.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Model.obj
-C:\dev\LearnOpengl\LearnOpengl\src\Shader.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Shader.obj
-C:\dev\LearnOpengl\LearnOpengl\src\Timer.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Timer.obj
-C:\dev\LearnOpengl\LearnOpengl\src\main.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\main.obj
-C:\dev\LearnOpengl\LearnOpengl\src\Platform\Windows\WindowsWindow.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\WindowsWindow.obj
+C:\dev\LearnOpenGL\LearnOpengl\src\Camera.cpp;C:\dev\LearnOpenGL\bin-int\Debug-windows-x86_64\LearnOpengl\Camera.obj
+C:\dev\LearnOpenGL\LearnOpengl\src\LayerStack.cpp;C:\dev\LearnOpenGL\bin-int\Debug-windows-x86_64\LearnOpengl\LayerStack.obj
+C:\dev\LearnOpenGL\LearnOpengl\src\Mesh.cpp;C:\dev\LearnOpenGL\bin-int\Debug-windows-x86_64\LearnOpengl\Mesh.obj
+C:\dev\LearnOpenGL\LearnOpengl\src\Model.cpp;C:\dev\LearnOpenGL\bin-int\Debug-windows-x86_64\LearnOpengl\Model.obj
+C:\dev\LearnOpenGL\LearnOpengl\src\Platform\GLFW\GLFWWindow.cpp;C:\dev\LearnOpenGL\bin-int\Debug-windows-x86_64\LearnOpengl\GLFWWindow.obj
+C:\dev\LearnOpenGL\LearnOpengl\src\Shader.cpp;C:\dev\LearnOpenGL\bin-int\Debug-windows-x86_64\LearnOpengl\Shader.obj
+C:\dev\LearnOpenGL\LearnOpengl\src\Timer.cpp;C:\dev\LearnOpenGL\bin-int\Debug-windows-x86_64\LearnOpengl\Timer.obj
+C:\dev\LearnOpenGL\LearnOpengl\src\main.cpp;C:\dev\LearnOpenGL\bin-int\Debug-windows-x86_64\LearnOpengl\main.obj

@@ -88,7 +88,7 @@ std::string Shader::getShaderString(const std::string path) const
     std::fstream file(path);
     if (!file.is_open())
     {
-        std::cout << "cannot open file\n";
+        std::cout << "cannot open file: " << path <<  '\n';
         __debugbreak();
     }
     std::string shaderString(std::istreambuf_iterator<char>{file}, {});

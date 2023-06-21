@@ -9,7 +9,7 @@
 #include "Camera.h"
 #include "Model.h"
 
-#include "Events/EventDispatcher.h"
+#include "Events/EventManager.hpp"
 
 #include <filesystem>
 #include <iostream>
@@ -76,26 +76,26 @@ void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
     camera.processMouseScroll((float)yOffset);
 }
 
+void test(const std::shared_ptr<Event>&) { }
+
 int main()
 {
-    //Create EventDispatcher instance
-    EventDispatcher eventDispatcher;
+    EventManager eventManager;
 
-    // Create commands
-    std::shared_ptr<Command> keyPressCommand = std::make_shared<KeyPressCommand>();
-    eventDispatcher.registerEventListener<MousePressEvent>(keyPressCommand);
+    eventManager.registerListener<MousePressEvent>([](const std::shared_ptr<Event>&) { std::cout << "MousePressEvent\n"; });
 
-    std::shared_ptr<Command> mouseMoveCommand = std::make_shared<MouseMoveCommand>();
-    eventDispatcher.registerEventListener<MouseReleaseEvent>(mouseMoveCommand);
+    eventManager.registerListener<MouseReleaseEvent>([](const std::shared_ptr<Event>&) { std::cout << "MouseReleaseEvent\n"; });
 
-    MousePressEvent mousePressEvent;
-    MouseReleaseEvent mouseReleaseEvent;
-    eventDispatcher.dispatchEvent(mouseReleaseEvent);
-    eventDispatcher.dispatchEvent(mouseReleaseEvent);
-    eventDispatcher.dispatchEvent(mousePressEvent);
+    eventManager.addEvent(std::make_unique<MousePressEvent>());
+    eventManager.addEvent(std::make_unique<MousePressEvent>());
+    eventManager.addEvent(std::make_unique<MouseReleaseEvent>());
+    eventManager.addEvent(std::make_unique<MousePressEvent>());
 
+    eventManager.publishEventsToBus();
 
     return 0;
+
+    //================================================================
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -126,8 +126,8 @@ int main()
     // glDepthFunc(GL_ALWAYS);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    std::string shaderVertexPath = std::filesystem::absolute("../LearnOpengl/src/Shaders/shader.vert").string();
-    std::string shaderFragmentPath = std::filesystem::absolute("../LearnOpengl/src/Shaders/shader.frag").string();
+    std::string shaderVertexPath = std::filesystem::absolute("../LearnOpengl/src/Platform/OpenGL/Shaders/shader.vert").string();
+    std::string shaderFragmentPath = std::filesystem::absolute("../LearnOpengl/src/Platform/OpenGL/Shaders/shader.frag").string();
     Shader ourShader(shaderVertexPath, shaderFragmentPath);
 
     std::string modelPath = std::filesystem::absolute("../LearnOpengl/res/backpack/backpack.obj").generic_string();

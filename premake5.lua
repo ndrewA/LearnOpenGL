@@ -54,7 +54,8 @@ project "LearnOpengl"
         "%{IncludeDir.glad}",
         "%{IncludeDir.assimp}",
         "%{IncludeDir.glm}",
-        "%{prj.name}/vendor"
+        "%{prj.name}/vendor",
+        "%{prj.name}/src"
     }
 
     links

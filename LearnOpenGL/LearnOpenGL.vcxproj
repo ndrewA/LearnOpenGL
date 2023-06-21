@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLFW_INCLUDE_NONE;_CRT_SECURE_NO_WARNINGS;STB_IMAGE_IMPLEMENTATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\GLFW\include;vendor\glad\include;vendor\assimp\include;vendor\glm;vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\GLFW\include;vendor\glad\include;vendor\assimp\include;vendor\glm;vendor;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -77,7 +77,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLFW_INCLUDE_NONE;_CRT_SECURE_NO_WARNINGS;STB_IMAGE_IMPLEMENTATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\GLFW\include;vendor\glad\include;vendor\assimp\include;vendor\glm;vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\GLFW\include;vendor\glad\include;vendor\assimp\include;vendor\glm;vendor;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -91,15 +91,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Events\Command.h" />
-    <ClInclude Include="src\Events\EventDispatcher.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Events\Event.h" />
+    <ClInclude Include="src\Events\EventBus.hpp" />
+    <ClInclude Include="src\Events\EventListenerRegister.h" />
+    <ClInclude Include="src\Events\EventManager.hpp" />
+    <ClInclude Include="src\Events\EventListener.hpp" />
+    <ClInclude Include="src\Events\EventQueue.h" />
     <ClInclude Include="src\Events\KeyboardEvent.h" />
     <ClInclude Include="src\Events\MouseEvent.h" />
     <ClInclude Include="src\Events\WindowEvent.h" />
+    <ClInclude Include="src\Generic\Window.h" />
+    <ClInclude Include="src\Layer.h" />
+    <ClInclude Include="src\LayerStack.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\Platform\GLFW\GLFWWindow.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -519,20 +526,16 @@
     <ClInclude Include="vendor\glm\glm\vec4.hpp" />
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
     <ClInclude Include="vendor\stb_image\stb_image.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Platform\GLFW\GLFWWindow.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\Shaders\shader.frag" />
-    <None Include="src\Shaders\shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

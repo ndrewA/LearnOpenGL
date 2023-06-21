@@ -5,8 +5,6 @@
 class WindowEvent : public Event 
 {
 public: 
-	virtual ~WindowEvent() = default;
-
 	EVENT_CATEGORY_FUNCTION(Window)
 };
 

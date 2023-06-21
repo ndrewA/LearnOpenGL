@@ -6,28 +6,42 @@
 
 class KeyboardEvent : public Event
 {
+protected:
+	KeyboardEvent(int keyCode, int scancode, int mods)
+		: keyCode(keyCode), scancode(scancode), mods(mods) { }
+
 public:
-	KeyboardEvent(const uint32_t keyCode) : keyCode(keyCode) { }
-	virtual ~KeyboardEvent() = default;
+	int getKeyCode() const { return keyCode; }
+	int getScanCode() const { return scancode; }
+	int getMods() const { return mods; }
 
 	EVENT_CATEGORY_FUNCTION(Keyboard)
 
 protected:
-	uint32_t keyCode;
+	int keyCode;
+	int scancode;
+	int mods;
 };
 
 class KeyboardPressEvent : public KeyboardEvent
 {
 public:
-	KeyboardPressEvent(uint32_t keyCode) : KeyboardEvent(keyCode) { }
+	KeyboardPressEvent(const int keyCode, const int scancode, const int mods, const int repeatCount)
+		: KeyboardEvent(keyCode, scancode, mods), repeatCount(repeatCount) { }
+
+	int getRepeatCount() const { return repeatCount; }
 
 	EVENT_TYPE_FUNCTION(KeyboardPress)
+
+private:
+	int repeatCount;
 };
 
 class KeyboardReleaseEvent : public KeyboardEvent
 {
 public:
-	KeyboardReleaseEvent(uint32_t keyCode) : KeyboardEvent(keyCode) { }
+	KeyboardReleaseEvent(const int keyCode, const int scancode, const int mods, const int repeatCount)
+		: KeyboardEvent(keyCode, scancode, mods) { }
 
 	EVENT_TYPE_FUNCTION(KeyboardRelease)
 };
@@ -35,7 +49,8 @@ public:
 class KeyPressEvent : public KeyboardEvent
 {
 public:
-	KeyPressEvent(uint32_t keyCode) : KeyboardEvent(keyCode) { }
+	KeyPressEvent(const int keyCode, const int scancode, const int mods, const int repeatCount)
+		: KeyboardEvent(keyCode, scancode, mods) { }
 
 	EVENT_TYPE_FUNCTION(KeyPress)
 };

@@ -4,8 +4,17 @@
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Shaders">
-      <UniqueIdentifier>{06ADC7FB-7262-40F1-FB56-3AC8670B37F5}</UniqueIdentifier>
+    <Filter Include="src\Events">
+      <UniqueIdentifier>{7162C20E-5D1A-045C-C621-DDB7B2F89E4C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Generic">
+      <UniqueIdentifier>{195BF959-8510-724F-0E05-6C267AB96853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform">
+      <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\GLFW">
+      <UniqueIdentifier>{0002C6D8-6C18-C46E-B58F-4F9021E594F6}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
@@ -36,11 +45,29 @@
     <ClInclude Include="src\Camera.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Events\Event.h">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\KeyboardEvent.h">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\MouseEvent.h">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\WindowEvent.h">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Generic\Window.h">
+      <Filter>src\Generic</Filter>
+    </ClInclude>
     <ClInclude Include="src\Mesh.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Model.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\GLFW\GLFWWindow.h">
+      <Filter>src\Platform\GLFW</Filter>
     </ClInclude>
     <ClInclude Include="src\Shader.h">
       <Filter>src</Filter>
@@ -1299,13 +1326,13 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Events\Event.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
-    <ClInclude Include="src\Events\EventDispatcher.h" />
-    <ClInclude Include="src\Events\MouseEvent.h" />
-    <ClInclude Include="src\Events\Command.h" />
-    <ClInclude Include="src\Events\WindowEvent.h" />
-    <ClInclude Include="src\Events\KeyboardEvent.h" />
+    <ClInclude Include="src\Events\EventListener.hpp" />
+    <ClInclude Include="src\Events\EventManager.hpp" />
+    <ClInclude Include="src\LayerStack.h" />
+    <ClInclude Include="src\Layer.h" />
+    <ClInclude Include="src\Events\EventQueue.h" />
+    <ClInclude Include="src\Events\EventBus.hpp" />
+    <ClInclude Include="src\Events\EventListenerRegister.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp">
@@ -1317,6 +1344,9 @@
     <ClCompile Include="src\Model.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\GLFW\GLFWWindow.cpp">
+      <Filter>src\Platform\GLFW</Filter>
+    </ClCompile>
     <ClCompile Include="src\Shader.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1326,14 +1356,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\Shaders\shader.frag">
-      <Filter>src\Shaders</Filter>
-    </None>
-    <None Include="src\Shaders\shader.vert">
-      <Filter>src\Shaders</Filter>
-    </None>
+    <ClCompile Include="src\LayerStack.cpp" />
   </ItemGroup>
 </Project>
