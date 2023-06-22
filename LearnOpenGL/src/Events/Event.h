@@ -2,6 +2,16 @@
 
 #include <string>
 
+#define EVENT_TYPE_FUNCTION(type)																			\
+static const EventType getStaticType() { return EventType::##type; }										\
+const EventType getType() const override { return EventType::##type; }										\
+const std::string getTypeName() { return #type; }
+
+#define EVENT_CATEGORY_FUNCTION(category)																	\
+virtual ~category##Event() = default;																		\
+static const EventCategory getCategory() { return EventCategory::##category; }								\
+virtual const EventType getType() const { return EventType::None; }
+
 enum class EventCategory
 {
 	None,
@@ -15,9 +25,10 @@ enum class EventCategory
 enum class EventType
 {
 	None,
-	WindowResize, WindowLostFocus, WindowGainedFocus,
+	WindowResize, WindowLostFocus, WindowGainedFocus, 
+	WindowClose, WindowCursorEnter, WindowCursorLeave,
 	MouseMove, MousePress, MouseRelease, MouseScroll,
-	KeyboardPress, KeyboardRelease, KeyPress
+	KeyboardPress, KeyboardRepeat, KeyboardRelease, CharPress,
 };
 
 class Event
@@ -33,16 +44,6 @@ public:
 private:
 	bool handeled = false;
 };									
-
-#define EVENT_TYPE_FUNCTION(type)																			\
-static const EventType getStaticType() { return EventType::##type; }										\
-const EventType getType() const override { return EventType::##type; }										\
-const std::string getTypeName() { return #type; }
-
-#define EVENT_CATEGORY_FUNCTION(category)																	\
-virtual ~category##Event() = default;																		\
-static const EventCategory getCategory() { return EventCategory::##category; }								\
-virtual const EventType getType() const = 0;
 
 class NoneEvent : public Event
 {

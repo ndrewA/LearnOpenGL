@@ -17,7 +17,7 @@ public:
 
 	EVENT_CATEGORY_FUNCTION(Keyboard)
 
-protected:
+private:
 	int keyCode;
 	int scancode;
 	int mods;
@@ -26,31 +26,42 @@ protected:
 class KeyboardPressEvent : public KeyboardEvent
 {
 public:
-	KeyboardPressEvent(const int keyCode, const int scancode, const int mods, const int repeatCount)
-		: KeyboardEvent(keyCode, scancode, mods), repeatCount(repeatCount) { }
-
-	int getRepeatCount() const { return repeatCount; }
+	KeyboardPressEvent(const int keyCode, const int scancode, const int mods)
+		: KeyboardEvent(keyCode, scancode, mods){ }
 
 	EVENT_TYPE_FUNCTION(KeyboardPress)
+};
 
-private:
-	int repeatCount;
+class KeyboardRepeat : public KeyboardEvent
+{
+	KeyboardRepeat(const int keyCode, const int scancode, const int mods)
+		: KeyboardEvent(keyCode, scancode, mods) { }
+
+	EVENT_TYPE_FUNCTION(KeyboardRepeat)
 };
 
 class KeyboardReleaseEvent : public KeyboardEvent
 {
 public:
-	KeyboardReleaseEvent(const int keyCode, const int scancode, const int mods, const int repeatCount)
+	KeyboardReleaseEvent(const int keyCode, const int scancode, const int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
 	EVENT_TYPE_FUNCTION(KeyboardRelease)
 };
 
-class KeyPressEvent : public KeyboardEvent
+
+
+class CharPressEvent : public Event
 {
 public:
-	KeyPressEvent(const int keyCode, const int scancode, const int mods, const int repeatCount)
-		: KeyboardEvent(keyCode, scancode, mods) { }
+	CharPressEvent(const int codePoint)
+		: codePoint(codePoint) { }
 
-	EVENT_TYPE_FUNCTION(KeyPress)
+	const int getCodePoint() const { return codePoint; }
+
+	static const EventCategory getCategory() { return EventCategory::Keyboard; } 
+	EVENT_TYPE_FUNCTION(CharPress)
+
+private:
+	const int codePoint;
 };

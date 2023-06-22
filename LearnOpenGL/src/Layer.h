@@ -23,16 +23,6 @@ private:
 class TestLayer : public Layer
 {
 public:
-	void update() override;
-	void onEvent(const Event& event) override;
+	void update() override { };
+	void onEvent(const Event& event) override { };
 };
-
-void TestLayer::update()
-{
-
-}
-
-void TestLayer::onEvent(const Event& event)
-{
-
-}

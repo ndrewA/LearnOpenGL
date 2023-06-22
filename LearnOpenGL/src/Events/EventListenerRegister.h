@@ -7,15 +7,17 @@
 
 #include "EventListener.hpp"
 
+#include <iostream>
+
 class EventListenerRegister
 {
 public:
 	void registerListener(std::unique_ptr<BaseEventListener> listener) { listeners.emplace_back(std::move(listener)); }
-	void unregisterListener(const int listenerID) 
-	{ 
+	void unregisterListener(const int listenerID)
+	{
 		auto it = std::remove_if(listeners.begin(), listeners.end(), [listenerID](const auto& listener) {
 			return listenerID == listener->getID();
-		});
+			});
 		listeners.erase(it);
 	}
 

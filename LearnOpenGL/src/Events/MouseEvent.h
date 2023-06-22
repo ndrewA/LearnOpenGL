@@ -8,35 +8,70 @@ public:
 	EVENT_CATEGORY_FUNCTION(Mouse)
 };
 
-class MouseMoveEvent : public MouseEvent 
+// ===================== MOTION UPCOMING ==============================
+
+class MouseMotionEvent : public MouseEvent
 {
-public:
-	MouseMoveEvent(double mouseX, double mouseY)
+protected:
+	MouseMotionEvent(const double mouseX, const double mouseY)
 		: mouseX(mouseX), mouseY(mouseY) { }
 
-	double getMouseX() const { return mouseX; }
-	double getMouseY() const { return mouseY; }
-
-	EVENT_TYPE_FUNCTION(MouseMove)
+public:
+	const double getMouseX() const { return mouseX; }
+	const double getMouseY() const { return mouseY; }
 
 private:
-	double mouseX, mouseY;
+	const double mouseX, mouseY;
 };
 
-class MouseScrollEvent : public MouseEvent 
+class MouseMoveEvent : public MouseMotionEvent
 {
 public:
+	MouseMoveEvent(const double mouseX, const double mouseY)
+		: MouseMotionEvent(mouseX, mouseY) { }
+
+	EVENT_TYPE_FUNCTION(MouseMove)
+};
+
+class MouseScrollEvent : public MouseMotionEvent
+{
+public:
+	MouseScrollEvent(const double mouseX, const double mouseY)
+		: MouseMotionEvent(mouseX, mouseY) { }
+
 	EVENT_TYPE_FUNCTION(MouseScroll)
 };
 
-class MousePressEvent : public MouseEvent 
+// ===================== BUTTON UPCOMING ==============================
+
+class MouseButtonEvent : public MouseEvent
+{
+protected:
+	MouseButtonEvent(const int button, const int mods)
+		: button(button), mods(mods) { }
+
+private:
+	const int getButton() const { return button; }
+	const int getMods() const { return mods; }
+
+private:
+	const int button, mods;
+};
+
+class MousePressEvent : public MouseButtonEvent
 {
 public: 
+	MousePressEvent(const int button, const int mods)
+		: MouseButtonEvent(button, mods) { }
+
 	EVENT_TYPE_FUNCTION(MousePress)
 };
 
-class MouseReleaseEvent : public MouseEvent 
+class MouseReleaseEvent : public MouseButtonEvent
 {
 public: 
+	MouseReleaseEvent(const int button, const int mods)
+		: MouseButtonEvent(button, mods) { }
+
 	EVENT_TYPE_FUNCTION(MouseRelease)
 };

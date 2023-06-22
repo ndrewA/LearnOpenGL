@@ -8,12 +8,12 @@ class EventManager
 {
 public:
 	template<typename EventType>
-	int registerListener(const typename EventListener<EventType>::EventCallBackFn& callBack) { return eventBus.registerListener<EventType>(callBack); }
+	int registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack) { return eventBus.registerListener<EventType>(callBack); }
 	void unregisterListener(const int listenerID) { eventBus.unregisterListener(listenerID); }
 
 	void addEvent(const std::shared_ptr<Event>& event) { events.addEvent(event); }
-	void publishEventsToBus() 
-	{  
+	void publishEvents()
+	{
 		while (!events.isEmpty())
 			eventBus.publishEvent(events.getNewEvent());
 	}

@@ -1333,6 +1333,9 @@
     <ClInclude Include="src\Events\EventQueue.h" />
     <ClInclude Include="src\Events\EventBus.hpp" />
     <ClInclude Include="src\Events\EventListenerRegister.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Platform\GLFW\GLFWRenderingContext.h" />
+    <ClInclude Include="src\Generic\RenderingContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp">
@@ -1357,5 +1360,11 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\LayerStack.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Platform\GLFW\GLFWRenderingContext.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Platform\OpenGL\Shaders\shader.frag" />
+    <None Include="src\Platform\OpenGL\Shaders\shader.vert" />
   </ItemGroup>
 </Project>

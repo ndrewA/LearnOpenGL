@@ -10,6 +10,7 @@
 #include "Model.h"
 
 #include "Events/EventManager.hpp"
+#include "Platform/GLFW/GLFWWindow.h"
 
 #include <filesystem>
 #include <iostream>
@@ -22,25 +23,25 @@ Camera camera({ 0.0f, 0.0f, 3.0f });
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-bool keyIsPressed(GLFWwindow* window, int key)
+bool keyIsPressed(int key)
 {
-    return glfwGetKey(window, key) == GLFW_PRESS;
+    return glfwGetKey(glfwGetCurrentContext(), key) == GLFW_PRESS;
 }
 
-void processInput(GLFWwindow* window)
+void processInput()
 {
     char directionMask = 0x0;
-    if (keyIsPressed(window, GLFW_KEY_W))
+    if (keyIsPressed(GLFW_KEY_W))
         directionMask |= direction::front;
-    if (keyIsPressed(window, GLFW_KEY_S))
+    if (keyIsPressed(GLFW_KEY_S))
         directionMask |= direction::back;
-    if (keyIsPressed(window, GLFW_KEY_A))
+    if (keyIsPressed(GLFW_KEY_A))
         directionMask |= direction::left;
-    if (keyIsPressed(window, GLFW_KEY_D))
+    if (keyIsPressed(GLFW_KEY_D))
         directionMask |= direction::right;
-    if (keyIsPressed(window, GLFW_KEY_SPACE))
+    if (keyIsPressed(GLFW_KEY_SPACE))
         directionMask |= direction::up;
-    if (keyIsPressed(window, GLFW_KEY_LEFT_SHIFT))
+    if (keyIsPressed(GLFW_KEY_LEFT_SHIFT))
         directionMask |= direction::down;
     camera.processKeyboard(directionMask);
 }
@@ -50,7 +51,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void mouse_callback(GLFWwindow* window, double xPos, double yPos)
+void mouse_callback(double xPos, double yPos)
 {
     static float lastX = 0.0f;
     static float lastY = 0.0f;
@@ -71,55 +72,55 @@ void mouse_callback(GLFWwindow* window, double xPos, double yPos)
     camera.processMouseMovement(xOffset, yOffset);
 }
 
-void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
+void scroll_callback(double xOffset, double yOffset)
 {
     camera.processMouseScroll((float)yOffset);
 }
 
 void test(const std::shared_ptr<Event>&) { }
 
+bool shouldClose = false;
+
 int main()
 {
-    EventManager eventManager;
+    /*auto eventManager = std::make_shared<EventManager>();
 
-    eventManager.registerListener<MousePressEvent>([](const std::shared_ptr<Event>&) { std::cout << "MousePressEvent\n"; });
+    eventManager->registerListenerFor<MouseReleaseEvent>([](const std::shared_ptr<Event>&) { std::cout << "MouseReleaseEvent\n"; });
+    eventManager->registerListenerFor<MousePressEvent>([](const std::shared_ptr<Event>&) { std::cout << "MousePressEvent\n"; });
 
-    eventManager.registerListener<MouseReleaseEvent>([](const std::shared_ptr<Event>&) { std::cout << "MouseReleaseEvent\n"; });
+    eventManager->addEvent(std::make_unique<MousePressEvent>(1, 1));
+    eventManager->addEvent(std::make_unique<MousePressEvent>(1, 1));
+    eventManager->addEvent(std::make_unique<MouseReleaseEvent>(1, 1));
+    eventManager->addEvent(std::make_unique<MousePressEvent>(1, 1));
 
-    eventManager.addEvent(std::make_unique<MousePressEvent>());
-    eventManager.addEvent(std::make_unique<MousePressEvent>());
-    eventManager.addEvent(std::make_unique<MouseReleaseEvent>());
-    eventManager.addEvent(std::make_unique<MousePressEvent>());
+    eventManager->publishEvents();
 
-    eventManager.publishEventsToBus();
+    return 0;*/
 
-    return 0;
+    auto eventManager = std::make_shared<EventManager>();
 
-    //================================================================
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    GLFWWindow window(SCR_WIDTH, SCR_HEIGHT, "test", eventManager);
+   
+    eventManager->registerListenerFor<WindowResizeEvent>([](const std::shared_ptr<WindowResizeEvent>& event) {
+        glViewport(0, 0, event->getWidth(), event->getHeight());
+        std::cout << "WindowResizeEvent\n";
+    });
 
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetScrollCallback(window, scroll_callback);
+    eventManager->registerListenerFor<MouseMoveEvent>([](const std::shared_ptr<MouseMoveEvent>& event) {
+        std::cout << "MouseMoveEvent\n";
+        mouse_callback(event->getMouseX(), event->getMouseY());
+    });
 
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    eventManager->registerListenerFor<MouseScrollEvent>([](const std::shared_ptr<MouseScrollEvent>& event) {
+        std::cout << "MouseScrollEvent\n";
+        scroll_callback(event->getMouseX(), event->getMouseY());
+    });
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
+    eventManager->registerListenerFor<WindowCloseEvent>([](const std::shared_ptr<WindowCloseEvent>& event) {
+        shouldClose = true;
+    });
+
+    window.hideCursor();
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_STENCIL_TEST);
@@ -135,7 +136,7 @@ int main()
 
     size_t frames = 0;
     utilities::Timer t;
-    while (!glfwWindowShouldClose(window))
+    while (!shouldClose)
     {
         glStencilMask(0x00);
         if (t.getDeltaTime() >= 1.0f) {
@@ -149,7 +150,7 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        processInput(window);
+        processInput();
 
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -166,10 +167,9 @@ int main()
         ourShader.setMat4("model", model);
         ourModel.draw(ourShader);
 
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        eventManager->publishEvents();
+        window.update();
     }
 
-    glfwTerminate();
     return 0;
 }
