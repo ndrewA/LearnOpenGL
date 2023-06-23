@@ -11,7 +11,7 @@ namespace utilities
 
 	public:
 		Timer() { }
-		long long getDeltaTime();
+		float getDeltaTime();
 		void resetTimer();
 
 	private:
@@ -22,4 +22,3 @@ namespace utilities
 		time getCurrentTime() { return std::chrono::high_resolution_clock::now(); }
 	};
 }
-

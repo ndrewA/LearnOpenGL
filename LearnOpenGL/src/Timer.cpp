@@ -4,11 +4,11 @@
 
 namespace utilities
 {
-	long long Timer::getDeltaTime()
+	float Timer::getDeltaTime()
 	{
 		currentTime = getCurrentTime();
-		long long deltaTime = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
-		return (float)deltaTime/1000000000;
+		auto deltaTime = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
+		return (float)deltaTime / 1000000000;
 	}
 
 	void Timer::resetTimer()

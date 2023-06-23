@@ -1,6 +1,7 @@
 #include "GLFWWindow.h"
 
 #include <iostream>
+#include <stdexcept>
 
 #include <GLFW/glfw3.h>
 
@@ -20,9 +21,8 @@ void GLFWWindow::create()
 
 	windowHandle = glfwCreateWindow(height, width, name.c_str(), nullptr, nullptr);
 	if (windowHandle == nullptr) {
-		std::cout << "Failed to create GLFW window\n";
 		close();
-		__debugbreak();
+		throw std::runtime_error("Failed to create GLFW window!");
 	}
 	renderingContext = std::make_unique<GLFWRenderingContext>(windowHandle);
 	renderingContext->init();
@@ -45,20 +45,14 @@ void GLFWWindow::setupKeyboardCallBacks(std::shared_ptr<EventManager>& eventMana
 		switch (action)
 		{
 			case GLFW_PRESS:
-			{
 				eventManager->addEvent(std::make_shared<KeyboardPressEvent>(keyCode, scancode, mods));
 				break;
-			}
 			case GLFW_REPEAT:
-			{
 				eventManager->addEvent(std::make_shared<KeyboardPressEvent>(keyCode, scancode, mods));
 				break;
-			}
 			case GLFW_RELEASE:
-			{
 				eventManager->addEvent(std::make_shared<KeyboardReleaseEvent>(keyCode, scancode, mods));
 				break;
-			}
 		}
 	});
 
@@ -67,7 +61,6 @@ void GLFWWindow::setupKeyboardCallBacks(std::shared_ptr<EventManager>& eventMana
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
 		eventManager->addEvent(std::make_shared<CharPressEvent>(codePoint));
 	});
-	
 }
 
 void GLFWWindow::setupMouseCallBacks(std::shared_ptr<EventManager>& eventManager)
@@ -78,15 +71,11 @@ void GLFWWindow::setupMouseCallBacks(std::shared_ptr<EventManager>& eventManager
 		switch (action)
 		{
 			case GLFW_PRESS:
-			{
 				eventManager->addEvent(std::make_shared<MousePressEvent>(button, mods));
 				break;
-			}
 			case GLFW_RELEASE:
-			{
 				eventManager->addEvent(std::make_shared<MouseReleaseEvent>(button, mods));
 				break;
-			}
 		}
 	});
 

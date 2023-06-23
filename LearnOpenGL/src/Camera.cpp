@@ -6,8 +6,6 @@ const float Camera::MOVEMENT_SPEED = 4.5f;
 const float Camera::SCROLL_SENSITIVITY = 2.5f;
 const float Camera::MOUSE_SENSITIVITY = 0.1f;
 
-#include <iostream>
-
 void Camera::processMouseMovement(const float xOffset, const float yOffset)
 {
     yaw += xOffset * MOUSE_SENSITIVITY;
@@ -42,7 +40,7 @@ void Camera::processMouseScroll(const float yOffset)
 
 void Camera::processKeyboard(const char directionMask)
 {
-    const float speedOnDeltaTime = MOVEMENT_SPEED * timer.getDeltaTime();
+    const float speedOnDeltaTime = MOVEMENT_SPEED; /*MOVEMENT_SPEED * timer.getDeltaTime()*/;
     timer.resetTimer();
 
     if (directionMask & direction::front)

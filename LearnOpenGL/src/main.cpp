@@ -28,21 +28,41 @@ bool keyIsPressed(int key)
     return glfwGetKey(glfwGetCurrentContext(), key) == GLFW_PRESS;
 }
 
-void processInput()
+void processInput(const int key)
 {
     char directionMask = 0x0;
-    if (keyIsPressed(GLFW_KEY_W))
-        directionMask |= direction::front;
-    if (keyIsPressed(GLFW_KEY_S))
-        directionMask |= direction::back;
-    if (keyIsPressed(GLFW_KEY_A))
-        directionMask |= direction::left;
-    if (keyIsPressed(GLFW_KEY_D))
-        directionMask |= direction::right;
-    if (keyIsPressed(GLFW_KEY_SPACE))
-        directionMask |= direction::up;
-    if (keyIsPressed(GLFW_KEY_LEFT_SHIFT))
-        directionMask |= direction::down;
+    switch (key) {
+        case GLFW_KEY_W: 
+        { 
+            directionMask |= direction::front; 
+            break;  
+        }
+        case GLFW_KEY_S: 
+        { 
+            directionMask |= direction::back; 
+            break; 
+        }
+        case GLFW_KEY_A: 
+        { 
+            directionMask |= direction::left; 
+            break; 
+        }
+        case GLFW_KEY_D: 
+        { 
+            directionMask |= direction::right; 
+            break; 
+        }
+        case GLFW_KEY_SPACE: 
+        { 
+            directionMask |= direction::up; 
+            break; 
+        }
+        case GLFW_KEY_LEFT_SHIFT: 
+        { 
+            directionMask |= direction::down; 
+            break; 
+        }
+    }
     camera.processKeyboard(directionMask);
 }
 
@@ -88,23 +108,34 @@ int main()
     GLFWWindow window(SCR_WIDTH, SCR_HEIGHT, "test", eventManager);
    
     eventManager->registerListenerFor<WindowResizeEvent>([](const std::shared_ptr<WindowResizeEvent>& event) {
+        std::cout << "WindowResizeEvent!\n";
         glViewport(0, 0, event->getWidth(), event->getHeight());
     });
 
     eventManager->registerListenerFor<MouseMoveEvent>([](const std::shared_ptr<MouseMoveEvent>& event) {
+        std::cout << "MouseMoveEvent!\n";
         mouse_callback(event->getMouseX(), event->getMouseY());
     });
 
     eventManager->registerListenerFor<MouseScrollEvent>([](const std::shared_ptr<MouseScrollEvent>& event) {
+        std::cout << "MouseScrollEvent!\n";
         scroll_callback(event->getMouseX(), event->getMouseY());
     });
 
     eventManager->registerListenerFor<WindowCloseEvent>([](const std::shared_ptr<WindowCloseEvent>& event) {
+        std::cout << "WindowCloseEvent!\n";
         shouldClose = true;
     });
 
-    window.hideCursor();
+    eventManager->registerListenerFor<KeyboardPressEvent>([](const std::shared_ptr<KeyboardPressEvent>& event) {
+        std::cout << "KeyboardPressEvent!\n";
+        processInput(event->getKeyCode());
+    });
 
+
+    window.hideCursor();
+    //std::cout << "here\n";
+    //return 0;
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_STENCIL_TEST);
     // glDepthFunc(GL_ALWAYS);
@@ -133,8 +164,6 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        processInput();
-
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -142,12 +171,12 @@ int main()
 
         glm::mat4 projection = glm::perspective(camera.getFOV(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.getViewMatrix();
-        ourShader->setUniformMat4("projection", projection);
-        ourShader->setUniformMat4("view", view);
+        ourShader->setUniform("projection", projection);
+        ourShader->setUniform("view", view);
 
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); 
-        ourShader->setUniformMat4("model", model);
+        ourShader->setUniform("model", model);
         ourModel.draw(ourShader);
 
         eventManager->publishEvents();

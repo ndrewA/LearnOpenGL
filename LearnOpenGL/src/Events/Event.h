@@ -8,7 +8,7 @@ virtual const EventType getType() const override { return EventType::##type; }		
 virtual const std::string getTypeName() const override { return #type; }
 
 #define EVENT_CATEGORY_FUNCTION(category)																	\
-virtual ~category##Event() override = default;																		\
+virtual ~category##Event() override = default;																\
 virtual const EventCategory getCategory() const override { return EventCategory::##category; }				\
 virtual const EventType getType() const override{ return EventType::None; }
 

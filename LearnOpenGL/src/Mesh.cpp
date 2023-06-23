@@ -28,7 +28,7 @@ void Mesh::draw(const std::shared_ptr<Shader>& shader)
 		else if (name == "texture_sepcular")
 			number = specularNumber++;
 
-		shader->setUniformInt((name + number).c_str(), i);
+		shader->setUniform<int>((name + number).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 
