@@ -39,7 +39,10 @@ project "LearnOpengl"
     files 
     {
         "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp",
+        "%{prj.name}/src/**.vert",
+        "%{prj.name}/src/**.frag",
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl",
         "%{prj.name}/res/*.jpg",
@@ -70,7 +73,8 @@ project "LearnOpengl"
     {
         "GLFW_INCLUDE_NONE",
         "_CRT_SECURE_NO_WARNINGS",
-        "STB_IMAGE_IMPLEMENTATION"
+        "STB_IMAGE_IMPLEMENTATION",
+        "USING_OPENGL"
     }
     
     filter "system:windows"

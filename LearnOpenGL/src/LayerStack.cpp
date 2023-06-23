@@ -12,7 +12,7 @@ void LayerStack::pushLayer(const std::shared_ptr<Layer>& layer)
 
 void LayerStack::pushOverlay(const std::shared_ptr<Layer>& overlay)
 {
-	layers.push_back(overlay);
+	layers.emplace_back(overlay);
 }
 
 void LayerStack::popLayer(const std::shared_ptr<Layer>& layer)

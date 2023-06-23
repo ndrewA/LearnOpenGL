@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Shader.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 #include "Camera.h"
 #include "Model.h"
 
@@ -83,36 +83,19 @@ bool shouldClose = false;
 
 int main()
 {
-    /*auto eventManager = std::make_shared<EventManager>();
-
-    eventManager->registerListenerFor<MouseReleaseEvent>([](const std::shared_ptr<Event>&) { std::cout << "MouseReleaseEvent\n"; });
-    eventManager->registerListenerFor<MousePressEvent>([](const std::shared_ptr<Event>&) { std::cout << "MousePressEvent\n"; });
-
-    eventManager->addEvent(std::make_unique<MousePressEvent>(1, 1));
-    eventManager->addEvent(std::make_unique<MousePressEvent>(1, 1));
-    eventManager->addEvent(std::make_unique<MouseReleaseEvent>(1, 1));
-    eventManager->addEvent(std::make_unique<MousePressEvent>(1, 1));
-
-    eventManager->publishEvents();
-
-    return 0;*/
-
     auto eventManager = std::make_shared<EventManager>();
 
     GLFWWindow window(SCR_WIDTH, SCR_HEIGHT, "test", eventManager);
    
     eventManager->registerListenerFor<WindowResizeEvent>([](const std::shared_ptr<WindowResizeEvent>& event) {
         glViewport(0, 0, event->getWidth(), event->getHeight());
-        std::cout << "WindowResizeEvent\n";
     });
 
     eventManager->registerListenerFor<MouseMoveEvent>([](const std::shared_ptr<MouseMoveEvent>& event) {
-        std::cout << "MouseMoveEvent\n";
         mouse_callback(event->getMouseX(), event->getMouseY());
     });
 
     eventManager->registerListenerFor<MouseScrollEvent>([](const std::shared_ptr<MouseScrollEvent>& event) {
-        std::cout << "MouseScrollEvent\n";
         scroll_callback(event->getMouseX(), event->getMouseY());
     });
 
@@ -129,7 +112,7 @@ int main()
 
     std::string shaderVertexPath = std::filesystem::absolute("../LearnOpengl/src/Platform/OpenGL/Shaders/shader.vert").string();
     std::string shaderFragmentPath = std::filesystem::absolute("../LearnOpengl/src/Platform/OpenGL/Shaders/shader.frag").string();
-    Shader ourShader(shaderVertexPath, shaderFragmentPath);
+    auto ourShader = std::make_shared<OpenGLShader>(shaderVertexPath, shaderFragmentPath);
 
     std::string modelPath = std::filesystem::absolute("../LearnOpengl/res/backpack/backpack.obj").generic_string();
     Model ourModel(modelPath);
@@ -155,16 +138,16 @@ int main()
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        ourShader.use();
+        ourShader->bind();
 
         glm::mat4 projection = glm::perspective(camera.getFOV(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.getViewMatrix();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
+        ourShader->setUniformMat4("projection", projection);
+        ourShader->setUniformMat4("view", view);
 
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); 
-        ourShader.setMat4("model", model);
+        ourShader->setUniformMat4("model", model);
         ourModel.draw(ourShader);
 
         eventManager->publishEvents();

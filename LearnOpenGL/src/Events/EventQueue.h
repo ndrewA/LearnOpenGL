@@ -16,7 +16,7 @@ public:
     {
         if (eventQueue.empty())
             return std::make_unique<NoneEvent>();
-        std::shared_ptr<Event> event = std::move(eventQueue.front());
+        auto event = eventQueue.front();
         eventQueue.pop();
         return event;
     }

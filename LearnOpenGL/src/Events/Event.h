@@ -4,22 +4,22 @@
 
 #define EVENT_TYPE_FUNCTION(type)																			\
 static const EventType getStaticType() { return EventType::##type; }										\
-const EventType getType() const override { return EventType::##type; }										\
-const std::string getTypeName() { return #type; }
+virtual const EventType getType() const override { return EventType::##type; }								\
+virtual const std::string getTypeName() const override { return #type; }
 
 #define EVENT_CATEGORY_FUNCTION(category)																	\
-virtual ~category##Event() = default;																		\
-static const EventCategory getCategory() { return EventCategory::##category; }								\
-virtual const EventType getType() const { return EventType::None; }
+virtual ~category##Event() override = default;																		\
+virtual const EventCategory getCategory() const override { return EventCategory::##category; }				\
+virtual const EventType getType() const override{ return EventType::None; }
 
 enum class EventCategory
 {
 	None,
 	Input,
-	Application,
 	Window,
 	Mouse,
 	Keyboard,
+	Application,
 };
 
 enum class EventType
@@ -39,7 +39,9 @@ public:
 	bool isHandeled() const { return handeled; }
 	bool handle() { handeled = true; }
 
-	virtual const EventType getType() const = 0;
+	virtual const EventCategory getCategory() const = 0;
+	virtual const EventType getType() const = 0;					// TODO: remove getType();
+	virtual const std::string getTypeName() const = 0;
 
 private:
 	bool handeled = false;
@@ -47,6 +49,6 @@ private:
 
 class NoneEvent : public Event
 {
-	static const EventCategory getCategory() { return EventCategory::None; }
+	const EventCategory getCategory() const override { return EventCategory::None; }
 	EVENT_TYPE_FUNCTION(None)
 };

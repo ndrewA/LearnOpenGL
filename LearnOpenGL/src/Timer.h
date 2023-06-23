@@ -11,7 +11,7 @@ namespace utilities
 
 	public:
 		Timer() { }
-		float getDeltaTime();
+		long long getDeltaTime();
 		void resetTimer();
 
 	private:

@@ -16,6 +16,12 @@
     <Filter Include="src\Platform\GLFW">
       <UniqueIdentifier>{0002C6D8-6C18-C46E-B58F-4F9021E594F6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL\Shaders">
+      <UniqueIdentifier>{0E2EA0B0-7A3B-CE96-0322-CA816F2E9A4D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -42,10 +48,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\Camera.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Events\Event.h">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\EventBus.hpp">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\EventListener.hpp">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\EventListenerRegister.h">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\EventManager.hpp">
+      <Filter>src\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Events\EventQueue.h">
       <Filter>src\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Events\KeyboardEvent.h">
@@ -57,8 +81,32 @@
     <ClInclude Include="src\Events\WindowEvent.h">
       <Filter>src\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Generic\Buffer.h">
+      <Filter>src\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Generic\BufferLayout.h">
+      <Filter>src\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Generic\Renderer.h">
+      <Filter>src\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Generic\RenderingContext.h">
+      <Filter>src\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Generic\Shader.h">
+      <Filter>src\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Generic\VertexArray.h">
+      <Filter>src\Generic</Filter>
+    </ClInclude>
     <ClInclude Include="src\Generic\Window.h">
       <Filter>src\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Layer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LayerStack.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Mesh.h">
       <Filter>src</Filter>
@@ -66,11 +114,26 @@
     <ClInclude Include="src\Model.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\GLFW\GLFWRenderingContext.h">
+      <Filter>src\Platform\GLFW</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\GLFW\GLFWWindow.h">
       <Filter>src\Platform\GLFW</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLElementBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Timer.h">
       <Filter>src</Filter>
@@ -1326,19 +1389,19 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Events\EventListener.hpp" />
-    <ClInclude Include="src\Events\EventManager.hpp" />
-    <ClInclude Include="src\LayerStack.h" />
-    <ClInclude Include="src\Layer.h" />
-    <ClInclude Include="src\Events\EventQueue.h" />
-    <ClInclude Include="src\Events\EventBus.hpp" />
-    <ClInclude Include="src\Events\EventListenerRegister.h" />
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\Platform\GLFW\GLFWRenderingContext.h" />
-    <ClInclude Include="src\Generic\RenderingContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\Camera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Generic\BufferLayout.cpp">
+      <Filter>src\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LayerStack.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Mesh.cpp">
@@ -1347,11 +1410,23 @@
     <ClCompile Include="src\Model.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\GLFW\GLFWRenderingContext.cpp">
+      <Filter>src\Platform\GLFW</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\GLFW\GLFWWindow.cpp">
       <Filter>src\Platform\GLFW</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLElementBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Timer.cpp">
       <Filter>src</Filter>
@@ -1359,12 +1434,14 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\LayerStack.cpp" />
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\Platform\GLFW\GLFWRenderingContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Platform\OpenGL\Shaders\shader.frag" />
-    <None Include="src\Platform\OpenGL\Shaders\shader.vert" />
+    <None Include="src\Platform\OpenGL\Shaders\shader.frag">
+      <Filter>src\Platform\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="src\Platform\OpenGL\Shaders\shader.vert">
+      <Filter>src\Platform\OpenGL\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #include "Model.h"
 
 #include <iostream>
+#include <memory>
 
 #include <glad/glad.h>
 
@@ -13,7 +14,7 @@ Model::Model(const std::string& path)
     loadModel(path);
 }
 
-void Model::draw(const Shader& shader)
+void Model::draw(const std::shared_ptr<Shader>& shader)
 {
     for (auto& mesh : meshes)
         mesh.draw(shader);
@@ -38,7 +39,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 {
     for (uint32_t i = 0; i < node->mNumMeshes; i++) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        meshes.push_back(processMesh(mesh, scene));
+        meshes.emplace_back(processMesh(mesh, scene));
     }
 
     for (uint32_t i = 0; i < node->mNumChildren; i++)
@@ -68,7 +69,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
             vertex.texCoords = { 0.f, 0.f };
         }
 
-        vertices.push_back(vertex);
+        vertices.emplace_back(vertex);
     }
 
     if (mesh->mMaterialIndex >= 0) {
@@ -78,7 +79,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
     for (uint32_t i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
         for (uint32_t j = 0; j < face.mNumIndices; j++) {
-            indices.push_back(face.mIndices[j]);
+            indices.emplace_back(face.mIndices[j]);
         }
     }
 
@@ -104,14 +105,14 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* material, aiTexture
         material->GetTexture(type, i, &str);
 
         if (loadedTextures.find(str.C_Str()) != loadedTextures.end()) {
-            textures.push_back(loadedTextures[str.C_Str()]);
+            textures.emplace_back(loadedTextures[str.C_Str()]);
         }
         else {
             Texture texture;
             texture.id = textureFromFile(str.C_Str());
             texture.type = typeName;
             texture.path = str.C_Str();
-            textures.push_back(texture);
+            textures.emplace_back(texture);
             loadedTextures.insert({ texture.path, texture});
         }
     }

@@ -9,13 +9,13 @@ class GLFWWindow : public Window
 {
 public:
     GLFWWindow(const uint32_t height, const uint32_t width, const std::string& name, std::shared_ptr<EventManager>& eventManager);
-    virtual ~GLFWWindow() { close(); }
+    ~GLFWWindow() override { close(); }
 
     void create() override;
     void close() override;
     void update() override;
 
-    virtual void hideCursor() override;
+    void hideCursor() override;
     void swapBuffers() override;
 
     int getWidth() const override { return width; }

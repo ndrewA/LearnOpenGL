@@ -2,12 +2,16 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Shader.h"
+#include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLVertexBuffer.h"
+#include "Platform/OpenGL/OpenGLElementBuffer.h"
 
 struct Vertex
 {
@@ -31,10 +35,14 @@ public:
 	std::vector<uint32_t> indices;
 
 	Mesh(const std::vector<Vertex>& vertices, const std::vector<Texture>& textures, const std::vector<uint32_t>& indices);
-	void draw(const Shader& shader);
-private:
+	void draw(const std::shared_ptr<Shader>& shader);
 
-	uint32_t VAO, VBO, EBO;
+private:
+	std::shared_ptr<VertexArray> vertexArray;
+	std::shared_ptr<VertexBuffer<Vertex>> vertexBuffer;
+	std::shared_ptr<ElementBuffer> elementBuffer;
+
+	//uint32_t VAO, VBO, EBO;
 
 	void setupMesh();
 };

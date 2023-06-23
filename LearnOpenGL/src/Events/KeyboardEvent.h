@@ -49,8 +49,6 @@ public:
 	EVENT_TYPE_FUNCTION(KeyboardRelease)
 };
 
-
-
 class CharPressEvent : public Event
 {
 public:
@@ -59,7 +57,7 @@ public:
 
 	const int getCodePoint() const { return codePoint; }
 
-	static const EventCategory getCategory() { return EventCategory::Keyboard; } 
+	const EventCategory getCategory() const override { return EventCategory::Keyboard; }
 	EVENT_TYPE_FUNCTION(CharPress)
 
 private:
