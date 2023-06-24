@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Events\Event.h" />
@@ -99,16 +100,23 @@
     <ClInclude Include="src\Events\EventListenerRegister.h" />
     <ClInclude Include="src\Events\EventManager.hpp" />
     <ClInclude Include="src\Events\EventQueue.h" />
+    <ClInclude Include="src\Generic\Shader.h" />
+    <ClInclude Include="src\Inputs\CharState.h" />
+    <ClInclude Include="src\Inputs\InputManager.h" />
     <ClInclude Include="src\Events\KeyboardEvent.h" />
+    <ClInclude Include="src\Inputs\KeyboardState.h" />
     <ClInclude Include="src\Events\MouseEvent.h" />
     <ClInclude Include="src\Events\WindowEvent.h" />
     <ClInclude Include="src\Generic\Buffer.h" />
     <ClInclude Include="src\Generic\BufferLayout.h" />
     <ClInclude Include="src\Generic\Renderer.h" />
     <ClInclude Include="src\Generic\RenderingContext.h" />
-    <ClInclude Include="src\Generic\Shader.h" />
+    <ClInclude Include="src\Generic\Program.h" />
     <ClInclude Include="src\Generic\VertexArray.h" />
     <ClInclude Include="src\Generic\Window.h" />
+    <ClInclude Include="src\Inputs\KeyCodes.h" />
+    <ClInclude Include="src\Inputs\MouseButtonCodes.h" />
+    <ClInclude Include="src\Inputs\MouseState.h" />
     <ClInclude Include="src\Layer.h" />
     <ClInclude Include="src\LayerStack.h" />
     <ClInclude Include="src\Mesh.h" />
@@ -118,7 +126,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLBufferLayout.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLElementBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLProgram.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="src\Timer.h" />
@@ -541,9 +549,11 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Generic\BufferLayout.cpp" />
+    <ClCompile Include="src\Inputs\InputManager.cpp" />
     <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
@@ -552,7 +562,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLBufferLayout.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLElementBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLProgram.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\main.cpp" />

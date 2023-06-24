@@ -14,10 +14,10 @@ Model::Model(const std::string& path)
     loadModel(path);
 }
 
-void Model::draw(const std::shared_ptr<Shader>& shader)
+void Model::draw(const std::shared_ptr<Program>& program)
 {
     for (auto& mesh : meshes)
-        mesh.draw(shader);
+        mesh.draw(program);
 }
 
 void Model::loadModel(std::string path)

@@ -93,7 +93,7 @@
     <ClInclude Include="src\Generic\RenderingContext.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="src\Generic\Shader.h">
+    <ClInclude Include="src\Generic\Program.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
     <ClInclude Include="src\Generic\VertexArray.h">
@@ -126,7 +126,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+    <ClInclude Include="src\Platform\OpenGL\OpenGLProgram.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1390,6 +1390,14 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBufferLayout.h" />
+    <ClInclude Include="src\Inputs\KeyboardState.h" />
+    <ClInclude Include="src\Inputs\InputManager.h" />
+    <ClInclude Include="src\Inputs\MouseState.h" />
+    <ClInclude Include="src\Inputs\KeyCodes.h" />
+    <ClInclude Include="src\Inputs\MouseButtonCodes.h" />
+    <ClInclude Include="src\Inputs\CharState.h" />
+    <ClInclude Include="src\Generic\Shader.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1422,7 +1430,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+    <ClCompile Include="src\Platform\OpenGL\OpenGLProgram.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
@@ -1435,6 +1443,8 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBufferLayout.cpp" />
+    <ClCompile Include="src\Inputs\InputManager.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\shader.frag">

@@ -6,7 +6,7 @@
 #ifdef USING_OPENGL
     #define BACKEND_TYPE unsigned int
 #else 
-    #error "No SDK preprocessor defined!"
+    #error "No SDK macro defined!"
 #endif
 
 enum class ElementType

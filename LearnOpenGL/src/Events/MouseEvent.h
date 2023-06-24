@@ -50,7 +50,7 @@ protected:
 	MouseButtonEvent(const int button, const int mods)
 		: button(button), mods(mods) { }
 
-private:
+public:
 	const int getButton() const { return button; }
 	const int getMods() const { return mods; }
 

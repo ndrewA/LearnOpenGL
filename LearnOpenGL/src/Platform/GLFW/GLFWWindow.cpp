@@ -1,11 +1,10 @@
 #include "GLFWWindow.h"
 
-#include <iostream>
 #include <stdexcept>
 
 #include <GLFW/glfw3.h>
 
-GLFWWindow::GLFWWindow(const uint32_t height, const uint32_t width, const std::string& name, std::shared_ptr<EventManager>& eventManager)
+GLFWWindow::GLFWWindow(const uint32_t height, const uint32_t width, const std::string& name, EventManager& eventManager)
 	: height(height), width(width), name(name)
 {
 	create();
@@ -28,16 +27,16 @@ void GLFWWindow::create()
 	renderingContext->init();
 }
 
-void GLFWWindow::setupCallBacks(std::shared_ptr<EventManager>& eventManager)
+void GLFWWindow::setupCallBacks(EventManager& eventManager)
 {
-	glfwSetWindowUserPointer(windowHandle, eventManager.get());
+	glfwSetWindowUserPointer(windowHandle, &eventManager);
 	
 	setupKeyboardCallBacks(eventManager);
 	setupMouseCallBacks(eventManager);
 	setupWindowCallBacks(eventManager);
 }
 
-void GLFWWindow::setupKeyboardCallBacks(std::shared_ptr<EventManager>& eventManager)
+void GLFWWindow::setupKeyboardCallBacks(EventManager& eventManager)
 {
 	glfwSetKeyCallback(windowHandle, [](GLFWwindow* window, int keyCode, int scancode, int action, int mods)
 	{
@@ -63,7 +62,7 @@ void GLFWWindow::setupKeyboardCallBacks(std::shared_ptr<EventManager>& eventMana
 	});
 }
 
-void GLFWWindow::setupMouseCallBacks(std::shared_ptr<EventManager>& eventManager)
+void GLFWWindow::setupMouseCallBacks(EventManager& eventManager)
 {
 	glfwSetMouseButtonCallback(windowHandle, [](GLFWwindow* window, int button, int action, int mods)
 	{
@@ -97,7 +96,7 @@ void GLFWWindow::setupMouseCallBacks(std::shared_ptr<EventManager>& eventManager
 	});
 }
 
-void GLFWWindow::setupWindowCallBacks(std::shared_ptr<EventManager>& eventManager)
+void GLFWWindow::setupWindowCallBacks(EventManager& eventManager)
 {
 	glfwSetWindowSizeCallback(windowHandle, [](GLFWwindow* window, int width, int height)
 	{

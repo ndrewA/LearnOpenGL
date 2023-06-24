@@ -10,7 +10,7 @@ public:
 	template<typename EventType>
 	int registerListener(const typename EventListener<EventType>::EventCallBackFn& callBack)
 	{
-		int listenerID = generateUniqueID();
+		const int listenerID = generateUniqueID();
 		std::unique_ptr<BaseEventListener> listener = std::make_unique<EventListener<EventType>>(callBack, listenerID);
 
 		listeners.registerListener(std::move(listener));

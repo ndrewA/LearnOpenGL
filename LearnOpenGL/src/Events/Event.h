@@ -40,7 +40,7 @@ public:
 	bool handle() { handeled = true; }
 
 	virtual const EventCategory getCategory() const = 0;
-	virtual const EventType getType() const = 0;					// TODO: remove getType();
+	virtual const EventType getType() const = 0;
 	virtual const std::string getTypeName() const = 0;
 
 private:

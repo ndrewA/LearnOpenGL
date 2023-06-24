@@ -15,9 +15,9 @@ class Application
 	void onEvent();
 
 private:
-	std::unique_ptr<Window> window;
-	std::shared_ptr<EventManager> eventManager;
+	EventManager eventManager;
 	std::unique_ptr<LayerStack> layerStack;
+	std::unique_ptr<Window> window;
 	
 	bool shouldClose = false;
 };

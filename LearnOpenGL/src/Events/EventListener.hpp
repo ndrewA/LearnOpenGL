@@ -24,7 +24,7 @@ public:
 	explicit EventListener(const EventCallBackFn& callBack, int id) : callBack(callBack), id(id) { }
 	const void dispatchEvent(const std::shared_ptr<Event>& event) const override { callBack(std::static_pointer_cast<EventType>(event)); }
 
-	bool isEventType(const std::shared_ptr<Event>& event) const override { return EventType::getStaticType() == event->getType(); }
+	bool isEventType(const std::shared_ptr<Event>& event) const override { return std::dynamic_pointer_cast<EventType>(event) != nullptr; }
 
 	const int getID() const override { return id; }
 

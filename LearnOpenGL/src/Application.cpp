@@ -9,7 +9,6 @@ void Application::start()
 {
 	window = std::make_unique<GLFWWindow>(1920, 1080, "App", eventManager);
 	window->hideCursor();
-	eventManager = std::make_shared<EventManager>();
 	layerStack = std::make_unique<LayerStack>();
 }
 

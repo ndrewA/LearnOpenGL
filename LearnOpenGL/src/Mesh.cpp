@@ -12,12 +12,12 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<Texture>& text
 	setupMesh();
 }
 
-void Mesh::draw(const std::shared_ptr<Shader>& shader)
+void Mesh::draw(const std::shared_ptr<Program>& program)
 {
-	uint32_t diffuseNumber = 1;
-	uint32_t specularNumber = 1;
+	unsigned int diffuseNumber = 1;
+	unsigned int specularNumber = 1;
 
-	for (uint32_t i = 0; i < textures.size(); i++) {
+	for (int i = 0; i < textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 
 		std::string name = textures[i].type;
@@ -28,7 +28,7 @@ void Mesh::draw(const std::shared_ptr<Shader>& shader)
 		else if (name == "texture_sepcular")
 			number = specularNumber++;
 
-		shader->setUniform<int>((name + number).c_str(), i);
+		program->setUniform((name + number).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 

@@ -32,9 +32,9 @@ public:
 	EVENT_TYPE_FUNCTION(KeyboardPress)
 };
 
-class KeyboardRepeat : public KeyboardEvent
+class KeyboardRepeatEvent : public KeyboardEvent
 {
-	KeyboardRepeat(const int keyCode, const int scancode, const int mods)
+	KeyboardRepeatEvent(const int keyCode, const int scancode, const int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
 	EVENT_TYPE_FUNCTION(KeyboardRepeat)
