@@ -57,16 +57,13 @@
     <ClInclude Include="src\Events\Event.h">
       <Filter>src\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Events\EventBus.hpp">
-      <Filter>src\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Events\EventListener.hpp">
+    <ClInclude Include="src\Events\EventListener.h">
       <Filter>src\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Events\EventListenerRegister.h">
       <Filter>src\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Events\EventManager.hpp">
+    <ClInclude Include="src\Events\EventManager.h">
       <Filter>src\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Events\EventQueue.h">
@@ -81,25 +78,25 @@
     <ClInclude Include="src\Events\WindowEvent.h">
       <Filter>src\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Generic\Buffer.h">
+    <ClInclude Include="src\Renderer\Buffer.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="src\Generic\BufferLayout.h">
+    <ClInclude Include="src\Renderer\BufferLayout.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="src\Generic\Renderer.h">
+    <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="src\Generic\RenderingContext.h">
+    <ClInclude Include="src\Renderer\RenderingContext.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="src\Generic\Program.h">
+    <ClInclude Include="src\Renderer\Program.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="src\Generic\VertexArray.h">
+    <ClInclude Include="src\Renderer\VertexArray.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="src\Generic\Window.h">
+    <ClInclude Include="src\Window.h">
       <Filter>src\Generic</Filter>
     </ClInclude>
     <ClInclude Include="src\Layer.h">
@@ -1396,8 +1393,17 @@
     <ClInclude Include="src\Inputs\KeyCodes.h" />
     <ClInclude Include="src\Inputs\MouseButtonCodes.h" />
     <ClInclude Include="src\Inputs\CharState.h" />
-    <ClInclude Include="src\Generic\Shader.h" />
+    <ClInclude Include="src\Renderer\Shader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Renderer\Model.h" />
+    <ClInclude Include="src\Renderer\Mesh.h" />
+    <ClInclude Include="src\Renderer\Material.h" />
+    <ClInclude Include="src\Renderer\Texture.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="src\Renderer\TextureLoader.h" />
+    <ClInclude Include="src\Platform\stb_image\STBTextureLoader.h" />
+    <ClInclude Include="src\Renderer\StaticMesh.h" />
+    <ClInclude Include="src\Events\EventBus.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1406,7 +1412,7 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Generic\BufferLayout.cpp">
+    <ClCompile Include="src\Renderer\BufferLayout.cpp">
       <Filter>src\Generic</Filter>
     </ClCompile>
     <ClCompile Include="src\LayerStack.cpp">
@@ -1445,6 +1451,8 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLBufferLayout.cpp" />
     <ClCompile Include="src\Inputs\InputManager.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="src\Platform\stb_image\STBTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\shader.frag">

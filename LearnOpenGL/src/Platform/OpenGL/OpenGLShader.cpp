@@ -20,15 +20,17 @@ OpenGLShader::OpenGLShader(const std::string& shaderPath, const ShaderType type)
 
     delete[] shaderSource;
 
-    int succes;
-    glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &succes);
+    int success;
+    glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &success);
 
-    if (!succes) {
+    if (!success) {
         int errorLength = 0;
         glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &errorLength);
 
         std::vector<char> error(errorLength);
         glGetShaderInfoLog(shaderHandle, errorLength, nullptr, error.data());
+
+        glDeleteShader(shaderHandle);
 
         throw std::runtime_error(error.data());
     }
@@ -43,8 +45,10 @@ char* OpenGLShader::getShaderString(const std::string& shaderPath) const
 {
     std::fstream file(shaderPath);
 
-    if (!file.is_open())
+    if (!file.is_open()) {
+        glDeleteShader(shaderHandle);
         throw std::runtime_error("cannot open file : " + shaderPath);
+    }
 
     std::string shaderString(std::istreambuf_iterator<char>{file}, {});
 

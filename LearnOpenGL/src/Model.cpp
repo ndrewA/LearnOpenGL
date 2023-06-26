@@ -5,12 +5,10 @@
 
 #include <glad/glad.h>
 
-#include <stb_image/stb_image.h>
+#include "Platform/stb_image/STBTextureLoader.h"
 
 Model::Model(const std::string& path)
 {
-    stbi_set_flip_vertically_on_load(true);
-
     loadModel(path);
 }
 
@@ -100,7 +98,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* material, aiTexture
 {
     std::vector<Texture> textures;
 
-    for (uint32_t i = 0; i < material->GetTextureCount(type); i++) {
+    for (unsigned int i = 0; i < material->GetTextureCount(type); i++) {
         aiString str;
         material->GetTexture(type, i, &str);
 
@@ -123,29 +121,37 @@ uint32_t Model::textureFromFile(const std::string& relativePath)
 {
     const std::string absolutePath = directory + '/' + relativePath;
 
-    int width, height, channelNumber;
-    unsigned char* data = stbi_load(absolutePath.c_str(), &width, &height, &channelNumber, 0);
+    auto loader = std::make_unique<STBTextureLoader>(absolutePath);
 
-    uint32_t texture;
-    glGenTextures(1, &texture);
+    if (loader->getData() == nullptr)
+        throw std::exception("Texture did NOT load!");
 
-    if (!data) {
-        std::cout << "Texture did NOT load!\n";
-        stbi_image_free(data);
-        return texture;
+    unsigned int format = GL_RGBA;
+    switch (loader->getChannelCount())
+    {
+    case 1:
+        format = GL_RED;
+        break;
+    case 2:
+        format = GL_RG;
+        break;
+    case 3:
+        format = GL_RGB;
+        break;
+    case 4:
+        format = GL_RGBA;
+        break;
+    default:
+        throw std::runtime_error("channelCount > 4 unsupported!");
     }
 
-    GLenum format = GL_RGBA;
-    if (channelNumber == 1)
-        format = GL_RED;
-    else if (channelNumber == 3)
-        format = GL_RGB;
-    else if (channelNumber == 4)
-        format = GL_RGBA;
+    unsigned int textureHandle;
+    glGenTextures(1, &textureHandle);
 
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, textureHandle);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, format, loader->getWidth(), loader->getHeight(), 0, format, GL_UNSIGNED_BYTE, loader->getData());
+
     glGenerateMipmap(GL_TEXTURE_2D);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -153,7 +159,5 @@ uint32_t Model::textureFromFile(const std::string& relativePath)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    stbi_image_free(data);
-
-    return texture;
+    return textureHandle;
 }

@@ -12,13 +12,13 @@ public:
 	bool isKeyPressed(const int keyCode) const { return keyboardState.isKeyPressed(keyCode); }
 	bool isKeyRepeated(const int keyCode) const { return keyboardState.isKeyRepeated(keyCode); }
 	bool isKeyReleased(const int keyCode) const { return keyboardState.isKeyReleased(keyCode); }
-	KeyState getKeyState(const int keyCode) const { return keyboardState.getKeyState(keyCode); }
+	KeyboardState::ButtonState getButtonState(const int keyCode) const { return keyboardState.getKeyState(keyCode); }
 
 	std::string getCharsDown() const { return charState.getCharsDown(); }
 	void clearCharsState() { charState.clear(); }
 
 	bool isButtonPressed(const int keyCode) const { return mouseState.isButtonDown(keyCode); }
-	MousePosition getMousePosition() const { return mouseState.getPosition(); }
+	MouseState::Position getMousePosition() const { return mouseState.getPosition(); }
 
 	void setTextInputMode(const bool enabled) { textInputMode = enabled; }
 	

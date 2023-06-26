@@ -2,8 +2,6 @@
 
 #include <glad/glad.h>
 
-unsigned int OpenGLVertexArray::index = 0;
-
 OpenGLVertexArray::OpenGLVertexArray()
 {
 	glGenVertexArrays(1, &vertexArrayHandle);
@@ -38,6 +36,8 @@ void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<BaseDataBuffer>& v
 
 	for (const auto& element : layout->getElements()) {
 		auto OpenGLDataType = layout->getBackendDataType(element.type);
+
+		static unsigned int index = 0;
 
 		glEnableVertexAttribArray(index);
 		glVertexAttribPointer(index, element.count, OpenGLDataType, element.normalized, (int)layout->getStride(), (const void*)element.offset);

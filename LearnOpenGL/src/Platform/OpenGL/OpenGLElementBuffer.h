@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Generic/Buffer.h"
+#include "Renderer/Buffer.h"
 
 class OpenGLElementBuffer : public ElementBuffer
 {

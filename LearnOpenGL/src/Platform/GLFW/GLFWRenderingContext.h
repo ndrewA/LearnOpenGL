@@ -4,13 +4,13 @@
 
 #include <GLFW/glfw3.h>
 
-#include "Generic/RenderingContext.h"
+#include "Renderer/RenderingContext.h"
 
 class GLFWRenderingContext : public RenderingContext
 {
 public:
 	GLFWRenderingContext(GLFWwindow* windowHandle);
-
+	
 	virtual void init() override;
 	virtual void swapBuffers() override;
 

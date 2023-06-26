@@ -10,12 +10,12 @@
 class EventQueue
 {
 public:
-    void addEvent(const std::shared_ptr<Event>& event) { eventQueue.push(event); }
+    void push(const std::shared_ptr<Event>& event) { eventQueue.push(event); }
 
-    std::shared_ptr<Event> getNewEvent()
+    std::shared_ptr<Event> pop()
     {
         if (eventQueue.empty())
-            return std::make_unique<NoneEvent>();
+            return nullptr;
         auto event = eventQueue.front();
         eventQueue.pop();
         return event;

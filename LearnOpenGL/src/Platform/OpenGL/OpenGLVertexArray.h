@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "Generic/VertexArray.h"
+#include "Renderer/VertexArray.h"
 
 class OpenGLVertexArray : public VertexArray
 {
@@ -20,6 +20,4 @@ private:
 
 	std::vector<std::shared_ptr<BaseDataBuffer>> vertexBuffers;
 	std::shared_ptr<BaseDataBuffer> elementBuffer;
-
-	static unsigned int index;
 };

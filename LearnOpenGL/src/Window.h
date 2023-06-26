@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Events/EventManager.hpp"
+#include "Events/EventManager.h"
 
 class Window 
 {

@@ -2,7 +2,7 @@
 
 #ifdef USING_OPENGL
 
-#include "Generic/BufferLayout.h"
+#include "Renderer/BufferLayout.h"
 
 class OpenGLBufferLayout : public BufferLayout
 {

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Generic/Window.h"
+#include "Window.h"
 #include "GLFWRenderingContext.h"
 
 class GLFWWindow : public Window

@@ -1,5 +1,7 @@
 #include "InputManager.h"
 
+                                                                                #include <iostream>
+
 InputManager::InputManager(EventManager& eventManager)
 {
     registerListener(eventManager, &InputManager::handleKeyboardPressEvent);

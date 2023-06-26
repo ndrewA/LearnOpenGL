@@ -1,15 +1,18 @@
 #pragma once
 
-#include "Generic/Renderer.h"
+#include <memory>
+
+#include "Renderer/Renderer.h"
 
 class OpenGLRenderer : public Renderer
 {
 public:
-	~OpenGLRenderer() override;
+    virtual ~OpenGLRenderer() = default;
 
-	void clear() const override;
-	void setClearColor(const Color& color) override;
+    virtual void beginScene() override;
+    virtual void endScene() override;
 
-	void draw(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<ElementBuffer>& elementBuffer, const std::shared_ptr<Program>& program) const override;
+    virtual void submit(const std::shared_ptr<Program>& shader,
+                        const std::shared_ptr<VertexArray>& vertexArray,
+                        const glm::mat4& transform = glm::mat4(1.0f)) override;
 };
-

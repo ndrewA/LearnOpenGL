@@ -44,13 +44,13 @@ void GLFWWindow::setupKeyboardCallBacks(EventManager& eventManager)
 		switch (action)
 		{
 			case GLFW_PRESS:
-				eventManager->addEvent(std::make_shared<KeyboardPressEvent>(keyCode, scancode, mods));
+				eventManager->pushEvent(std::make_shared<KeyboardPressEvent>(keyCode, scancode, mods));
 				break;
 			case GLFW_REPEAT:
-				eventManager->addEvent(std::make_shared<KeyboardPressEvent>(keyCode, scancode, mods));
+				eventManager->pushEvent(std::make_shared<KeyboardPressEvent>(keyCode, scancode, mods));
 				break;
 			case GLFW_RELEASE:
-				eventManager->addEvent(std::make_shared<KeyboardReleaseEvent>(keyCode, scancode, mods));
+				eventManager->pushEvent(std::make_shared<KeyboardReleaseEvent>(keyCode, scancode, mods));
 				break;
 		}
 	});
@@ -58,7 +58,7 @@ void GLFWWindow::setupKeyboardCallBacks(EventManager& eventManager)
 	glfwSetCharCallback(windowHandle, [](GLFWwindow* window, unsigned int codePoint)
 	{
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
-		eventManager->addEvent(std::make_shared<CharPressEvent>(codePoint));
+		eventManager->pushEvent(std::make_shared<CharPressEvent>(codePoint));
 	});
 }
 
@@ -70,10 +70,10 @@ void GLFWWindow::setupMouseCallBacks(EventManager& eventManager)
 		switch (action)
 		{
 			case GLFW_PRESS:
-				eventManager->addEvent(std::make_shared<MousePressEvent>(button, mods));
+				eventManager->pushEvent(std::make_shared<MousePressEvent>(button, mods));
 				break;
 			case GLFW_RELEASE:
-				eventManager->addEvent(std::make_shared<MouseReleaseEvent>(button, mods));
+				eventManager->pushEvent(std::make_shared<MouseReleaseEvent>(button, mods));
 				break;
 		}
 	});
@@ -81,18 +81,18 @@ void GLFWWindow::setupMouseCallBacks(EventManager& eventManager)
 	glfwSetScrollCallback(windowHandle, [](GLFWwindow* window, double xoffset, double yoffset)
 	{
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
-		eventManager->addEvent(std::make_shared<MouseScrollEvent>(xoffset, yoffset));
+		eventManager->pushEvent(std::make_shared<MouseScrollEvent>(xoffset, yoffset));
 	});
 
 	glfwSetCursorPosCallback(windowHandle, [](GLFWwindow* window, double xpos, double ypos)
 	{
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
-		eventManager->addEvent(std::make_shared<MouseMoveEvent>(xpos, ypos));
+		eventManager->pushEvent(std::make_shared<MouseMoveEvent>(xpos, ypos));
 	});
 
 	glfwSetFramebufferSizeCallback(windowHandle, [](GLFWwindow* window, int width, int height) {
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
-		eventManager->addEvent(std::make_shared<WindowResizeEvent>(width, height)); //////////////////////////// TODO: renderer->onWindowResize(width, height); glViewport(0, 0, width, height);
+		eventManager->pushEvent(std::make_shared<WindowResizeEvent>(width, height)); //////////////////////////// TODO: renderer->onWindowResize(width, height); glViewport(0, 0, width, height);
 	});
 }
 
@@ -101,29 +101,29 @@ void GLFWWindow::setupWindowCallBacks(EventManager& eventManager)
 	glfwSetWindowSizeCallback(windowHandle, [](GLFWwindow* window, int width, int height)
 	{
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
-		eventManager->addEvent(std::make_shared<WindowResizeEvent>(width, height));
+		eventManager->pushEvent(std::make_shared<WindowResizeEvent>(width, height));
 	});
 
 	glfwSetWindowCloseCallback(windowHandle, [](GLFWwindow* window)
 	{
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
-		eventManager->addEvent(std::make_shared<WindowCloseEvent>());
+		eventManager->pushEvent(std::make_shared<WindowCloseEvent>());
 	});
 
 	glfwSetWindowFocusCallback(windowHandle, [](GLFWwindow* window, int focused)
 	{
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
 		focused ? 
-			eventManager->addEvent(std::make_shared<WindowGainedFocusEvent>())
-			: eventManager->addEvent(std::make_shared<WindowLostFocusEvent>());
+			eventManager->pushEvent(std::make_shared<WindowGainedFocusEvent>())
+			: eventManager->pushEvent(std::make_shared<WindowLostFocusEvent>());
 	});
 
 	glfwSetCursorEnterCallback(windowHandle, [](GLFWwindow* window, int entered)
 	{
 		auto eventManager = static_cast<EventManager*>(glfwGetWindowUserPointer(window));
 		entered ? 
-			eventManager->addEvent(std::make_shared<WindowCursorEnterEvent>())
-			: eventManager->addEvent(std::make_shared<WindowCursorLeaveEvent>());
+			eventManager->pushEvent(std::make_shared<WindowCursorEnterEvent>())
+			: eventManager->pushEvent(std::make_shared<WindowCursorLeaveEvent>());
 	});
 }
 

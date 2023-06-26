@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Generic/Program.h"
+#include "Renderer/Program.h"
 
 #include <unordered_map>
 
@@ -39,5 +39,5 @@ private:
 	const std::string vertexPath;
 	const std::string fragmentPath;
 	unsigned int programHandle;
-	mutable std::unordered_map<std::string, int> locationsCache;
+	mutable std::unordered_map<std::string, int> uniformLocationsCache;
 };

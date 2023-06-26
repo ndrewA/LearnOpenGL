@@ -5,7 +5,7 @@
 class CharState
 {
 public:
-	void charDown(const int codePoint) { charsDown += static_cast<char>(codePoint); } // assumes codePoint correlates to a char
+	void charDown(const int codePoint) { charsDown += static_cast<char>(codePoint); } // TODO: make charsDown correlate to a codePoint
 	void clear() { charsDown.clear(); }
 
 	std::string getCharsDown() const { return charsDown; }

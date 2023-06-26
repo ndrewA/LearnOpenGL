@@ -25,14 +25,16 @@ OpenGLProgram::OpenGLProgram(const std::string& vertexShaderPath, const std::str
     glDetachShader(programHandle, vertexShader->getHandle());
     glDetachShader(programHandle, fragmentShader->getHandle());
 
-    int isLinked;
-    glGetProgramiv(programHandle, GL_LINK_STATUS, &isLinked);
-    if (!isLinked) {
+    int success;
+    glGetProgramiv(programHandle, GL_LINK_STATUS, &success);
+    if (!success) {
         int errorLength = 0;
         glGetProgramiv(programHandle, GL_INFO_LOG_LENGTH, &errorLength);
 
         std::vector<char> error(errorLength);
         glGetProgramInfoLog(programHandle, errorLength, nullptr, error.data());
+
+        glDeleteProgram(programHandle);
 
         throw std::runtime_error(error.data());
     }
@@ -91,13 +93,13 @@ void OpenGLProgram::setUniformImpl(const std::string& name, const glm::vec4& vec
 
 int OpenGLProgram::getLocation(const std::string& name) const
 {
-    if (locationsCache.find(name) != locationsCache.end())
-        return locationsCache[name];
+    if (uniformLocationsCache.find(name) != uniformLocationsCache.end())
+        return uniformLocationsCache[name];
 
     int location = glGetUniformLocation(programHandle, name.c_str());
 
     //if (location == -1) 
     //    throw std::exception(("Uniform " + name + " not found!").c_str());
 
-    return locationsCache[name] = location;
+    return uniformLocationsCache[name] = location;
 }

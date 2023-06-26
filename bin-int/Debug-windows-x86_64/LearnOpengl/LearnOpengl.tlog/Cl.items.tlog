@@ -1,7 +1,7 @@
 C:\dev\LearnOpengl\LearnOpengl\src\Platform\OpenGL\OpenGLShader.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\OpenGLShader.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Application.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Application.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Camera.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Camera.obj
-C:\dev\LearnOpengl\LearnOpengl\src\Generic\BufferLayout.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\BufferLayout.obj
+C:\dev\LearnOpengl\LearnOpengl\src\Renderer\BufferLayout.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\BufferLayout.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Inputs\InputManager.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\InputManager.obj
 C:\dev\LearnOpengl\LearnOpengl\src\LayerStack.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\LayerStack.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Mesh.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Mesh.obj
@@ -13,5 +13,7 @@ C:\dev\LearnOpengl\LearnOpengl\src\Platform\OpenGL\OpenGLElementBuffer.cpp;C:\de
 C:\dev\LearnOpengl\LearnOpengl\src\Platform\OpenGL\OpenGLRenderer.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\OpenGLRenderer.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Platform\OpenGL\OpenGLProgram.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\OpenGLProgram.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Platform\OpenGL\OpenGLVertexArray.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\OpenGLVertexArray.obj
+C:\dev\LearnOpengl\LearnOpengl\src\Platform\stb_image\STBTextureLoader.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\STBTextureLoader.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Timer.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Timer.obj
 C:\dev\LearnOpengl\LearnOpengl\src\main.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\main.obj
+C:\dev\LearnOpengl\LearnOpengl\src\Platform\OpenGL\OpenGLTexture.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\OpenGLTexture.obj

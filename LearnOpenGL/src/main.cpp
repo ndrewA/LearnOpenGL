@@ -9,7 +9,7 @@
 #include "Camera.h"
 #include "Model.h"
 
-#include "Events/EventManager.hpp"
+#include "Events/EventManager.h"
 #include "Platform/GLFW/GLFWWindow.h"
 
 #include <filesystem>

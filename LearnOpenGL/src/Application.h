@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Events/EventManager.hpp"
+#include "Events/EventManager.h"
 #include "LayerStack.h"
 #include "Platform/GLFW/GLFWWindow.h"
 
