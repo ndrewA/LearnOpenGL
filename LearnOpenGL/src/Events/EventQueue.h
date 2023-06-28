@@ -16,7 +16,7 @@ public:
     {
         if (eventQueue.empty())
             return nullptr;
-        auto event = eventQueue.front();
+        std::shared_ptr<Event> event = std::move(eventQueue.front());
         eventQueue.pop();
         return event;
     }

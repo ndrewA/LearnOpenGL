@@ -15,6 +15,8 @@
 #include <filesystem>
 #include <iostream>
                                                                 #include "Inputs/Inputmanager.h"
+
+#include "ECS/EntityManager.h"
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
 
@@ -85,12 +87,28 @@ void scroll_callback(double xOffset, double yOffset)
     camera.processMouseScroll((float)yOffset);
 }
 
-void test(const std::shared_ptr<Event>&) { }
-
 bool shouldClose = false;
+
+class test12 : public Component
+{
+
+};
 
 int main()
 {
+    EntityManager manager;
+    test12 t324;
+    manager.createEntity();
+    manager.createEntity();
+    manager.createEntity();
+    manager.createEntity();
+    manager.destroyEntity(1);
+    //manager.destroyEntity(1);
+    manager.addComponent(1, std::make_shared<test12>());
+    manager.getEntitiesWithComponents<test12>();
+
+    //return 0;
+
     EventManager eventManager;
 
     GLFWWindow window(SCR_WIDTH, SCR_HEIGHT, "test", eventManager);
@@ -154,6 +172,7 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 

@@ -1,6 +1,7 @@
 #include "GLFWWindow.h"
 
 #include <stdexcept>
+#include <assert.h>
 
 #include <GLFW/glfw3.h>
 
@@ -19,10 +20,9 @@ void GLFWWindow::create()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	windowHandle = glfwCreateWindow(height, width, name.c_str(), nullptr, nullptr);
-	if (windowHandle == nullptr) {
-		close();
-		throw std::runtime_error("Failed to create GLFW window!");
-	}
+	
+	assert(windowHandle != nullptr && "Window not created!");
+	
 	renderingContext = std::make_unique<GLFWRenderingContext>(windowHandle);
 	renderingContext->init();
 }
@@ -148,4 +148,3 @@ void GLFWWindow::swapBuffers()
 {
 	renderingContext->swapBuffers();
 }
-

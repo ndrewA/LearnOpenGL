@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include  <stdexcept>
+#include <assert.h>
 
 #include <glad/glad.h>
 
@@ -14,8 +15,8 @@ void GLFWRenderingContext::init()
 {
 	glfwMakeContextCurrent(windowHandle);
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	if (!status) 
-		throw std::runtime_error("Rendering context failed to initialize!");
+
+	assert(status && "Rendering context not initalized!");
 }
 
 void GLFWRenderingContext::swapBuffers()

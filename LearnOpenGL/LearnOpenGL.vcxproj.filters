@@ -1404,6 +1404,13 @@
     <ClInclude Include="src\Platform\stb_image\STBTextureLoader.h" />
     <ClInclude Include="src\Renderer\StaticMesh.h" />
     <ClInclude Include="src\Events\EventBus.h" />
+    <ClInclude Include="src\Renderer\RendererManager.h" />
+    <ClInclude Include="src\ECS\EntityManager.h" />
+    <ClInclude Include="src\ECS\System.h" />
+    <ClInclude Include="src\ECS\ComponentPool.h" />
+    <ClInclude Include="src\ECS\Component.h" />
+    <ClInclude Include="src\ECS\EntityLifecycleManager.h" />
+    <ClInclude Include="src\ECS\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1453,6 +1460,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\Platform\stb_image\STBTextureLoader.cpp" />
+    <ClCompile Include="src\ECS\EntityLifecycleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\shader.frag">

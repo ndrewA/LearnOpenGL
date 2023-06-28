@@ -21,7 +21,7 @@ class EventListener : public BaseEventListener
 public:
 	using EventCallBackFn = std::function<void(const std::shared_ptr<EventType>&)>;
 																						
-	explicit EventListener(const EventCallBackFn& callBack, int id) : callBack(callBack), id(id) { }
+	explicit EventListener(const EventCallBackFn& callBack, const int id) : callBack(callBack), id(id) { }
 	const void dispatchEvent(const std::shared_ptr<Event>& event) const override { callBack(std::static_pointer_cast<EventType>(event)); }
 
 	bool isEventType(const std::shared_ptr<Event>& event) const override { return std::dynamic_pointer_cast<EventType>(event) != nullptr; }

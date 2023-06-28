@@ -29,7 +29,12 @@ public:
 	bool hasTexture(const TextureType type) const { return textures.find(type) != textures.end(); }
 	
 	const glm::vec3& getColor() const { return color; }
-	const std::shared_ptr<Texture>& getTexture(const TextureType type) const { return textures[type]; }
+	const std::shared_ptr<Texture>& getTexture(const TextureType type) const 
+	{
+		if (textures.find(type) == textures.end())
+			throw std::exception("texture not found!");
+		return textures[type]; 
+	}
 	const float getSpecularity() const { return specularity; }
 
 	void setColor(const glm::vec3& color) { this->color = color; }
