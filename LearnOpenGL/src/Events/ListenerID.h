@@ -3,14 +3,10 @@
 class ListenerID
 {
 public:
-	explicit ListenerID(const int id) : id(id) { }
+	explicit ListenerID(const size_t id) : id(id) { }
 	
-	int get() const { return id; }
-	bool isRegisterd() const { return registered; }
-
-	void unregister() { registered = false; }
+	size_t get() const { return id; }
 
 private:
-	const int id;
-	bool registered = true;
+	const size_t id;
 };

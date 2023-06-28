@@ -8,13 +8,15 @@
 class EntityLifecycleManager
 {
 public:
+    using EntitySet = std::unordered_set<Entity>;
+
     Entity createEntity();
     void destroyEntity(const Entity entity);
 
-    const std::unordered_set<Entity>& getActiveEntities() const { return activeEntities; }
+    const EntitySet& getActiveEntities() const { return activeEntities; }
 
 private:
-    std::unordered_set<Entity> freeEntities;
-    std::unordered_set<Entity> activeEntities;
+    EntitySet freeEntities;
+    EntitySet activeEntities;
     Entity nextEntity = 0;
 };

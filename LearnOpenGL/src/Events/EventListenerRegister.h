@@ -27,15 +27,9 @@ public:
 
 	void unregisterListener(ListenerID& listenerID)
 	{
-		if (listenerID.isRegisterd() == false)
-			throw std::runtime_error("Listener already unregistered!");
-
 		listeners.erase(
 			std::remove_if(listeners.begin(), listeners.end(), [&listenerID](const auto& listener) {
-					if (listenerID.get() != listener->getID().get())
-						return false;
-					listenerID.unregister();
-					return true;
+				return listenerID.get() == listener->getID().get();
 				}),
 			listeners.end()
 		);

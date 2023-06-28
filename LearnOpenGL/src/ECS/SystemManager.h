@@ -10,6 +10,7 @@ class SystemManager
 {
 public:
 	template<typename SystemType, typename... Args>
+	requires std::derived_from<SystemType, System>
 	void addSystem(Args&&... args)
 	{
 		const auto system = std::make_shared<SystemType>(std::forward<Args>(args)...);
@@ -18,6 +19,7 @@ public:
 	}
 
 	template<typename SystemType>
+	requires std::derived_from<SystemType, System>
 	void removeSystem()
 	{
 		const auto it = std::find_if(systems.begin(), systems.end(), [](const auto& system) {
@@ -33,10 +35,10 @@ public:
 
 	void updateSystems(const float deltaTime, EntityManager& entityManager)
 	{
-		for (const auto& system : systems)
+		for (auto& system : systems)
 			system->update(deltaTime, entityManager);
 	}
 
 private:
-	std::vector<std::shared_ptr<EntitySystem>> systems;
+	std::vector<std::shared_ptr<System>> systems;
 };

@@ -21,32 +21,30 @@ public:
         lifecycleManager.destroyEntity(entity);
     }
 
-    template<typename Component>
-    void addComponent(const Entity entity, const std::shared_ptr<Component>& component)
-    {
-        getComponentPool<Component>().addComponent(entity, component);
-    }
-
-    template<typename Component, typename... Args>
+    template<typename ComponentType, typename... Args>
+    requires std::derived_from<ComponentType, Component>
     void addComponent(const Entity entity, Args&&... args)
     {
-        auto component = std::make_shared<Component>(std::forward(args)...);
-        getComponentPool<Component>().addComponent(entity, component);
+        auto component = std::make_shared<ComponentType>(std::forward(args)...);
+        getComponentPool<ComponentType>().addComponent(entity, component);
     }
 
-    template<typename Component>
-    std::shared_ptr<Component> getComponent(const Entity entity) 
+    template<typename ComponentType>
+    requires std::derived_from<ComponentType, Component>
+    std::shared_ptr<ComponentType> getComponent(const Entity entity)
     {
-        return std::static_pointer_cast<Component>(getComponentPool<Component>().getComponent(entity));
+        return std::static_pointer_cast<ComponentType>(getComponentPool<Component>().getComponent(entity));
     }
 
-    template<typename Component>
-    bool hasComponent(Entity entity) 
+    template<typename ComponentType>
+    requires std::derived_from<ComponentType, Component>
+    bool hasComponent(const Entity entity) 
     {
-        return getComponentPool<Component>().hasComponent(entity);
+        return getComponentPool<ComponentType>().hasComponent(entity);
     }
 
     template<typename... Components>
+    requires (std::derived_from<Components, Component> && ...)
     std::vector<Entity> getEntitiesWithComponents() 
     {
         std::vector<Entity> entities;
@@ -60,14 +58,14 @@ public:
     }
 
 private:
-    template<typename Component>
+    template<typename ComponentType>
     BaseComponentPool& getComponentPool()
     {
-        const std::type_index typeIndex(typeid(Component));
+        const std::type_index typeIndex(typeid(ComponentType));
 
         auto it = componentPools.find(typeIndex);
         if (it == componentPools.end()) 
-            it = componentPools.emplace(typeIndex, std::make_unique<ComponentPool<Component>>()).first;
+            it = componentPools.emplace(typeIndex, std::make_unique<ComponentPool<ComponentType>>()).first;
 
         return *it->second;
     }

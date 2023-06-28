@@ -2,10 +2,10 @@
 
 #include "EntityManager.h"
 
-class EntitySystem
+class System
 {
 public:
-	virtual ~EntitySystem() = default;
+	virtual ~System() = default;
 
 	virtual void onAdded() = 0;
 	virtual void update(const float deltaTime, EntityManager& entityManager) = 0;

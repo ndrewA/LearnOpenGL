@@ -104,7 +104,7 @@ int main()
     manager.createEntity();
     manager.destroyEntity(1);
     //manager.destroyEntity(1);
-    manager.addComponent(1, std::make_shared<test12>());
+    manager.addComponent<test12>(1);
     manager.getEntitiesWithComponents<test12>();
 
     //return 0;
