@@ -10,13 +10,15 @@
 class EventQueue
 {
 public:
-    void push(const std::shared_ptr<Event>& event) { eventQueue.push(event); }
+    using EventPtr = std::unique_ptr<Event>;
 
-    std::shared_ptr<Event> pop()
+    void push(EventPtr event) { eventQueue.push(std::move(event)); }
+    
+    EventPtr pop()
     {
         if (eventQueue.empty())
             return nullptr;
-        std::shared_ptr<Event> event = std::move(eventQueue.front());
+        EventPtr event = std::move(eventQueue.front());
         eventQueue.pop();
         return event;
     }
@@ -24,5 +26,5 @@ public:
     bool isEmpty() const { return eventQueue.empty(); }
 
 private:
-    std::queue<std::shared_ptr<Event>> eventQueue;
+    std::queue<EventPtr> eventQueue;
 };

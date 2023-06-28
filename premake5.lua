@@ -26,7 +26,7 @@ project "LearnOpengl"
     location "LearnOpengl"
     kind "ConsoleApp"
     language "C++"
-    cppdialect "C++17"
+    cppdialect "C++20"
 
     runtime "Debug"
     symbols "on"

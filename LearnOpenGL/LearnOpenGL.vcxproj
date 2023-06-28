@@ -63,7 +63,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
@@ -81,7 +81,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
@@ -91,43 +91,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\ECS\Component.h" />
     <ClInclude Include="src\ECS\ComponentPool.h" />
     <ClInclude Include="src\ECS\Entity.h" />
     <ClInclude Include="src\ECS\EntityLifecycleManager.h" />
     <ClInclude Include="src\ECS\EntityManager.h" />
-    <ClInclude Include="src\ECS\System.h" />
-    <ClInclude Include="src\Events\EventBus.h" />
-    <ClInclude Include="src\Renderer\Material.h" />
-    <ClInclude Include="src\Renderer\Mesh.h" />
-    <ClInclude Include="src\Renderer\Model.h" />
-    <ClInclude Include="src\Renderer\RendererManager.h" />
-    <ClInclude Include="src\Renderer\StaticMesh.h" />
-    <ClInclude Include="src\Renderer\Texture.h" />
-    <ClInclude Include="src\Renderer\TextureLoader.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\ECS\EntitySystem.h" />
+    <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\Events\Event.h" />
+    <ClInclude Include="src\Events\EventBus.h" />
     <ClInclude Include="src\Events\EventListener.h" />
     <ClInclude Include="src\Events\EventListenerRegister.h" />
     <ClInclude Include="src\Events\EventManager.h" />
     <ClInclude Include="src\Events\EventQueue.h" />
-    <ClInclude Include="src\Renderer\Shader.h" />
-    <ClInclude Include="src\Inputs\CharState.h" />
-    <ClInclude Include="src\Inputs\InputManager.h" />
     <ClInclude Include="src\Events\KeyboardEvent.h" />
-    <ClInclude Include="src\Inputs\KeyboardState.h" />
+    <ClInclude Include="src\Events\ListenerID.h" />
     <ClInclude Include="src\Events\MouseEvent.h" />
     <ClInclude Include="src\Events\WindowEvent.h" />
-    <ClInclude Include="src\Renderer\Buffer.h" />
-    <ClInclude Include="src\Renderer\BufferLayout.h" />
-    <ClInclude Include="src\Renderer\Renderer.h" />
-    <ClInclude Include="src\Renderer\RenderingContext.h" />
-    <ClInclude Include="src\Renderer\Program.h" />
-    <ClInclude Include="src\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\Inputs\CharState.h" />
+    <ClInclude Include="src\Inputs\InputManager.h" />
     <ClInclude Include="src\Inputs\KeyCodes.h" />
+    <ClInclude Include="src\Inputs\KeyboardState.h" />
     <ClInclude Include="src\Inputs\MouseButtonCodes.h" />
     <ClInclude Include="src\Inputs\MouseState.h" />
     <ClInclude Include="src\Layer.h" />
@@ -138,13 +124,29 @@
     <ClInclude Include="src\Platform\GLFW\GLFWWindow.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBufferLayout.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLElementBuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLProgram.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="src\Platform\stb_image\STBTextureLoader.h" />
+    <ClInclude Include="src\Renderer\Buffer.h" />
+    <ClInclude Include="src\Renderer\BufferLayout.h" />
+    <ClInclude Include="src\Renderer\Material.h" />
+    <ClInclude Include="src\Renderer\Mesh.h" />
+    <ClInclude Include="src\Renderer\Model.h" />
+    <ClInclude Include="src\Renderer\Program.h" />
+    <ClInclude Include="src\Renderer\Renderer.h" />
+    <ClInclude Include="src\Renderer\RendererManager.h" />
+    <ClInclude Include="src\Renderer\RenderingContext.h" />
+    <ClInclude Include="src\Renderer\Shader.h" />
+    <ClInclude Include="src\Renderer\StaticMesh.h" />
+    <ClInclude Include="src\Renderer\Texture.h" />
+    <ClInclude Include="src\Renderer\TextureLoader.h" />
+    <ClInclude Include="src\Renderer\VertexArray.h" />
     <ClInclude Include="src\Timer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="src\Window.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -564,11 +566,9 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ECS\EntityLifecycleManager.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\Renderer\BufferLayout.cpp" />
+    <ClCompile Include="src\ECS\EntityLifecycleManager.cpp" />
     <ClCompile Include="src\Inputs\InputManager.cpp" />
     <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
@@ -577,13 +577,15 @@
     <ClCompile Include="src\Platform\GLFW\GLFWWindow.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBufferLayout.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLElementBuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLProgram.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\stb_image\STBTextureLoader.cpp" />
+    <ClCompile Include="src\Renderer\BufferLayout.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\shader.frag" />

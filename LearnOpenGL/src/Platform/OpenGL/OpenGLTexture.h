@@ -15,8 +15,8 @@ public:
     void bind(unsigned int slot = 0) const override;
     void unbind() const override;
 
-    const int getWidth() const override { return width; }
-    const int getHeight() const override { return height; }
+    int getWidth() const override { return width; }
+    int getHeight() const override { return height; }
 
 private:
     void setTextureProperties(const std::unique_ptr<TextureLoader>& loader);

@@ -42,10 +42,10 @@ public:
     const std::vector<LayoutElement>& getElements() const { return elements; }
     size_t getStride() const { return stride; }
 
-    std::vector<LayoutElement>::      iterator	begin()         { return elements.begin();  }
-    std::vector<LayoutElement>::const_iterator  begin() const   { return elements.begin();  }
-    std::vector<LayoutElement>::      iterator	end()           { return elements.end();    }
-    std::vector<LayoutElement>::const_iterator  end()   const   { return elements.end();    }
+    auto begin()         { return elements.begin();  }
+    auto begin() const   { return elements.begin();  }
+    auto end()           { return elements.end();    }
+    auto end()   const   { return elements.end();    }
 
     void calculateOffsetsAndStride();
     unsigned int getSizeFromType(const ElementType type) const;

@@ -13,39 +13,39 @@ InputManager::InputManager(EventManager& eventManager)
     registerListener(eventManager, &InputManager::handleMouseMoveEvent);
 }
 
-void InputManager::handleKeyboardPressEvent(const std::shared_ptr<KeyboardPressEvent>& event)
+void InputManager::handleKeyboardPressEvent(const KeyboardPressEvent& event)
 {
-    keyboardState.keyPress(event->getKeyCode());
+    keyboardState.keyPress(event.getKeyCode());
 }
 
-void InputManager::handleKeyboardRepeatEvent(const std::shared_ptr<KeyboardRepeatEvent>& event)
+void InputManager::handleKeyboardRepeatEvent(const KeyboardRepeatEvent& event)
 {
-    keyboardState.keyRepeat(event->getKeyCode());
+    keyboardState.keyRepeat(event.getKeyCode());
 }
 
-void InputManager::handleKeyboardReleaseEvent(const std::shared_ptr<KeyboardReleaseEvent>& event)
+void InputManager::handleKeyboardReleaseEvent(const KeyboardReleaseEvent& event)
 {
-    keyboardState.keyRelease(event->getKeyCode());
+    keyboardState.keyRelease(event.getKeyCode());
 }
 
-void InputManager::handleCharPressEvent(const std::shared_ptr<CharPressEvent>& event)
+void InputManager::handleCharPressEvent(const CharPressEvent& event)
 {
-    std::cout << (char)event->getCodePoint() << '\n';
+    std::cout << (char)event.getCodePoint() << '\n';
     if(textInputMode)
-        charState.charDown(event->getCodePoint());
+        charState.charDown(event.getCodePoint());
 }
 
-void InputManager::handleMouseButtonPressEvent(const std::shared_ptr<MousePressEvent>& event)
+void InputManager::handleMouseButtonPressEvent(const MousePressEvent& event)
 {
-    mouseState.keyDown(event->getButton());
+    mouseState.keyDown(event.getButton());
 }
 
-void InputManager::handleMouseButtonReleaseEvent(const std::shared_ptr<MouseReleaseEvent>& event)
+void InputManager::handleMouseButtonReleaseEvent(const MouseReleaseEvent& event)
 {
-    mouseState.keyRelease(event->getButton());
+    mouseState.keyRelease(event.getButton());
 }
 
-void InputManager::handleMouseMoveEvent(const std::shared_ptr<MouseMoveEvent>& event)
+void InputManager::handleMouseMoveEvent(const MouseMoveEvent& event)
 {
-    mouseState.setPosition({ event->getMouseX(), event->getMouseY() });
+    mouseState.setPosition({ event.getMouseX(), event.getMouseY() });
 }

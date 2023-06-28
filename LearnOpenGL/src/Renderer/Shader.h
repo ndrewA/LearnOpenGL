@@ -11,5 +11,5 @@ class Shader
 public:	
 	virtual ~Shader() = default;
 
-	virtual const unsigned int getHandle() const = 0;
+	virtual unsigned int getHandle() const = 0;
 };

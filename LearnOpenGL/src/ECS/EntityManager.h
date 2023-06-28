@@ -1,10 +1,7 @@
 #pragma once
 
-#include <unordered_map>
-#include <vector>
 #include <memory>
 #include <typeindex>
-#include <unordered_set>
 
 #include "ComponentPool.h"
 #include "EntityLifecycleManager.h"
@@ -27,6 +24,13 @@ public:
     template<typename Component>
     void addComponent(const Entity entity, const std::shared_ptr<Component>& component)
     {
+        getComponentPool<Component>().addComponent(entity, component);
+    }
+
+    template<typename Component, typename... Args>
+    void addComponent(const Entity entity, Args&&... args)
+    {
+        auto component = std::make_shared<Component>(std::forward(args)...);
         getComponentPool<Component>().addComponent(entity, component);
     }
 

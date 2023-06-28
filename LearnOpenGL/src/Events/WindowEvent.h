@@ -5,7 +5,8 @@
 class WindowEvent : public Event 
 {
 public: 
-	EVENT_CATEGORY_FUNCTION(Window)
+	virtual ~WindowEvent() = default;
+	EventDescription getDescription() const override = 0;
 };
 
 class WindowResizeEvent : public WindowEvent 
@@ -14,10 +15,11 @@ public:
 	WindowResizeEvent(const int width, const int height) 
 		: width(width), height(height) { }
 
-	const int getWidth() const { return width; }
-	const int getHeight() const { return height; }
+	virtual ~WindowResizeEvent() = default;
+	EventDescription getDescription() const override { return { EventType::WindowResize, "WindowResize" }; }
 
-	EVENT_TYPE_FUNCTION(WindowResize)
+	int getWidth() const { return width; }
+	int getHeight() const { return height; }
 
 private:
 	const int width, height;
@@ -26,29 +28,34 @@ private:
 class WindowCloseEvent : public WindowEvent
 {
 public:
-	EVENT_TYPE_FUNCTION(WindowClose)
+	virtual ~WindowCloseEvent() = default;
+	EventDescription getDescription() const override { return { EventType::WindowClose, "WindowClose" }; }
 };
 
 class WindowLostFocusEvent : public WindowEvent 
 {
 public: 
-	EVENT_TYPE_FUNCTION(WindowLostFocus)
+	virtual ~WindowLostFocusEvent() = default;
+	EventDescription getDescription() const override { return { EventType::WindowLostFocus, "WindowLostFocus" }; }
 };
 
 class WindowGainedFocusEvent : public WindowEvent 
 {
 public: 
-	EVENT_TYPE_FUNCTION(WindowGainedFocus)
+	virtual ~WindowGainedFocusEvent() = default;
+	EventDescription getDescription() const override { return { EventType::WindowGainedFocus, "WindowGainedFocus" }; }
 };
 
 class WindowCursorEnterEvent : public WindowEvent
 {
 public:
-	EVENT_TYPE_FUNCTION(WindowCursorEnter)
+	virtual ~WindowCursorEnterEvent() = default;
+	EventDescription getDescription() const override { return { EventType::WindowCursorEnter, "WindowCursorEnter" }; }
 };
 
 class WindowCursorLeaveEvent : public WindowEvent
 {
 public:
-	EVENT_TYPE_FUNCTION(WindowCursorLeave)
+	virtual ~WindowCursorLeaveEvent() = default;
+	EventDescription getDescription() const override { return { EventType::WindowCursorLeave, "WindowCursorLeave" }; }
 };

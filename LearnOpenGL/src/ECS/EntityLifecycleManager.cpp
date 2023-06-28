@@ -33,8 +33,3 @@ void EntityLifecycleManager::destroyEntity(const Entity entity)
 
     activeEntities.erase(entity);
 }
-
-const std::unordered_set<Entity>& EntityLifecycleManager::getActiveEntities() const
-{
-    return activeEntities;
-}

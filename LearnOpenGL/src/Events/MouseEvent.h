@@ -5,20 +5,24 @@
 class MouseEvent : public Event 
 {
 public:
-	EVENT_CATEGORY_FUNCTION(Mouse)
+	virtual ~MouseEvent() = default;
+	EventDescription getDescription() const override = 0;
 };
 
 // ===================== MOTION UPCOMING ==============================
 
 class MouseMotionEvent : public MouseEvent
 {
+public:
+	double getMouseX() const { return mouseX; }
+	double getMouseY() const { return mouseY; }
+
+	virtual ~MouseMotionEvent() = default;
+	EventDescription getDescription() const override = 0;
+
 protected:
 	MouseMotionEvent(const double mouseX, const double mouseY)
 		: mouseX(mouseX), mouseY(mouseY) { }
-
-public:
-	const double getMouseX() const { return mouseX; }
-	const double getMouseY() const { return mouseY; }
 
 private:
 	const double mouseX, mouseY;
@@ -30,7 +34,8 @@ public:
 	MouseMoveEvent(const double mouseX, const double mouseY)
 		: MouseMotionEvent(mouseX, mouseY) { }
 
-	EVENT_TYPE_FUNCTION(MouseMove)
+	virtual ~MouseMoveEvent() = default;
+	EventDescription getDescription() const override { return { EventType::MouseMove, "MouseMove" }; }
 };
 
 class MouseScrollEvent : public MouseMotionEvent
@@ -39,7 +44,8 @@ public:
 	MouseScrollEvent(const double mouseX, const double mouseY)
 		: MouseMotionEvent(mouseX, mouseY) { }
 
-	EVENT_TYPE_FUNCTION(MouseScroll)
+	virtual ~MouseScrollEvent() = default;
+	EventDescription getDescription() const override { return { EventType::MouseScroll, "MouseScroll" }; }
 };
 
 // ===================== BUTTON UPCOMING ==============================
@@ -51,8 +57,11 @@ protected:
 		: button(button), mods(mods) { }
 
 public:
-	const int getButton() const { return button; }
-	const int getMods() const { return mods; }
+	int getButton() const { return button; }
+	int getMods() const { return mods; }
+
+	virtual ~MouseButtonEvent() = default;
+	EventDescription getDescription() const override = 0;
 
 private:
 	const int button, mods;
@@ -64,7 +73,8 @@ public:
 	MousePressEvent(const int button, const int mods)
 		: MouseButtonEvent(button, mods) { }
 
-	EVENT_TYPE_FUNCTION(MousePress)
+	virtual ~MousePressEvent() = default;
+	EventDescription getDescription() const override { return { EventType::MousePress, "MousePress" }; }
 };
 
 class MouseReleaseEvent : public MouseButtonEvent
@@ -73,5 +83,6 @@ public:
 	MouseReleaseEvent(const int button, const int mods)
 		: MouseButtonEvent(button, mods) { }
 
-	EVENT_TYPE_FUNCTION(MouseRelease)
+	virtual ~MouseReleaseEvent() = default;
+	EventDescription getDescription() const override { return { EventType::MouseRelease, "MouseRelease" }; }
 };

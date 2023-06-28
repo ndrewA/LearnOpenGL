@@ -8,6 +8,6 @@ public:
 	virtual void bind(const unsigned int slot = 0) const = 0;
 	virtual void unbind() const = 0;
 
-	virtual const int getWidth() const = 0;
-	virtual const int getHeight() const = 0;
+	virtual int getWidth() const = 0;
+	virtual int getHeight() const = 0;
 };

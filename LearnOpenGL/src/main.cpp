@@ -113,29 +113,29 @@ int main()
 
     GLFWWindow window(SCR_WIDTH, SCR_HEIGHT, "test", eventManager);
    
-    eventManager.registerListenerFor<WindowResizeEvent>([](const std::shared_ptr<WindowResizeEvent>& event) {
+    eventManager.registerListenerFor<WindowResizeEvent>([](const WindowResizeEvent& event) {
         //std::cout << "WindowResizeEvent!\n";
-        glViewport(0, 0, event->getWidth(), event->getHeight());
+        glViewport(0, 0, event.getWidth(), event.getHeight());
     });
 
-    eventManager.registerListenerFor<MouseMoveEvent>([](const std::shared_ptr<MouseMoveEvent>& event) {
+    eventManager.registerListenerFor<MouseMoveEvent>([](const MouseMoveEvent& event) {
         //std::cout << "MouseMoveEvent!\n";
-        mouse_callback(event->getMouseX(), event->getMouseY());
+        mouse_callback(event.getMouseX(), event.getMouseY());
     });
 
-    eventManager.registerListenerFor<MouseScrollEvent>([](const std::shared_ptr<MouseScrollEvent>& event) {
+    eventManager.registerListenerFor<MouseScrollEvent>([](const MouseScrollEvent& event) {
         //std::cout << "MouseScrollEvent!\n";
-        scroll_callback(event->getMouseX(), event->getMouseY());
+        scroll_callback(event.getMouseX(), event.getMouseY());
     });
 
-    eventManager.registerListenerFor<WindowCloseEvent>([](const std::shared_ptr<WindowCloseEvent>& event) {
+    eventManager.registerListenerFor<WindowCloseEvent>([](const WindowCloseEvent& event) {
         //std::cout << "WindowCloseEvent!\n";
         shouldClose = true;
     });
 
-    eventManager.registerListenerFor<KeyboardPressEvent>([](const std::shared_ptr<KeyboardPressEvent>& event) {
+    eventManager.registerListenerFor<KeyboardPressEvent>([](const KeyboardPressEvent& event) {
         //std::cout << "KeyboardPressEvent!\n";
-        processInput(event->getKeyCode());
+        processInput(event.getKeyCode());
     });
 
 

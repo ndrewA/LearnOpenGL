@@ -9,15 +9,17 @@
 class Layer
 {
 public:
+	Layer(const std::string& name)
+		: name(name) { }
 	virtual ~Layer() = default;
 
 	virtual void update() = 0;
 	virtual void onEvent(const Event& event) = 0;
 
-	const std::string getName() const { return name; }
+	std::string getName() const { return name; }
 
 private:
-	const std::string& name;
+	const std::string name;
 };
 
 class TestLayer : public Layer

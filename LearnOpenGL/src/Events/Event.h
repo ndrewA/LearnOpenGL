@@ -2,16 +2,6 @@
 
 #include <string>
 
-#define EVENT_TYPE_FUNCTION(type)																			\
-static const EventType getStaticType() { return EventType::##type; }										\
-virtual const EventType getType() const override { return EventType::##type; }								\
-virtual const std::string getTypeName() const override { return #type; }
-
-#define EVENT_CATEGORY_FUNCTION(category)																	\
-virtual ~category##Event() override = default;																\
-virtual const EventCategory getCategory() const override { return EventCategory::##category; }				\
-virtual const EventType getType() const override{ return EventType::None; }
-
 enum class EventCategory
 {
 	None,
@@ -31,6 +21,13 @@ enum class EventType
 	KeyboardPress, KeyboardRepeat, KeyboardRelease, CharPress,
 };
 
+struct EventDescription
+{
+	const EventType type;
+	const std::string name;
+	std::string origin;
+};
+
 class Event
 {
 public:
@@ -39,9 +36,10 @@ public:
 	bool isHandeled() const { return handeled; }
 	bool handle() { handeled = true; }
 
-	virtual const EventCategory getCategory() const = 0;
-	virtual const EventType getType() const = 0;
-	virtual const std::string getTypeName() const = 0;
+	EventType getType()			const { return getDescription().type; }
+	std::string getTypeName()	const { return getDescription().name; }
+
+	virtual EventDescription getDescription() const = 0;
 
 private:
 	bool handeled = false;
@@ -49,6 +47,6 @@ private:
 
 class NoneEvent : public Event
 {
-	const EventCategory getCategory() const override { return EventCategory::None; }
-	EVENT_TYPE_FUNCTION(None)
+public:
+	EventDescription getDescription() const override { return { EventType::None, "None" }; }
 };

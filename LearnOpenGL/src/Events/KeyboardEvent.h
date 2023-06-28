@@ -7,29 +7,30 @@
 class KeyboardEvent : public Event
 {
 protected:
-	KeyboardEvent(int keyCode, int scancode, int mods)
+	KeyboardEvent(const int keyCode, const int scancode, const int mods)
 		: keyCode(keyCode), scancode(scancode), mods(mods) { }
 
 public:
+	virtual ~KeyboardEvent() = default;
+	EventDescription getDescription() const override = 0;
+
 	int getKeyCode() const { return keyCode; }
 	int getScanCode() const { return scancode; }
 	int getMods() const { return mods; }
 
-	EVENT_CATEGORY_FUNCTION(Keyboard)
-
 private:
-	int keyCode;
-	int scancode;
-	int mods;
+	const int keyCode;
+	const int scancode;
+	const int mods;
 };
 
 class KeyboardPressEvent : public KeyboardEvent
 {
 public:
 	KeyboardPressEvent(const int keyCode, const int scancode, const int mods)
-		: KeyboardEvent(keyCode, scancode, mods){ }
+		: KeyboardEvent(keyCode, scancode, mods) { }
 
-	EVENT_TYPE_FUNCTION(KeyboardPress)
+	EventDescription getDescription() const override { return { EventType::KeyboardPress, "KeyboardPress"}; }
 };
 
 class KeyboardRepeatEvent : public KeyboardEvent
@@ -37,7 +38,7 @@ class KeyboardRepeatEvent : public KeyboardEvent
 	KeyboardRepeatEvent(const int keyCode, const int scancode, const int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
-	EVENT_TYPE_FUNCTION(KeyboardRepeat)
+	EventDescription getDescription() const override { return { EventType::KeyboardRepeat, "KeyboardRepeat" }; }
 };
 
 class KeyboardReleaseEvent : public KeyboardEvent
@@ -46,7 +47,8 @@ public:
 	KeyboardReleaseEvent(const int keyCode, const int scancode, const int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
-	EVENT_TYPE_FUNCTION(KeyboardRelease)
+	EventDescription getDescription() const override { return { EventType::KeyboardRelease, "KeyboardRelease" }; }
+
 };
 
 class CharPressEvent : public Event
@@ -55,10 +57,9 @@ public:
 	CharPressEvent(const int codePoint)
 		: codePoint(codePoint) { }
 
-	const int getCodePoint() const { return codePoint; }
+	int getCodePoint() const { return codePoint; }
 
-	const EventCategory getCategory() const override { return EventCategory::Keyboard; }
-	EVENT_TYPE_FUNCTION(CharPress)
+	EventDescription getDescription() const override { return { EventType::CharPress, "CharPress" }; }
 
 private:
 	const int codePoint;

@@ -7,19 +7,22 @@ class EventManager
 {
 public:
 	template<typename EventType>
-	int registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack) 
+	requires std::derived_from<EventType, Event>
+	ListenerID registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack) 
 	{ 
 		return eventBus.registerListenerFor<EventType>(callBack);
 	}
 
-	void unregisterListener(const int listenerID) 
+	void unregisterListener(ListenerID& listenerID)
 	{ 
 		eventBus.unregisterListener(listenerID);
 	}
 
-	void pushEvent(const std::shared_ptr<Event>& event) 
+	template<typename EventType, typename... Args>
+	requires std::derived_from<EventType, Event>
+	void pushEvent(Args&&... args) 
 	{ 
-		eventQueue.push(event); 
+		eventQueue.push(std::make_unique<EventType>(std::forward<Args>(args)...)); 
 	}
 
 	void publishEvents()

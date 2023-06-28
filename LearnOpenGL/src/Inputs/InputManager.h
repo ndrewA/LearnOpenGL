@@ -24,19 +24,19 @@ public:
 	
 private:
 	template<typename EventType>
-	void registerListener(EventManager& eventManager, void (InputManager::* handler)(const std::shared_ptr<EventType>&))
+	void registerListener(EventManager& eventManager, void (InputManager::* handler)(const EventType&))
 	{
 		eventManager.registerListenerFor<EventType>
-			([this, handler](const std::shared_ptr<EventType>& event) { (this->*handler)(event); });
+			([this, handler](const EventType& event) { (this->*handler)(event); });
 	}
 
-	void handleKeyboardPressEvent(const std::shared_ptr<KeyboardPressEvent>& event);
-	void handleKeyboardRepeatEvent(const std::shared_ptr<KeyboardRepeatEvent>& event);
-	void handleKeyboardReleaseEvent(const std::shared_ptr<KeyboardReleaseEvent>& event);
-	void handleCharPressEvent(const std::shared_ptr<CharPressEvent>& event);
-	void handleMouseButtonPressEvent(const std::shared_ptr<MousePressEvent>& event);
-	void handleMouseButtonReleaseEvent(const std::shared_ptr<MouseReleaseEvent>& event);
-	void handleMouseMoveEvent(const std::shared_ptr<MouseMoveEvent>& event);
+	void handleKeyboardPressEvent(const KeyboardPressEvent& event);
+	void handleKeyboardRepeatEvent(const KeyboardRepeatEvent& event);
+	void handleKeyboardReleaseEvent(const KeyboardReleaseEvent& event);
+	void handleCharPressEvent(const CharPressEvent& event);
+	void handleMouseButtonPressEvent(const MousePressEvent& event);
+	void handleMouseButtonReleaseEvent(const MouseReleaseEvent& event);
+	void handleMouseMoveEvent(const MouseMoveEvent& event);
 
 private:
 	KeyboardState keyboardState;

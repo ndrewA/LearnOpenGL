@@ -11,7 +11,7 @@ public:
     Entity createEntity();
     void destroyEntity(const Entity entity);
 
-    const std::unordered_set<Entity>& getActiveEntities() const;
+    const std::unordered_set<Entity>& getActiveEntities() const { return activeEntities; }
 
 private:
     std::unordered_set<Entity> freeEntities;
