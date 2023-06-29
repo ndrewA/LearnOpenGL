@@ -1,29 +1,12 @@
 #pragma once
 
-#include <memory>
 #include <typeindex>
 
 #include "ComponentPool.h"
-#include "EntityLifecycleManager.h"
 
-#include "Entity.h"
-
-class EntityManager
+class ComponentManager
 {
 public:
-    Entity createEntity()
-    {
-        return lifecycleManager.createEntity();
-    }
-
-    void destroyEntity(const Entity entity)
-    {
-        lifecycleManager.destroyEntity(entity);
-
-        for (auto& [type, pool] : componentPools)
-            pool->destroyEntity(entity);
-    }
-
     template<typename ComponentType, typename... Args>
     requires std::derived_from<ComponentType, Component>
     void addComponent(const Entity entity, Args&&... args)
@@ -34,7 +17,7 @@ public:
 
     template<typename ComponentType>
     requires std::derived_from<ComponentType, Component>
-    const ComponentType& getComponent(const Entity entity)
+    const ComponentType& getComponent(const Entity entity) 
     {
         return getComponentPool<ComponentType>().getComponent(entity);
     }
@@ -46,18 +29,10 @@ public:
         return getComponentPool<ComponentType>().hasComponent(entity);
     }
 
-    template<typename... ComponentTypes>
-    requires (std::derived_from<ComponentTypes, Component> && ...)
-    std::vector<Entity> getEntitiesWithComponents() 
+    void destroyEntityComponents(const Entity entity)
     {
-        std::vector<Entity> entities;
-
-        const auto& activeEntites = lifecycleManager.getActiveEntities();
-        for (const auto& entity : activeEntites)
-            if ((hasComponent<ComponentTypes>(entity) && ...))
-                entities.push_back(entity);
-
-        return entities;
+        for (auto& [type, pool] : componentPools)
+            pool->destroyEntityComponent(entity);
     }
 
 private:
@@ -72,10 +47,9 @@ private:
             it = componentPools.emplace(typeIndex, std::move(newPool)).first;
         }
 
-        return *static_cast<ComponentPool<ComponentType>*>(it->second.get());
+        return static_cast<ComponentPool<ComponentType>&>(*it->second.get());
     }
 
 private:
     std::unordered_map<std::type_index, std::unique_ptr<BaseComponentPool>> componentPools;
-    EntityLifecycleManager lifecycleManager;
 };

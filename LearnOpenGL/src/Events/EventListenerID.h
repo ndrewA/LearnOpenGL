@@ -1,9 +1,9 @@
 #pragma once
 
-class ListenerID
+class EventListenerID
 {
 public:
-	explicit ListenerID(const size_t id) : id(id) { }
+	explicit EventListenerID(const size_t id) : id(id) { }
 	
 	size_t get() const { return id; }
 

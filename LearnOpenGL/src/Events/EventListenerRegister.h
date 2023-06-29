@@ -13,10 +13,10 @@ public:
 	using ListenerList = std::vector<std::unique_ptr<BaseEventListener>>;
 
 	template<typename EventType>
-	ListenerID registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
+	EventListenerID registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
 	{
 		static int currentID = 0;
-		ListenerID listenerID(currentID);
+		EventListenerID listenerID(currentID);
 		++currentID;
 
 		std::unique_ptr<BaseEventListener> listener = std::make_unique<EventListener<EventType>>(callBack, listenerID);
@@ -25,7 +25,7 @@ public:
 		return listenerID;
 	}
 
-	void unregisterListener(ListenerID& listenerID)
+	void unregisterListener(EventListenerID& listenerID)
 	{
 		listeners.erase(
 			std::remove_if(listeners.begin(), listeners.end(), [&listenerID](const auto& listener) {

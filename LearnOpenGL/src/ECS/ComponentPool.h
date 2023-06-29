@@ -1,17 +1,17 @@
 #pragma once
 
 #include <stdexcept>
-#include <unordered_map>
+#include <vector>
 #include <memory>
 
 #include "Component.h"
-#include "Entity.h"
+#include "ComponentPoolExceptions.h"
 
 class BaseComponentPool
 {
 public:
     virtual ~BaseComponentPool() = default;
-    virtual void destroyEntity(const Entity) = 0;
+    virtual void destroyEntityComponent(const Entity) = 0;
     virtual bool hasComponent(const Entity entity) const = 0;
 };
 
@@ -21,28 +21,31 @@ class ComponentPool : public BaseComponentPool
 public:
     void addComponent(const Entity entity, std::unique_ptr<ComponentType> component)
     {
+        if (entity >= pool.size())
+            pool.resize(entity + 1);
+
         pool[entity] = std::move(component);
     }
 
-    void destroyEntity(const Entity entity) override
+    void destroyEntityComponent(const Entity entity) override
     {
-        pool.erase(entity);
+        if (entity < pool.size())
+            pool[entity].reset();
     }
 
     const ComponentType& getComponent(const Entity entity) const
     {
-        auto it = pool.find(entity);
-        if (it == pool.end())
-            throw std::runtime_error("Pool doesn't contain entity!");
+        if (entity >= pool.size() || pool[entity] == nullptr)
+            throw ComponentEntityNotFoundException(entity, typeid(ComponentType).name());
 
-        return *it->second.get();
+        return *pool[entity];
     }
 
     bool hasComponent(const Entity entity) const override
     {
-        return pool.find(entity) != pool.end();
+        return entity < pool.size() && pool[entity] != nullptr;
     }
 
 private:
-    std::unordered_map<Entity, std::unique_ptr<ComponentType>> pool;
+    std::vector<std::unique_ptr<ComponentType>> pool;
 };

@@ -9,12 +9,12 @@ class EventBus
 {
 public:
 	template<typename EventType>
-	ListenerID registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
+	EventListenerID registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
 	{
 		return listeners.registerListenerFor<EventType>(callBack);
 	}
 
-	void unregisterListener(ListenerID& listenerID)
+	void unregisterListener(EventListenerID& listenerID)
 	{
 		listeners.unregisterListener(listenerID);
 	}
@@ -26,7 +26,7 @@ public:
 				if (listener->isEventType(*event.get()))
 					listener->dispatchEvent(*event.get());
 
-				if (event->isHandeled())
+				if (event->isHandled())
 					break;
 			}
 		}

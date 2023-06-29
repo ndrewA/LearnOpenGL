@@ -15,7 +15,7 @@ public:
 	KeyboardState::ButtonState getButtonState(const int keyCode) const { return keyboardState.getKeyState(keyCode); }
 
 	std::string getCharsDown() const { return charState.getCharsDown(); }
-	void clearCharsState() { charState.clear(); }
+	void clearCharState() { charState.clear(); }
 
 	bool isButtonPressed(const int keyCode) const { return mouseState.isButtonDown(keyCode); }
 	MouseState::Position getMousePosition() const { return mouseState.getPosition(); }

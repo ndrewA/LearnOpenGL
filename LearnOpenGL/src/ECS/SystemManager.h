@@ -3,71 +3,65 @@
 #include <list>
 #include <memory>
 #include <stdexcept>
+#include <unordered_map>
 
 #include "System.h"
+#include "SystemExceptions.h"
 
 class SystemManager
 {
 public:
 	template<typename SystemType, typename... Args>
-	requires std::derived_from<SystemType, System>
-	bool addSystem(Args&&... args)
+	void addSystem(Args&&... args)
 	{
-		if (hasSystem<SystemType>())
-			return false;
+		const auto typeIndex = std::type_index(typeid(SystemType));
+		if (systemLookup.find(typeIndex) != systemLookup.end())
+			throw SystemAlreadyAddedException(typeid(SystemType).name());
 
 		std::unique_ptr<System> system = std::make_unique<SystemType>(std::forward<Args>(args)...);
+
 		system->onAdded();
 		systems.emplace_back(std::move(system));
-		return true;
+		systemLookup[typeIndex] = systems.size() - 1;
 	}
 
 	template<typename SystemType>
-	requires std::derived_from<SystemType, System>
-	bool removeSystem()
+	void removeSystem()
 	{
-		const auto it = std::find_if(systems.begin(), systems.end(), [](const auto& system) {
-			return dynamic_cast<SystemType*>(system.get()) != nullptr;
-		});
+		const auto typeIndex = std::type_index(typeid(SystemType));
+		const auto it = systemLookup.find(typeIndex);
 
-		if (it == systems.end())
-			return false;
+		if (it == systemLookup.end())
+			throw SystemNotFoundException(typeid(SystemType).name());
 
-		(*it)->onRemoved();
-		systems.erase(it);
-		return true;
+		systems[it->second]->onRemoved();
+		systems.erase(systems.begin() + it->second);
+		systemLookup.erase(it);
 	}
 
 	template<typename SystemType>
-	requires std::derived_from<SystemType, System>
 	bool hasSystem() const
 	{
-		return std::any_of(systems.begin(), systems.end(), [](const auto& system) {
-			return dynamic_cast<SystemType*>(system.get()) != nullptr;
-		});
+		const auto typeIndex = std::type_index(typeid(SystemType));
+		return systemLookup.find(typeIndex) != systemLookup.end();
 	}
 
 	template<typename SystemType>
-	requires std::derived_from<SystemType, System>
-	SystemType& getSystem() 
+	void enableSystem(const bool enabled)
 	{
-		auto it = std::find_if(systems.begin(), systems.end(), [](const auto& system) {
-			return dynamic_cast<SystemType*>(system.get()) != nullptr;
-		});
-
-		if (it == systems.end()) 
-			return nullptr;
-
-		return static_cast<SystemType&>(*it->get());
+		auto system = getSystem<SystemType>();
+		
+		system->enabled(enabled);
 	}
 
-	void updateSystems(const float deltaTime, EntityManager& entityManager) const 
+	void updateSystems(const float deltaTime, SystemContext& context) const 
 	{
 		for (auto& system : systems)
 			if(system->isEnabled())
-				system->update(deltaTime, entityManager);
+				system->update(deltaTime, context);
 	}
 
 private:
 	std::vector<std::unique_ptr<System>> systems;
+	std::unordered_map<std::type_index, size_t> systemLookup;
 };

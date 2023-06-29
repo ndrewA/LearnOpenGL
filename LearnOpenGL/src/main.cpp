@@ -16,8 +16,7 @@
 #include <iostream>
                                                                 #include "Inputs/Inputmanager.h"
 
-#include "ECS/EntityManager.h"
-#include "ECS/SystemManager.h"
+#include "ECS/ECSManager.h"
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
 
@@ -99,37 +98,34 @@ class TestSystem : public System
 {
 public:
     virtual void onAdded() override { };
-    virtual void update(const float deltaTime, EntityManager& entityManager) override { };
+    virtual void update(const float deltaTime, SystemContext& context) override { };
     virtual void onRemoved() override {} ;
 };
 
 int main()
 {
-    SystemManager systemManager;
-    systemManager.addSystem<TestSystem>();
-    systemManager.removeSystem<TestSystem>();
-    EntityManager entityManager;
-    systemManager.updateSystems(1, entityManager);
-
-    if (systemManager.hasSystem<TestSystem>())
+    ECSManager ECS;
+    ECS.addSystem<TestSystem>();
+    ECS.removeSystem<TestSystem>();
+    ECS.addSystem<TestSystem>();
+    ECS.removeSystem<TestSystem>();
+    if (ECS.hasSystem<TestSystem>())
         std::cout << "YAAY\n";
     else std::cout << "NO\n";
 
     TestComponent testComponent;
 
-    entityManager.createEntity();
-    entityManager.createEntity();
-    entityManager.createEntity();
-    entityManager.createEntity();
-    entityManager.destroyEntity(1);
+    ECS.createEntity();
+    ECS.createEntity();
+    ECS.createEntity();
+    ECS.createEntity();
+    ECS.destroyEntity(1);
     //entityManager.destroyEntity(1);
-    entityManager.addComponent<TestComponent>(1);
-    entityManager.addComponent<TestComponent>(1);
-    entityManager.addComponent<TestComponent>(1);
-    entityManager.addComponent<TestComponent>(1);
-    entityManager.getComponent<TestComponent>(1);
-    entityManager.getEntitiesWithComponents<TestComponent>();
-
+    ECS.addComponent<TestComponent>(1);
+    ECS.addComponent<TestComponent>(1);
+    ECS.addComponent<TestComponent>(1);
+    ECS.addComponent<TestComponent>(1);
+    
     //return 0;
 
     EventManager eventManager;

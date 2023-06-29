@@ -30,7 +30,8 @@ public:
 	KeyboardPressEvent(const int keyCode, const int scancode, const int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
-	EventDescription getDescription() const override { return { EventCategory::Keyboard, EventType::KeyboardPress, "KeyboardPress"}; }
+	EventDescription getDescription() const override 
+		{ return { EventCategory::Keyboard, EventType::KeyboardPress, "KeyboardPress"}; }
 };
 
 class KeyboardRepeatEvent : public KeyboardEvent
@@ -38,7 +39,8 @@ class KeyboardRepeatEvent : public KeyboardEvent
 	KeyboardRepeatEvent(const int keyCode, const int scancode, const int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
-	EventDescription getDescription() const override { return { EventCategory::Keyboard, EventType::KeyboardRepeat, "KeyboardRepeat" }; }
+	EventDescription getDescription() const override 
+		{ return { EventCategory::Keyboard, EventType::KeyboardRepeat, "KeyboardRepeat" }; }
 };
 
 class KeyboardReleaseEvent : public KeyboardEvent
@@ -47,7 +49,8 @@ public:
 	KeyboardReleaseEvent(const int keyCode, const int scancode, const int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
-	EventDescription getDescription() const override { return { EventCategory::Keyboard, EventType::KeyboardRelease, "KeyboardRelease" }; }
+	EventDescription getDescription() const override 
+		{ return { EventCategory::Keyboard, EventType::KeyboardRelease, "KeyboardRelease" }; }
 
 };
 
@@ -59,7 +62,8 @@ public:
 
 	int getCodePoint() const { return codePoint; }
 
-	EventDescription getDescription() const override { return { EventCategory::Keyboard, EventType::CharPress, "CharPress" }; }
+	EventDescription getDescription() const override 
+		{ return { EventCategory::Keyboard, EventType::CharPress, "CharPress" }; }
 
 private:
 	const int codePoint;

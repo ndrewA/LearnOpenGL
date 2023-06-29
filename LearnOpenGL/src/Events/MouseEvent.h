@@ -35,7 +35,8 @@ public:
 		: MouseMotionEvent(mouseX, mouseY) { }
 
 	virtual ~MouseMoveEvent() = default;
-	EventDescription getDescription() const override { return { EventCategory::Mouse, EventType::MouseMove, "MouseMove" }; }
+	EventDescription getDescription() const override 
+		{ return { EventCategory::Mouse, EventType::MouseMove, "MouseMove" }; }
 };
 
 class MouseScrollEvent : public MouseMotionEvent
@@ -45,7 +46,8 @@ public:
 		: MouseMotionEvent(mouseX, mouseY) { }
 
 	virtual ~MouseScrollEvent() = default;
-	EventDescription getDescription() const override { return { EventCategory::Mouse, EventType::MouseScroll, "MouseScroll" }; }
+	EventDescription getDescription() const override 
+		{ return { EventCategory::Mouse, EventType::MouseScroll, "MouseScroll" }; }
 };
 
 // ===================== BUTTON UPCOMING ==============================
@@ -74,7 +76,8 @@ public:
 		: MouseButtonEvent(button, mods) { }
 
 	virtual ~MousePressEvent() = default;
-	EventDescription getDescription() const override { return { EventCategory::Mouse, EventType::MousePress, "MousePress" }; }
+	EventDescription getDescription() const override 
+		{ return { EventCategory::Mouse, EventType::MousePress, "MousePress" }; }
 };
 
 class MouseReleaseEvent : public MouseButtonEvent
@@ -84,5 +87,6 @@ public:
 		: MouseButtonEvent(button, mods) { }
 
 	virtual ~MouseReleaseEvent() = default;
-	EventDescription getDescription() const override { return { EventCategory::Mouse, EventType::MouseRelease, "MouseRelease" }; }
+	EventDescription getDescription() const override 
+		{ return { EventCategory::Mouse, EventType::MouseRelease, "MouseRelease" }; }
 };

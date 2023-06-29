@@ -1,22 +1,20 @@
 #pragma once
 
+#include <queue>
 #include <unordered_set>
-#include <stdexcept>
 
 #include "Entity.h"
 
 class EntityLifecycleManager
 {
 public:
-    using EntitySet = std::unordered_set<Entity>;
-
     Entity createEntity();
-    bool destroyEntity(const Entity entity);
+    void destroyEntity(const Entity entity);
 
-    const EntitySet& getActiveEntities() const { return activeEntities; }
+    const std::unordered_set<Entity>& getActiveEntities() const { return activeEntities; }
 
 private:
-    EntitySet freeEntities;
-    EntitySet activeEntities;
+    std::queue<Entity> freeEntities;
+    std::unordered_set<Entity> activeEntities;
     Entity nextEntity = 0;
 };
