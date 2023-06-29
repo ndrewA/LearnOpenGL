@@ -78,7 +78,7 @@
     <ClInclude Include="src\ECS\EntityManager.h">
       <Filter>src\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\EntitySystem.h">
+    <ClInclude Include="src\ECS\System.h">
       <Filter>src\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\SystemManager.h">

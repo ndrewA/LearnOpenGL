@@ -11,7 +11,7 @@ public:
     using EntitySet = std::unordered_set<Entity>;
 
     Entity createEntity();
-    void destroyEntity(const Entity entity);
+    bool destroyEntity(const Entity entity);
 
     const EntitySet& getActiveEntities() const { return activeEntities; }
 

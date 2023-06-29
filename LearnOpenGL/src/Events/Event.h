@@ -23,9 +23,9 @@ enum class EventType
 
 struct EventDescription
 {
+	const EventCategory category;
 	const EventType type;
 	const std::string name;
-	std::string origin;
 };
 
 class Event
@@ -33,20 +33,25 @@ class Event
 public:
 	virtual ~Event() = default;
 
-	bool isHandeled() const { return handeled; }
 	bool handle() { handeled = true; }
+	bool isHandeled() const { return handeled; }
 
-	EventType getType()			const { return getDescription().type; }
-	std::string getTypeName()	const { return getDescription().name; }
+	void addOrigin(const std::string& origin) { this->origin = origin; }
+
+	EventCategory getCategory() const { return getDescription().category; }
+	EventType getType()			const { return getDescription().type;     }
+	std::string getTypeName()	const { return getDescription().name;     }
+	std::string getOrigin()		const { return origin; }
 
 	virtual EventDescription getDescription() const = 0;
 
 private:
 	bool handeled = false;
+	std::string origin;
 };									
 
 class NoneEvent : public Event
 {
 public:
-	EventDescription getDescription() const override { return { EventType::None, "None" }; }
+	EventDescription getDescription() const override { return { EventCategory::None ,EventType::None, "None" }; }
 };

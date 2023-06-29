@@ -98,7 +98,7 @@
     <ClInclude Include="src\ECS\Entity.h" />
     <ClInclude Include="src\ECS\EntityLifecycleManager.h" />
     <ClInclude Include="src\ECS\EntityManager.h" />
-    <ClInclude Include="src\ECS\EntitySystem.h" />
+    <ClInclude Include="src\ECS\System.h" />
     <ClInclude Include="src\ECS\SystemManager.h" />
     <ClInclude Include="src\Events\Event.h" />
     <ClInclude Include="src\Events\EventBus.h" />

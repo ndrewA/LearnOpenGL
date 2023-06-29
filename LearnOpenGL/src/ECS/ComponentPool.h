@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <unordered_map>
+#include <memory>
 
 #include "Component.h"
 #include "Entity.h"
@@ -10,10 +11,7 @@ class BaseComponentPool
 {
 public:
     virtual ~BaseComponentPool() = default;
-
-    virtual void addComponent(const Entity entity, const std::shared_ptr<Component>& component) = 0;
-    virtual void destroyEntity(const Entity entity) = 0;
-    virtual std::shared_ptr<Component> getComponent(const Entity entity) const = 0;
+    virtual void destroyEntity(const Entity) = 0;
     virtual bool hasComponent(const Entity entity) const = 0;
 };
 
@@ -21,9 +19,9 @@ template <typename ComponentType>
 class ComponentPool : public BaseComponentPool
 {
 public:
-    void addComponent(const Entity entity, const std::shared_ptr<Component>& component) override
+    void addComponent(const Entity entity, std::unique_ptr<ComponentType> component)
     {
-        pool[entity] = component;
+        pool[entity] = std::move(component);
     }
 
     void destroyEntity(const Entity entity) override
@@ -31,13 +29,13 @@ public:
         pool.erase(entity);
     }
 
-    std::shared_ptr<Component> getComponent(const Entity entity) const override
+    const ComponentType& getComponent(const Entity entity) const
     {
         auto it = pool.find(entity);
         if (it == pool.end())
-            return nullptr;
+            throw std::runtime_error("Pool doesn't contain entity!");
 
-        return it->second;
+        return *it->second.get();
     }
 
     bool hasComponent(const Entity entity) const override
@@ -46,5 +44,5 @@ public:
     }
 
 private:
-    std::unordered_map<Entity, std::shared_ptr<Component>> pool;
+    std::unordered_map<Entity, std::unique_ptr<ComponentType>> pool;
 };

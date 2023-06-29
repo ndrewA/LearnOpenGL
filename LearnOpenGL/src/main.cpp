@@ -17,6 +17,7 @@
                                                                 #include "Inputs/Inputmanager.h"
 
 #include "ECS/EntityManager.h"
+#include "ECS/SystemManager.h"
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
 
@@ -89,23 +90,45 @@ void scroll_callback(double xOffset, double yOffset)
 
 bool shouldClose = false;
 
-class test12 : public Component
+class TestComponent : public Component
 {
 
 };
 
+class TestSystem : public System
+{
+public:
+    virtual void onAdded() override { };
+    virtual void update(const float deltaTime, EntityManager& entityManager) override { };
+    virtual void onRemoved() override {} ;
+};
+
 int main()
 {
-    EntityManager manager;
-    test12 t324;
-    manager.createEntity();
-    manager.createEntity();
-    manager.createEntity();
-    manager.createEntity();
-    manager.destroyEntity(1);
-    //manager.destroyEntity(1);
-    manager.addComponent<test12>(1);
-    manager.getEntitiesWithComponents<test12>();
+    SystemManager systemManager;
+    systemManager.addSystem<TestSystem>();
+    systemManager.removeSystem<TestSystem>();
+    EntityManager entityManager;
+    systemManager.updateSystems(1, entityManager);
+
+    if (systemManager.hasSystem<TestSystem>())
+        std::cout << "YAAY\n";
+    else std::cout << "NO\n";
+
+    TestComponent testComponent;
+
+    entityManager.createEntity();
+    entityManager.createEntity();
+    entityManager.createEntity();
+    entityManager.createEntity();
+    entityManager.destroyEntity(1);
+    //entityManager.destroyEntity(1);
+    entityManager.addComponent<TestComponent>(1);
+    entityManager.addComponent<TestComponent>(1);
+    entityManager.addComponent<TestComponent>(1);
+    entityManager.addComponent<TestComponent>(1);
+    entityManager.getComponent<TestComponent>(1);
+    entityManager.getEntitiesWithComponents<TestComponent>();
 
     //return 0;
 

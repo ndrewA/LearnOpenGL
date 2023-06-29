@@ -16,7 +16,7 @@ Entity EntityLifecycleManager::createEntity()
     return entity;
 }
 
-void EntityLifecycleManager::destroyEntity(const Entity entity)
+bool EntityLifecycleManager::destroyEntity(const Entity entity)
 {
     if (activeEntities.find(entity) == activeEntities.end())
         throw std::runtime_error("Entity out of bounds!");
