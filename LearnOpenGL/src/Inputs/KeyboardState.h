@@ -1,8 +1,8 @@
 #pragma once
 
-#include <unordered_map>
+#include "KeyCodes.h"
 
-#include "Events/EventManager.h"
+#include <array>
 
 class KeyboardState
 {
@@ -10,19 +10,19 @@ public:
 	enum class ButtonState
 	{
 		Pressed,
-		Repeat,
+		Repeated,
 		Released
 	};
 
-	void keyPress(const int keyCode) { keyStates[keyCode] = ButtonState::Pressed; }
-	void keyRepeat(const int keyCode) { keyStates[keyCode] = ButtonState::Repeat; }
-	void keyRelease(const int keyCode) { keyStates[keyCode] = ButtonState::Released;  }
+	void keyPress(int keyCode) { keyStates[keyCode] = ButtonState::Pressed; }
+	void keyRepeat(int keyCode) { keyStates[keyCode] = ButtonState::Repeated; }
+	void keyRelease(int keyCode) { keyStates[keyCode] = ButtonState::Released; }
 
-	ButtonState getKeyState(const int keyCode) const { return keyStates[keyCode]; }
-	bool isKeyPressed(const int keyCode) const { return keyStates[keyCode] == ButtonState::Pressed; }
-	bool isKeyRepeated(const int keyCode) const { return keyStates[keyCode] == ButtonState::Repeat; }
-	bool isKeyReleased(const int keyCode) const { return keyStates[keyCode] == ButtonState::Released; }
+	ButtonState getButtonState(int keyCode) const { return keyStates[keyCode]; }
+	bool isKeyPressed(int keyCode) const { return keyStates[keyCode] == ButtonState::Pressed; }
+	bool isKeyRepeated(int keyCode) const { return keyStates[keyCode] == ButtonState::Repeated; }
+	bool isKeyReleased(int keyCode) const { return keyStates[keyCode] == ButtonState::Released; }
 
 private:
-	mutable std::unordered_map<int, ButtonState> keyStates;
+	std::array<ButtonState, KEY_LAST + 1> keyStates;
 };

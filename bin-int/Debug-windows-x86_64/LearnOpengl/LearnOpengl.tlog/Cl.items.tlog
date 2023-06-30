@@ -1,6 +1,6 @@
 C:\dev\LearnOpengl\LearnOpengl\src\Application.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Application.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Camera.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Camera.obj
-C:\dev\LearnOpengl\LearnOpengl\src\ECS\EntityLifecycleManager.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\EntityLifecycleManager.obj
+C:\dev\LearnOpengl\LearnOpengl\src\ECS\EntityIDManager.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\EntityIDManager.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Inputs\InputManager.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\InputManager.obj
 C:\dev\LearnOpengl\LearnOpengl\src\LayerStack.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\LayerStack.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Mesh.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Mesh.obj

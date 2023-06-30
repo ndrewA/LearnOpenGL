@@ -8,14 +8,14 @@ class EventManager
 public:
 	template<typename EventType>
 	requires std::derived_from<EventType, Event>
-	EventListenerID registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack) 
+	[[nodiscard]] EventListenerKey registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
 	{ 
 		return eventBus.registerListenerFor<EventType>(callBack);
 	}
 
-	void unregisterListener(EventListenerID& listenerID)
+	void unregisterListener(const EventListenerKey& listenerKey)
 	{ 
-		eventBus.unregisterListener(listenerID);
+		eventBus.unregisterListener(listenerKey);
 	}
 
 	template<typename EventType, typename... Args>

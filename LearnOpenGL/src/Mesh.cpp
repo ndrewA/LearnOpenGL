@@ -12,7 +12,7 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<Texture>& text
 	setupMesh();
 }
 
-void Mesh::draw(const std::shared_ptr<Program>& program)
+void Mesh::draw(std::shared_ptr<Program> program)
 {
 	unsigned int diffuseNumber = 1;
 	unsigned int specularNumber = 1;
@@ -50,9 +50,9 @@ void Mesh::setupMesh()
 		{ "texCoords", ElementType::Float2 }
 	};
 
-	auto layout = std::make_unique<OpenGLBufferLayout>(layoutElements);
+	auto layout = std::make_shared<OpenGLBufferLayout>(layoutElements);
 	
 	vertexArray = std::make_shared<OpenGLVertexArray>();
-	vertexArray->addVertexBuffer(vertexBuffer, std::move(layout));
+	vertexArray->addVertexBuffer(vertexBuffer, layout);
 	vertexArray->setElementBuffer(elementBuffer);
 }

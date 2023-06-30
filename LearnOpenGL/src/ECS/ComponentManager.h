@@ -8,28 +8,25 @@ class ComponentManager
 {
 public:
     template<typename ComponentType, typename... Args>
-    requires std::derived_from<ComponentType, Component>
-    void addComponent(const Entity entity, Args&&... args)
+    void addComponent(Entity entity, Args&&... args)
     {
         auto component = std::make_unique<ComponentType>(std::forward(args)...);
         getComponentPool<ComponentType>().addComponent(entity, std::move(component));
     }
 
     template<typename ComponentType>
-    requires std::derived_from<ComponentType, Component>
-    const ComponentType& getComponent(const Entity entity) 
+    const ComponentType& getComponent(Entity entity) 
     {
         return getComponentPool<ComponentType>().getComponent(entity);
     }
 
     template<typename ComponentType>
-    requires std::derived_from<ComponentType, Component>
-    bool hasComponent(const Entity entity) 
+    bool hasComponent(Entity entity) 
     {
         return getComponentPool<ComponentType>().hasComponent(entity);
     }
 
-    void destroyEntityComponents(const Entity entity)
+    void destroyEntityComponents(Entity entity)
     {
         for (auto& [type, pool] : componentPools)
             pool->destroyEntityComponent(entity);
@@ -39,7 +36,7 @@ private:
     template<typename ComponentType>
     ComponentPool<ComponentType>& getComponentPool()
     {
-        const std::type_index typeIndex(typeid(ComponentType));
+        std::type_index typeIndex(typeid(ComponentType));
 
         auto it = componentPools.find(typeIndex);
         if (it == componentPools.end()) {
@@ -47,7 +44,7 @@ private:
             it = componentPools.emplace(typeIndex, std::move(newPool)).first;
         }
 
-        return static_cast<ComponentPool<ComponentType>&>(*it->second.get());
+        return static_cast<ComponentPool<ComponentType>&>(*it->second);
     }
 
 private:

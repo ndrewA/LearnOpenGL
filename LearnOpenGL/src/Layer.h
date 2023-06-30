@@ -19,7 +19,7 @@ public:
 	std::string getName() const { return name; }
 
 private:
-	const std::string name;
+	std::string name;
 };
 
 class TestLayer : public Layer

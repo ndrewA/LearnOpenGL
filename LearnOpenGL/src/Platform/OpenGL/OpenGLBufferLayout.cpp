@@ -4,7 +4,7 @@
 
 #include <glad/glad.h>
 
-BACKEND_TYPE OpenGLBufferLayout::getBackendDataType(const ElementType type) const
+BACKEND_TYPE OpenGLBufferLayout::getBackendDataType(ElementType type) const
 {
     switch (type)
     {

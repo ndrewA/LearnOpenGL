@@ -1,8 +1,8 @@
-#include "EntityLifecycleManager.h"
+#include "EntityIDManager.h"
 
 #include "EntityExceptions.h"
 
-Entity EntityLifecycleManager::createEntity()
+Entity EntityIDManager::createEntity()
 {
     Entity entity;
 
@@ -18,7 +18,7 @@ Entity EntityLifecycleManager::createEntity()
     return entity;
 }
 
-void EntityLifecycleManager::destroyEntity(const Entity entity)
+void EntityIDManager::destroyEntity(Entity entity)
 {
     if (activeEntities.find(entity) == activeEntities.end())
         throw EntityOutOfBoundsException(entity);

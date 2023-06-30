@@ -7,7 +7,7 @@
 class STBTextureLoader : public TextureLoader
 {
 public:
-	STBTextureLoader(const std::string& path, const bool shouldFilp = true);
+	STBTextureLoader(const std::string& path, bool shouldFilp = true);
 
 	~STBTextureLoader() override;
 

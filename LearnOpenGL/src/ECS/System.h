@@ -11,7 +11,7 @@ public:
 	virtual void update(float deltaTime, SystemContext& context) = 0;
 	virtual void onRemoved() = 0;
 
-	void enable(const bool enabled) { this->enabled = enabled; }
+	void enable(bool enabled) { this->enabled = enabled; }
 	bool isEnabled() const { return enabled; }
 private:
 	bool enabled = true;

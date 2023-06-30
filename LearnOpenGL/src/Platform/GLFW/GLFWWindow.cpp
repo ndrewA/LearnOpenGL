@@ -5,7 +5,7 @@
 
 #include <GLFW/glfw3.h>
 
-GLFWWindow::GLFWWindow(const uint32_t height, const uint32_t width, const std::string& name, EventManager& eventManager)
+GLFWWindow::GLFWWindow(unsigned int height, unsigned int width, const std::string& name, EventManager& eventManager)
 	: height(height), width(width), name(name)
 {
 	create();

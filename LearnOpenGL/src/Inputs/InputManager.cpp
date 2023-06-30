@@ -1,7 +1,6 @@
 #include "InputManager.h"
 
-                                                                                #include <iostream>
-
+#include <iostream>
 InputManager::InputManager(EventManager& eventManager)
 {
     registerListener(eventManager, &InputManager::handleKeyboardPressEvent);
@@ -30,8 +29,8 @@ void InputManager::handleKeyboardReleaseEvent(const KeyboardReleaseEvent& event)
 
 void InputManager::handleCharPressEvent(const CharPressEvent& event)
 {
-    std::cout << (char)event.getCodePoint() << '\n';
-    if(textInputMode)
+    std::cout << (char)event.getCodePoint();
+    if (textInputMode)
         charState.charDown(event.getCodePoint());
 }
 

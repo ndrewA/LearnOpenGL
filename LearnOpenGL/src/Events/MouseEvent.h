@@ -21,17 +21,17 @@ public:
 	EventDescription getDescription() const override = 0;
 
 protected:
-	MouseMotionEvent(const double mouseX, const double mouseY)
+	MouseMotionEvent(double mouseX, double mouseY)
 		: mouseX(mouseX), mouseY(mouseY) { }
 
 private:
-	const double mouseX, mouseY;
+	double mouseX, mouseY;
 };
 
 class MouseMoveEvent : public MouseMotionEvent
 {
 public:
-	MouseMoveEvent(const double mouseX, const double mouseY)
+	MouseMoveEvent(double mouseX, double mouseY)
 		: MouseMotionEvent(mouseX, mouseY) { }
 
 	virtual ~MouseMoveEvent() = default;
@@ -42,7 +42,7 @@ public:
 class MouseScrollEvent : public MouseMotionEvent
 {
 public:
-	MouseScrollEvent(const double mouseX, const double mouseY)
+	MouseScrollEvent(double mouseX, double mouseY)
 		: MouseMotionEvent(mouseX, mouseY) { }
 
 	virtual ~MouseScrollEvent() = default;
@@ -55,7 +55,7 @@ public:
 class MouseButtonEvent : public MouseEvent
 {
 protected:
-	MouseButtonEvent(const int button, const int mods)
+	MouseButtonEvent(int button, int mods)
 		: button(button), mods(mods) { }
 
 public:
@@ -66,13 +66,13 @@ public:
 	EventDescription getDescription() const override = 0;
 
 private:
-	const int button, mods;
+	int button, mods;
 };
 
 class MousePressEvent : public MouseButtonEvent
 {
 public: 
-	MousePressEvent(const int button, const int mods)
+	MousePressEvent(int button, int mods)
 		: MouseButtonEvent(button, mods) { }
 
 	virtual ~MousePressEvent() = default;
@@ -83,7 +83,7 @@ public:
 class MouseReleaseEvent : public MouseButtonEvent
 {
 public: 
-	MouseReleaseEvent(const int button, const int mods)
+	MouseReleaseEvent(int button, int mods)
 		: MouseButtonEvent(button, mods) { }
 
 	virtual ~MouseReleaseEvent() = default;

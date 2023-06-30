@@ -12,7 +12,7 @@ public:
 	OpenGLBufferLayout(const std::vector<LayoutElement>& elements)
 		: BufferLayout(elements) { }
 
-	BACKEND_TYPE getBackendDataType(const ElementType type) const override;
+	BACKEND_TYPE getBackendDataType(ElementType type) const override;
 };
 
 #endif 

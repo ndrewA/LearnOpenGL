@@ -37,7 +37,7 @@ public:
     BufferLayout(const std::vector<LayoutElement>& elements)
         : elements(elements) {  calculateOffsetsAndStride(); }
 
-    virtual BACKEND_TYPE getBackendDataType(const ElementType type) const = 0;
+    virtual BACKEND_TYPE getBackendDataType(ElementType type) const = 0;
 
     const std::vector<LayoutElement>& getElements() const { return elements; }
     size_t getStride() const { return stride; }
@@ -48,8 +48,8 @@ public:
     auto end()   const   { return elements.end();    }
 
     void calculateOffsetsAndStride();
-    unsigned int getSizeFromType(const ElementType type) const;
-    unsigned int getCountFromType(const ElementType type) const;
+    unsigned int getSizeFromType(ElementType type) const;
+    unsigned int getCountFromType(ElementType type) const;
 
 private:
     std::vector<LayoutElement> elements;

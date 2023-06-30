@@ -55,19 +55,19 @@ void OpenGLProgram::unbind() const
     glUseProgram(0);
 }
 
-void OpenGLProgram::setUniformImpl(const std::string& name, const bool value) const
+void OpenGLProgram::setUniformImpl(const std::string& name, bool value) const
 {
     glUniform1i(getLocation(name), (int)value);
     //setUniformWithCheck(name, [&](int location) { glUniform1i(getLocation(name), (int)value); });
 }
 
-void OpenGLProgram::setUniformImpl(const std::string& name, const int value) const
+void OpenGLProgram::setUniformImpl(const std::string& name, int value) const
 {
     glUniform1i(getLocation(name), value);
     //setUniformWithCheck(name, [&](int location) { glUniform1i(location, value);  });
 }
 
-void OpenGLProgram::setUniformImpl(const std::string& name, const float value) const
+void OpenGLProgram::setUniformImpl(const std::string& name, float value) const
 {
     glUniform1f(getLocation(name), value);
     //setUniformWithCheck(name, [&](int location) { glUniform1f(location, value); });
@@ -94,7 +94,7 @@ void OpenGLProgram::setUniformImpl(const std::string& name, const glm::vec4& vec
 int OpenGLProgram::getLocation(const std::string& name) const
 {
     if (uniformLocationsCache.find(name) != uniformLocationsCache.end())
-        return uniformLocationsCache[name];
+        return uniformLocationsCache.at(name);
 
     int location = glGetUniformLocation(programHandle, name.c_str());
 

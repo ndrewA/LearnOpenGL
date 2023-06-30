@@ -16,7 +16,7 @@ void BufferLayout::calculateOffsetsAndStride()
     stride = offset;
 }
 
-unsigned int BufferLayout::getSizeFromType(const ElementType type) const
+unsigned int BufferLayout::getSizeFromType(ElementType type) const
 {
     switch (type)
     {
@@ -36,7 +36,7 @@ unsigned int BufferLayout::getSizeFromType(const ElementType type) const
     }
 }
 
-unsigned int BufferLayout::getCountFromType(const ElementType type) const
+unsigned int BufferLayout::getCountFromType(ElementType type) const
 {
     switch (type)
     {

@@ -2,7 +2,7 @@
 
 #include <stb_image/stb_image.h>
 
-STBTextureLoader::STBTextureLoader(const std::string& path, const bool shouldFilp)
+STBTextureLoader::STBTextureLoader(const std::string& path, bool shouldFilp)
 {
 	stbi_set_flip_vertically_on_load(shouldFilp);
 	data = stbi_load(path.c_str(), &width, &height, &channelCount, 0);

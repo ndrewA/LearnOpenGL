@@ -1,26 +1,24 @@
 #pragma once
 
-#include "EntityQueryManager.h"
+#include "ComponentManager.h"
+#include "EntityIDManager.h"
 
 class SystemContext
 {
 public:
-    SystemContext(EntityLifecycleManager& lifecycleManager, ComponentManager& componentManager)
-        : entityQuery(lifecycleManager, componentManager), 
-          componentManager(componentManager) 
-    { 
-    }
+    SystemContext(EntityIDManager& IDManager, ComponentManager& componentManager)
+        : IDManager(IDManager), componentManager(componentManager)  { }
 
     template<typename ComponentType>
     requires std::derived_from<ComponentType, Component>
-    const ComponentType& getComponent(const Entity entity)
+    const ComponentType& getComponent(Entity entity)
     {
         return componentManager.getComponent<ComponentType>(entity);
     }
 
     template<typename ComponentType>
     requires std::derived_from<ComponentType, Component>
-    bool hasComponent(const Entity entity)
+    bool hasComponent(Entity entity)
     {
         return componentManager.hasComponent<ComponentType>(entity);
     }
@@ -29,10 +27,17 @@ public:
     requires (std::derived_from<ComponentTypes, Component> && ...)
     std::vector<Entity> getEntitiesWithComponents()
     {
-        return entityQuery.getEntitiesWithComponents<ComponentTypes...>();
+        std::vector<Entity> entities;
+
+        auto& activeEntites = IDManager.getActiveEntities();
+        for (const auto& entity : activeEntites)
+            if ((componentManager.hasComponent<ComponentTypes>(entity) && ...))
+                entities.push_back(entity);
+
+        return entities;
     }
 
 private:
-    EntityQueryManager entityQuery;
+    EntityIDManager& IDManager;
     ComponentManager& componentManager;
 };

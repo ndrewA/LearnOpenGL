@@ -7,7 +7,7 @@
 class OpenGLShader : public Shader
 {
 public:
-	OpenGLShader(const std::string& shaderPath, const ShaderType shaderType);
+	OpenGLShader(const std::string& shaderPath, ShaderType shaderType);
 	~OpenGLShader() override;
 
 	unsigned int getHandle() const override { return shaderHandle; }

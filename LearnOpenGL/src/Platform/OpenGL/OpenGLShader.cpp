@@ -8,7 +8,7 @@
 
 #include <glad/glad.h>
 
-OpenGLShader::OpenGLShader(const std::string& shaderPath, const ShaderType type)
+OpenGLShader::OpenGLShader(const std::string& shaderPath, ShaderType type)
 {
     shaderHandle = (type == ShaderType::Vertex) ? 
                  glCreateShader(GL_VERTEX_SHADER) : glCreateShader(GL_FRAGMENT_SHADER);

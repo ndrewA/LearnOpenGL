@@ -1,6 +1,8 @@
 #pragma once
 
-#include <unordered_map>
+#include <array>
+
+#include "MouseButtonCodes.h"
 
 class MouseState
 {
@@ -10,13 +12,14 @@ public:
 		double x, y;
 	};
 
-	void keyDown(const int buttonCode) { buttons[buttonCode] = true; }
-	void keyRelease(const int buttonCode) { buttons[buttonCode] = false; }
+	void keyDown(int buttonCode) { buttons[buttonCode] = true; }
+	void keyRelease(int buttonCode) { buttons[buttonCode] = false; }
 	void setPosition(Position position) { this->position = position; }
 
-	bool isButtonDown(const int buttonCode) const { return buttons[buttonCode]; }
+	bool isButtonDown(int buttonCode) const { return buttons[buttonCode]; }
 	Position getPosition() const { return position; }
+
 private:
-	mutable std::unordered_map<int, bool> buttons;
-	Position position;
+	std::array<bool, MOUSE_BUTTON_LAST + 1> buttons;
+	Position position = { 0, 0 };
 };

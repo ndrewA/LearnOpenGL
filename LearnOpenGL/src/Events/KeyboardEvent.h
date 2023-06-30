@@ -7,7 +7,7 @@
 class KeyboardEvent : public Event
 {
 protected:
-	KeyboardEvent(const int keyCode, const int scancode, const int mods)
+	KeyboardEvent(int keyCode, int scancode, int mods)
 		: keyCode(keyCode), scancode(scancode), mods(mods) { }
 
 public:
@@ -19,15 +19,15 @@ public:
 	int getMods() const { return mods; }
 
 private:
-	const int keyCode;
-	const int scancode;
-	const int mods;
+	int keyCode;
+	int scancode;
+	int mods;
 };
 
 class KeyboardPressEvent : public KeyboardEvent
 {
 public:
-	KeyboardPressEvent(const int keyCode, const int scancode, const int mods)
+	KeyboardPressEvent(int keyCode, int scancode, int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
 	EventDescription getDescription() const override 
@@ -36,7 +36,7 @@ public:
 
 class KeyboardRepeatEvent : public KeyboardEvent
 {
-	KeyboardRepeatEvent(const int keyCode, const int scancode, const int mods)
+	KeyboardRepeatEvent(int keyCode, int scancode, int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
 	EventDescription getDescription() const override 
@@ -46,7 +46,7 @@ class KeyboardRepeatEvent : public KeyboardEvent
 class KeyboardReleaseEvent : public KeyboardEvent
 {
 public:
-	KeyboardReleaseEvent(const int keyCode, const int scancode, const int mods)
+	KeyboardReleaseEvent(int keyCode, int scancode, int mods)
 		: KeyboardEvent(keyCode, scancode, mods) { }
 
 	EventDescription getDescription() const override 
@@ -57,7 +57,7 @@ public:
 class CharPressEvent : public Event
 {
 public:
-	CharPressEvent(const int codePoint)
+	CharPressEvent(int codePoint)
 		: codePoint(codePoint) { }
 
 	int getCodePoint() const { return codePoint; }
@@ -66,5 +66,5 @@ public:
 		{ return { EventCategory::Keyboard, EventType::CharPress, "CharPress" }; }
 
 private:
-	const int codePoint;
+	int codePoint;
 };

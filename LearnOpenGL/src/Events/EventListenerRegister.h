@@ -6,26 +6,31 @@
 #include <stdexcept>
 
 #include "EventListener.h"
-
+							
 class EventListenerRegister
 {
 public:
 	using ListenerList = std::vector<std::unique_ptr<BaseEventListener>>;
 
 	template<typename EventType>
-	EventListenerID registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
+	std::shared_ptr<EventListenerID> registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
 	{
-		static int currentID = 0;
-		EventListenerID listenerID(currentID);
+		std::shared_ptr<EventListenerID> listenerID(new EventListenerID(currentID), 
+			[this](EventListenerID* listenerID) {
+				this->unregisterListener(*listenerID);
+				delete listenerID;
+			}
+		);
+
 		++currentID;
 
-		std::unique_ptr<BaseEventListener> listener = std::make_unique<EventListener<EventType>>(callBack, listenerID);
+		std::unique_ptr<BaseEventListener> listener = std::make_unique<EventListener<EventType>>(callBack, *listenerID);
 		listeners.push_back(std::move(listener));
 
 		return listenerID;
 	}
 
-	void unregisterListener(EventListenerID& listenerID)
+	void unregisterListener(const EventListenerID& listenerID)
 	{
 		listeners.erase(
 			std::remove_if(listeners.begin(), listeners.end(), [&listenerID](const auto& listener) {
@@ -42,4 +47,6 @@ public:
 
 private:
 	ListenerList listeners;
+	size_t currentID = 0;
 };
+	

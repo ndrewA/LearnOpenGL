@@ -5,11 +5,11 @@
 
 #include "Entity.h"
 
-class EntityLifecycleManager
+class EntityIDManager
 {
 public:
     Entity createEntity();
-    void destroyEntity(const Entity entity);
+    void destroyEntity(Entity entity);
 
     const std::unordered_set<Entity>& getActiveEntities() const { return activeEntities; }
 

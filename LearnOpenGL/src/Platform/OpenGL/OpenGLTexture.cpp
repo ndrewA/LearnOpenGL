@@ -10,15 +10,15 @@
 OpenGLTexture::OpenGLTexture(const std::string& path)
 	: filePath(filePath)
 {
-	const std::unique_ptr<TextureLoader> loader = std::make_unique<STBTextureLoader>(path);
+	std::unique_ptr<TextureLoader> loader = std::make_unique<STBTextureLoader>(path);
 
 	if (loader->getData() == nullptr)
 		throw std::exception("Texture did NOT load!");
 
-	setTextureProperties(loader);
+	setTextureProperties(std::move(loader));
 }
 
-void OpenGLTexture::setTextureProperties(const std::unique_ptr<TextureLoader>& loader)
+void OpenGLTexture::setTextureProperties(std::unique_ptr<TextureLoader> loader)
 {
 	width = loader->getWidth();
 	height = loader->getHeight();
@@ -40,7 +40,7 @@ void OpenGLTexture::setTextureProperties(const std::unique_ptr<TextureLoader>& l
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-unsigned int OpenGLTexture::determineFormat(const int channelCount) const
+unsigned int OpenGLTexture::determineFormat(int channelCount) const
 {
 	switch (channelCount)
 	{

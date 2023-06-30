@@ -19,12 +19,12 @@ public:
     int getHeight() const override { return height; }
 
 private:
-    void setTextureProperties(const std::unique_ptr<TextureLoader>& loader);
+    void setTextureProperties(std::unique_ptr<TextureLoader> loader);
     unsigned int determineFormat(int channelCount) const;
 
 private:
     unsigned int textureHandle;
 
     int width, height, channelCount;
-    const std::string filePath;
+    std::string filePath;
 };

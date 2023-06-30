@@ -12,7 +12,7 @@ public:
 class WindowResizeEvent : public WindowEvent 
 {
 public: 
-	WindowResizeEvent(const int width, const int height) 
+	WindowResizeEvent(int width, int height) 
 		: width(width), height(height) { }
 
 	virtual ~WindowResizeEvent() = default;
@@ -23,7 +23,7 @@ public:
 	int getHeight() const { return height; }
 
 private:
-	const int width, height;
+	int width, height;
 };
 
 class WindowCloseEvent : public WindowEvent

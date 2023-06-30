@@ -123,3 +123,7 @@
 #define KEY_RIGHT_ALT          346
 #define KEY_RIGHT_SUPER        347
 #define KEY_MENU               348
+
+
+// my own key
+#define KEY_LAST			   348

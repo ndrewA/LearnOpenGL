@@ -46,8 +46,8 @@ project "LearnOpengl"
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl",
         "%{prj.name}/res/*.jpg",
-        "%{prj.name}/src/Shaders/*.frag",
-        "%{prj.name}/src/Shaders/*.vert",
+        "%{prj.name}/src/**.frag",
+        "%{prj.name}/src/*.vert",
         "%{prj.name}/vendor/stb_image/stb_image.h"
     }
 

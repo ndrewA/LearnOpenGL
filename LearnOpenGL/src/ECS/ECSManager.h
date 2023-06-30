@@ -6,25 +6,27 @@ class ECSManager
 {
 public:
     ECSManager()
-        : context(lifecycleManager, componentManager) { }
+        : context(IDManager, componentManager) { }
 
     Entity createEntity()
     {
-        return lifecycleManager.createEntity();
+        return IDManager.createEntity();
     }
 
-    void destroyEntity(const Entity entity)
+    void destroyEntity(Entity entity)
     {
         componentManager.destroyEntityComponents(entity);
-        lifecycleManager.destroyEntity(entity);
+        IDManager.destroyEntity(entity);
     }
 
     template<typename ComponentType, typename... Args>
     requires std::derived_from<ComponentType, Component>
-    void addComponent(const Entity entity, Args&&... args)
+    void addComponent(Entity entity, Args&&... args)
     {
         componentManager.addComponent<ComponentType>(entity, std::forward(args)...);
     }
+
+
 
     template<typename SystemType, typename... Args>
     requires std::derived_from<SystemType, System>
@@ -49,18 +51,18 @@ public:
 
     template<typename SystemType>
     requires std::derived_from<SystemType, System>
-    void enableSystem(const bool enabled)
+    void enableSystem(bool enabled)
     {
         systemManager.enableSystem<SystemType>(enabled);
     }
 
-    void updateSystems(const float deltaTime) 
+    void updateSystems(float deltaTime) 
     {
         systemManager.updateSystems(deltaTime, context);
     }
 
 private:
-    EntityLifecycleManager lifecycleManager;
+    EntityIDManager IDManager;
     ComponentManager componentManager;
     SystemManager systemManager;
     SystemContext context;

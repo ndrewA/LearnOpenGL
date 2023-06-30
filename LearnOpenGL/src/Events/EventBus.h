@@ -5,31 +5,30 @@
 #include "EventListenerRegister.h"
 #include "EventQueue.h"
 
+#include "EventListenerKey.h"
+
 class EventBus
 {
 public:
 	template<typename EventType>
-	EventListenerID registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
+	EventListenerKey registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
 	{
-		return listeners.registerListenerFor<EventType>(callBack);
+		return { listeners.registerListenerFor<EventType>(callBack) };
 	}
 
-	void unregisterListener(EventListenerID& listenerID)
+	void unregisterListener(const EventListenerKey& listenerKey)
 	{
-		listeners.unregisterListener(listenerID);
+		listeners.unregisterListener(listenerKey.getListenerID());
 	}
 
 	void publishEvent(EventQueue& eventQueue) const
 	{
-		while(const auto& event = eventQueue.pop()) {
-			for (const auto& listener : listeners) {
-				if (listener->isEventType(*event.get()))
-					listener->dispatchEvent(*event.get());
+		while (auto event = eventQueue.pop()) 
+			for (const auto& listener : listeners) 
+				if (listener->isEventType(*event)) 
+					if (listener->dispatchEvent(*event))
+						break;
 
-				if (event->isHandled())
-					break;
-			}
-		}
 	}
 
 private:

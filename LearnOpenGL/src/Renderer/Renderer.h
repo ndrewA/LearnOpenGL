@@ -13,7 +13,7 @@ public:
     virtual void beginScene() = 0;
     virtual void endScene() = 0;
 
-    virtual void submit(const std::shared_ptr<Program>& shader, 
-                        const std::shared_ptr<VertexArray>& vertexArray, 
+    virtual void submit(std::shared_ptr<Program> shader, 
+                        std::shared_ptr<VertexArray> vertexArray, 
                         const glm::mat4& transform = glm::mat4(1.0f)) = 0;
 };

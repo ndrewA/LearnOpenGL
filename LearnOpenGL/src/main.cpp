@@ -87,8 +87,6 @@ void scroll_callback(double xOffset, double yOffset)
     camera.processMouseScroll((float)yOffset);
 }
 
-bool shouldClose = false;
-
 class TestComponent : public Component
 {
 
@@ -127,38 +125,50 @@ int main()
     ECS.addComponent<TestComponent>(1);
     
     //return 0;
+    bool shouldClose = false;
 
     EventManager eventManager;
 
     GLFWWindow window(SCR_WIDTH, SCR_HEIGHT, "test", eventManager);
    
-    eventManager.registerListenerFor<WindowResizeEvent>([](const WindowResizeEvent& event) {
+    auto t1 = eventManager.registerListenerFor<WindowResizeEvent>([](const WindowResizeEvent& event) {
         //std::cout << "WindowResizeEvent!\n";
         glViewport(0, 0, event.getWidth(), event.getHeight());
+        return false;
     });
 
-    eventManager.registerListenerFor<MouseMoveEvent>([](const MouseMoveEvent& event) {
+    auto t2 = eventManager.registerListenerFor<MouseMoveEvent>([](const MouseMoveEvent& event) {
         //std::cout << "MouseMoveEvent!\n";
         mouse_callback(event.getMouseX(), event.getMouseY());
+        return false;
     });
 
-    eventManager.registerListenerFor<MouseScrollEvent>([](const MouseScrollEvent& event) {
+    auto t3 = eventManager.registerListenerFor<MouseScrollEvent>([](const MouseScrollEvent& event) {
         //std::cout << "MouseScrollEvent!\n";
         scroll_callback(event.getMouseX(), event.getMouseY());
+        return false;
     });
 
-    eventManager.registerListenerFor<WindowCloseEvent>([](const WindowCloseEvent& event) {
+    auto t4 = eventManager.registerListenerFor<WindowCloseEvent>([&shouldClose](const WindowCloseEvent& event) {
         //std::cout << "WindowCloseEvent!\n";
         shouldClose = true;
+        return false;
     });
 
-    eventManager.registerListenerFor<KeyboardPressEvent>([](const KeyboardPressEvent& event) {
+    auto t5 = eventManager.registerListenerFor<KeyboardPressEvent>([](const KeyboardPressEvent& event) {
         //std::cout << "KeyboardPressEvent!\n";
         processInput(event.getKeyCode());
+        return false;
+        });
+
+    auto t6 = eventManager.registerListenerFor<CharPressEvent>([](const CharPressEvent& event) {
+        //std::cout << (char)event.getCodePoint();
+        //processInput(event.getKeyCode());
+        return false;
     });
-
-
-    InputManager inputManager(eventManager);
+    {
+        InputManager inputManager(eventManager);
+    }
 
     window.hideCursor();
     //std::cout << "here\n";

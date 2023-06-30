@@ -14,7 +14,7 @@ public:
 	template<typename SystemType, typename... Args>
 	void addSystem(Args&&... args)
 	{
-		const auto typeIndex = std::type_index(typeid(SystemType));
+		std::type_index typeIndex(typeid(SystemType));
 		if (systemLookup.find(typeIndex) != systemLookup.end())
 			throw SystemAlreadyAddedException(typeid(SystemType).name());
 
@@ -28,8 +28,8 @@ public:
 	template<typename SystemType>
 	void removeSystem()
 	{
-		const auto typeIndex = std::type_index(typeid(SystemType));
-		const auto it = systemLookup.find(typeIndex);
+		std::type_index typeIndex(typeid(SystemType));
+		auto it = systemLookup.find(typeIndex);
 
 		if (it == systemLookup.end())
 			throw SystemNotFoundException(typeid(SystemType).name());
@@ -42,19 +42,19 @@ public:
 	template<typename SystemType>
 	bool hasSystem() const
 	{
-		const auto typeIndex = std::type_index(typeid(SystemType));
+		std::type_index typeIndex(typeid(SystemType));
 		return systemLookup.find(typeIndex) != systemLookup.end();
 	}
 
 	template<typename SystemType>
-	void enableSystem(const bool enabled)
+	void enableSystem(bool enabled)
 	{
 		auto system = getSystem<SystemType>();
 		
 		system->enabled(enabled);
 	}
 
-	void updateSystems(const float deltaTime, SystemContext& context) const 
+	void updateSystems(float deltaTime, SystemContext& context) const 
 	{
 		for (auto& system : systems)
 			if(system->isEnabled())

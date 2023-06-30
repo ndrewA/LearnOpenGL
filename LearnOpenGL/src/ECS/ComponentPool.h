@@ -11,15 +11,15 @@ class BaseComponentPool
 {
 public:
     virtual ~BaseComponentPool() = default;
-    virtual void destroyEntityComponent(const Entity) = 0;
-    virtual bool hasComponent(const Entity entity) const = 0;
+    virtual void destroyEntityComponent(Entity) = 0;
+    virtual bool hasComponent(Entity entity) const = 0;
 };
 
 template <typename ComponentType>
 class ComponentPool : public BaseComponentPool
 {
 public:
-    void addComponent(const Entity entity, std::unique_ptr<ComponentType> component)
+    void addComponent(Entity entity, std::unique_ptr<ComponentType> component)
     {
         if (entity >= pool.size())
             pool.resize(entity + 1);
@@ -27,13 +27,13 @@ public:
         pool[entity] = std::move(component);
     }
 
-    void destroyEntityComponent(const Entity entity) override
+    void destroyEntityComponent(Entity entity) override
     {
         if (entity < pool.size())
             pool[entity].reset();
     }
 
-    const ComponentType& getComponent(const Entity entity) const
+    const ComponentType& getComponent(Entity entity) const
     {
         if (entity >= pool.size() || pool[entity] == nullptr)
             throw ComponentEntityNotFoundException(entity, typeid(ComponentType).name());
@@ -41,7 +41,7 @@ public:
         return *pool[entity];
     }
 
-    bool hasComponent(const Entity entity) const override
+    bool hasComponent(Entity entity) const override
     {
         return entity < pool.size() && pool[entity] != nullptr;
     }

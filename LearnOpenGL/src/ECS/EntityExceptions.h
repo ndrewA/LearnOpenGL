@@ -8,6 +8,6 @@
 class EntityOutOfBoundsException : std::runtime_error
 {
 public:
-	EntityOutOfBoundsException(const Entity entity)
+	EntityOutOfBoundsException(Entity entity)
 		: runtime_error("Entity: " + std::to_string(entity) + " is out of bounds!") { }
 };

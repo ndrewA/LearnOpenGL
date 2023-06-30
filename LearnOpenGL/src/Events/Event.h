@@ -23,9 +23,9 @@ enum class EventType
 
 struct EventDescription
 {
-	const EventCategory category;
-	const EventType type;
-	const std::string name;
+	EventCategory category;
+	EventType type;
+	const char* name;
 };
 
 class Event
@@ -33,17 +33,11 @@ class Event
 public:
 	virtual ~Event() = default;
 
-	bool handle() { handled = true; }
-	bool isHandled() const { return handled; }
-
 	EventCategory getCategory() const { return getDescription().category; }
 	EventType getType()			const { return getDescription().type;     }
-	std::string getTypeName()	const { return getDescription().name;     }
+	const char* getTypeName()	const { return getDescription().name;     }
 
 	virtual EventDescription getDescription() const = 0;
-
-private:
-	bool handled = false;
 };									
 
 class NoneEvent : public Event

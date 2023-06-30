@@ -12,7 +12,7 @@ Model::Model(const std::string& path)
     loadModel(path);
 }
 
-void Model::draw(const std::shared_ptr<Program>& program)
+void Model::draw(std::shared_ptr<Program> program)
 {
     for (auto& mesh : meshes)
         mesh.draw(program);
