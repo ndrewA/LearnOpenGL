@@ -1494,6 +1494,7 @@
     <ClInclude Include="src\ECS\ArchetypeManager.h" />
     <ClInclude Include="src\ECS\TypeTag.h" />
     <ClInclude Include="src\ECS\Cache.h" />
+    <ClInclude Include="src\ECS\ArchetypeQuery.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">

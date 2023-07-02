@@ -95,6 +95,7 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\ECS\Archetype.h" />
     <ClInclude Include="src\ECS\ArchetypeManager.h" />
+    <ClInclude Include="src\ECS\ArchetypeQuery.h" />
     <ClInclude Include="src\ECS\Cache.h" />
     <ClInclude Include="src\ECS\ComponentManager.h" />
     <ClInclude Include="src\ECS\ComponentPool.h" />

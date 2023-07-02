@@ -6,18 +6,26 @@
 #include "TypeTag.h"
 
 template <typename ResultType>
-class Cache {
+class Cache 
+{
 public:
     template <typename... ComponentTypes>
-    void store(const ResultType& result) { cache[VariadicTypeTag<ComponentTypes...>::index] = result;  }
-
-    template <typename... ComponentTypes>
-    std::optional<ResultType> retrieve() const {
-        auto it = cache.find(VariadicTypeTag<ComponentTypes...>::index);
-        return (it != cache.end()) it->second : std::nullopt;
+    void store(const ResultType& result) 
+    { 
+        cache[VariadicTypeTag<ComponentTypes...>::index] = result;  
     }
 
-    void clear() { cache.clear(); }
+    template <typename... ComponentTypes>
+    std::optional<ResultType> retrieve() const 
+    {
+        auto it = cache.find(VariadicTypeTag<ComponentTypes...>::index);
+        return (it != cache.end()) ? it->second : std::nullopt;
+    }
+
+    void clear() 
+    { 
+        cache.clear(); 
+    }
 
 private:
     std::unordered_map<size_t, ResultType> cache;
