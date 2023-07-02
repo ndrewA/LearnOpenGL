@@ -63,16 +63,10 @@
     <ClInclude Include="src\Camera.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\Component.h">
-      <Filter>src\ECS</Filter>
-    </ClInclude>
     <ClInclude Include="src\ECS\ComponentManager.h">
       <Filter>src\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\ComponentPool.h">
-      <Filter>src\ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ECS\ComponentPoolExceptions.h">
       <Filter>src\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\ECSManager.h">
@@ -84,7 +78,7 @@
     <ClInclude Include="src\ECS\EntityExceptions.h">
       <Filter>src\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECS\EntityIDManager.h">
+    <ClInclude Include="src\ECS\EntityManager.h">
       <Filter>src\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\ECS\System.h">
@@ -141,9 +135,6 @@
     <ClInclude Include="src\Inputs\KeyCodes.h">
       <Filter>src\Inputs</Filter>
     </ClInclude>
-    <ClInclude Include="src\Inputs\KeyStateExceptions.h">
-      <Filter>src\Inputs</Filter>
-    </ClInclude>
     <ClInclude Include="src\Inputs\KeyboardState.h">
       <Filter>src\Inputs</Filter>
     </ClInclude>
@@ -151,9 +142,6 @@
       <Filter>src\Inputs</Filter>
     </ClInclude>
     <ClInclude Include="src\Inputs\MouseState.h">
-      <Filter>src\Inputs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Inputs\MouseStateException.h">
       <Filter>src\Inputs</Filter>
     </ClInclude>
     <ClInclude Include="src\Layer.h">
@@ -1500,6 +1488,12 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\ECS\ComponentPoolExceptions.h" />
+    <ClInclude Include="src\ECS\EntityKey.h" />
+    <ClInclude Include="src\ECS\Archetype.h" />
+    <ClInclude Include="src\ECS\ArchetypeManager.h" />
+    <ClInclude Include="src\ECS\TypeTag.h" />
+    <ClInclude Include="src\ECS\Cache.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1508,7 +1502,7 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ECS\EntityIDManager.cpp">
+    <ClCompile Include="src\ECS\EntityManager.cpp">
       <Filter>src\ECS</Filter>
     </ClCompile>
     <ClCompile Include="src\LayerStack.cpp">

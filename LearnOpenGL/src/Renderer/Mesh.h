@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Material.h"
+#include "VertexArray.h"
 
 struct Vertex
 {
@@ -14,8 +15,7 @@ class Mesh
 public:
     virtual ~Mesh() = default;
 
-    virtual const std::vector<Vertex>& getVertices() const = 0;
-    virtual const std::vector<unsigned int>& getIndices() const = 0;
+    virtual const std::vector<VertexArray>& getVertexArray() const = 0;
     virtual const Material& getMaterial() const = 0;
 
     virtual void setVertices(const std::vector<Vertex>& vertexArray) = 0;

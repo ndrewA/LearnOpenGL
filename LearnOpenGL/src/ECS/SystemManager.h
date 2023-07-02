@@ -3,58 +3,61 @@
 #include <list>
 #include <memory>
 #include <stdexcept>
-#include <unordered_map>
 
 #include "System.h"
 #include "SystemExceptions.h"
+#include "TypeTag.h"
 
 class SystemManager
 {
 public:
+	SystemManager(const SystemContext& context)
+		: context(context) { }
+
 	template<typename SystemType, typename... Args>
 	void addSystem(Args&&... args)
 	{
-		std::type_index typeIndex(typeid(SystemType));
-		if (systemLookup.find(typeIndex) != systemLookup.end())
+		size_t index = SystemTypeTag<SystemType>::index;
+		
+		if(index >= systems.size())
+			systems.resize(index + 1);
+
+		if(systems[index])
 			throw SystemAlreadyAddedException(typeid(SystemType).name());
 
-		std::unique_ptr<System> system = std::make_unique<SystemType>(std::forward<Args>(args)...);
-
-		system->onAdded();
-		systems.emplace_back(std::move(system));
-		systemLookup[typeIndex] = systems.size() - 1;
+		systems[index] = std::make_unique<SystemType>(std::forward<Args>(args)...);
+		systems[index]->onAdded();
 	}
 
 	template<typename SystemType>
 	void removeSystem()
 	{
-		std::type_index typeIndex(typeid(SystemType));
-		auto it = systemLookup.find(typeIndex);
+		size_t index = SystemTypeTag<SystemType>::index;
 
-		if (it == systemLookup.end())
+		if(index >= systems.size() || !systems[index])
 			throw SystemNotFoundException(typeid(SystemType).name());
 
-		systems[it->second]->onRemoved();
-		systems.erase(systems.begin() + it->second);
-		systemLookup.erase(it);
+		systems[index]->onRemoved();
+		systems[index].reset();
 	}
 
 	template<typename SystemType>
 	bool hasSystem() const
 	{
-		std::type_index typeIndex(typeid(SystemType));
-		return systemLookup.find(typeIndex) != systemLookup.end();
+		size_t index = SystemTypeTag<SystemType>::index;
+
+		return index < systems.size() && systems[index];
 	}
 
 	template<typename SystemType>
 	void enableSystem(bool enabled)
 	{
-		auto system = getSystem<SystemType>();
+		size_t index = SystemTypeTag<SystemType>::index;
 		
-		system->enabled(enabled);
+		systems[index]->enabled(enabled);
 	}
 
-	void updateSystems(float deltaTime, SystemContext& context) const 
+	void updateSystems(float deltaTime) const 
 	{
 		for (auto& system : systems)
 			if(system->isEnabled())
@@ -63,5 +66,6 @@ public:
 
 private:
 	std::vector<std::unique_ptr<System>> systems;
-	std::unordered_map<std::type_index, size_t> systemLookup;
+
+	SystemContext context;
 };

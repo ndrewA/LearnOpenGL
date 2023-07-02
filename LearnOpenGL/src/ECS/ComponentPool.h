@@ -1,17 +1,17 @@
 #pragma once
 
 #include <stdexcept>
-#include <vector>
 #include <memory>
+#include <optional>
 
-#include "Component.h"
+#include "EntityExceptions.h"
 #include "ComponentPoolExceptions.h"
 
 class BaseComponentPool
 {
 public:
     virtual ~BaseComponentPool() = default;
-    virtual void destroyEntityComponent(Entity) = 0;
+    virtual void removeEntityComponent(Entity entity) = 0;
     virtual bool hasComponent(Entity entity) const = 0;
 };
 
@@ -19,33 +19,40 @@ template <typename ComponentType>
 class ComponentPool : public BaseComponentPool
 {
 public:
-    void addComponent(Entity entity, std::unique_ptr<ComponentType> component)
+    template<typename... Args>
+    void addComponent(Entity entity, Args&&... args)
     {
-        if (entity >= pool.size())
-            pool.resize(entity + 1);
+        if (entity.index >= pool.size())
+            pool.resize(entity.index + 1);
 
-        pool[entity] = std::move(component);
+        pool[entity.index] = ComponentType(std::forward<Args>(args)...);
     }
 
-    void destroyEntityComponent(Entity entity) override
+    void removeEntityComponent(Entity entity) override
     {
-        if (entity < pool.size())
-            pool[entity].reset();
+        if (entity.index >= pool.size())
+            return;
+
+        pool[entity.index] = std::move(pool.back());
+        pool.pop_back();
     }
 
-    const ComponentType& getComponent(Entity entity) const
+    ComponentType& getComponent(Entity entity) const
     {
-        if (entity >= pool.size() || pool[entity] == nullptr)
-            throw ComponentEntityNotFoundException(entity, typeid(ComponentType).name());
+        if (entity.index >= pool.size())
+            throw EntityOutOfBoundsException(entity);
 
-        return *pool[entity];
+        if (!pool[entity.index])
+            throw ComponentOutOfBoundsException(entity, typeid(ComponentType).name());
+
+        return *pool[entity.index];
     }
 
     bool hasComponent(Entity entity) const override
     {
-        return entity < pool.size() && pool[entity] != nullptr;
+        return entity.index < pool.size() && pool[entity.index].has_value();
     }
 
 private:
-    std::vector<std::unique_ptr<ComponentType>> pool;
+    std::vector<std::optional<ComponentType>> pool;
 };

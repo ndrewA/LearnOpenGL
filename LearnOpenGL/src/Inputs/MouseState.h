@@ -7,6 +7,9 @@
 class MouseState
 {
 public:
+	MouseState()
+		: buttons{ false } { }
+
 	struct Position
 	{
 		double x, y;

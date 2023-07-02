@@ -11,12 +11,12 @@
 
 #include "Events/EventManager.h"
 #include "Platform/GLFW/GLFWWindow.h"
+#include "Inputs/Inputmanager.h"
+#include "ECS/ECSManager.h"
 
 #include <filesystem>
 #include <iostream>
-                                                                #include "Inputs/Inputmanager.h"
 
-#include "ECS/ECSManager.h"
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
 
@@ -87,7 +87,7 @@ void scroll_callback(double xOffset, double yOffset)
     camera.processMouseScroll((float)yOffset);
 }
 
-class TestComponent : public Component
+class TestComponent
 {
 
 };
@@ -96,9 +96,14 @@ class TestSystem : public System
 {
 public:
     virtual void onAdded() override { };
-    virtual void update(const float deltaTime, SystemContext& context) override { };
+    virtual void update(const float deltaTime, const SystemContext& context) override { };
     virtual void onRemoved() override {} ;
 };
+
+class c1 {};
+class c2 {};
+class c3 {};
+class c4 {};
 
 int main()
 {
@@ -111,20 +116,23 @@ int main()
         std::cout << "YAAY\n";
     else std::cout << "NO\n";
 
-    TestComponent testComponent;
-
-    ECS.createEntity();
-    ECS.createEntity();
-    ECS.createEntity();
-    ECS.createEntity();
-    ECS.destroyEntity(1);
+    auto e1 = ECS.createEntity();
+    auto e2 = ECS.createEntity();
+    auto e3 = ECS.createEntity();
+    auto e4 = ECS.createEntity();
+    ECS.addComponent<c1>(e2);
+    ECS.addComponent<c2>(e2);
+    ECS.addComponent<c3>(e2);
+    ECS.addComponent<c4>(e2);
+    ECS.removeEntity(e2);
+    ECS.removeEntity(e3);
     //entityManager.destroyEntity(1);
-    ECS.addComponent<TestComponent>(1);
-    ECS.addComponent<TestComponent>(1);
-    ECS.addComponent<TestComponent>(1);
-    ECS.addComponent<TestComponent>(1);
-    
-    //return 0;
+    ECS.addComponent<TestComponent>(e1);
+    ECS.addComponent<TestComponent>(e1);
+    //ECS.addComponent<TestComponent>(e3);
+    ECS.addComponent<TestComponent>(e4);
+
+    return 0;
     bool shouldClose = false;
 
     EventManager eventManager;
@@ -166,9 +174,8 @@ int main()
         //processInput(event.getKeyCode());
         return false;
     });
-    {
-        InputManager inputManager(eventManager);
-    }
+    
+    InputManager inputManager(eventManager);
 
     window.hideCursor();
     //std::cout << "here\n";

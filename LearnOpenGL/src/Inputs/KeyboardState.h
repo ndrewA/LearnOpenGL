@@ -11,8 +11,11 @@ public:
 	{
 		Pressed,
 		Repeated,
-		Released
+		Released,
 	};
+
+	KeyboardState() 
+		: keyStates{ ButtonState::Released } { }
 
 	void keyPress(int keyCode) { keyStates[keyCode] = ButtonState::Pressed; }
 	void keyRepeat(int keyCode) { keyStates[keyCode] = ButtonState::Repeated; }

@@ -2,31 +2,39 @@
 
 #include "SystemManager.h"
 
+#include "EntityKey.h"
+
 class ECSManager
 {
 public:
     ECSManager()
-        : context(IDManager, componentManager) { }
+        : systemManager({ entityManager, componentManager, archetypeManager }) { }
 
-    Entity createEntity()
+    EntityKey createEntity()
     {
-        return IDManager.createEntity();
+        return { entityManager.createEntity() };
     }
 
-    void destroyEntity(Entity entity)
+    void removeEntity(const EntityKey& key)
     {
-        componentManager.destroyEntityComponents(entity);
-        IDManager.destroyEntity(entity);
+        componentManager.removeEntity(key.getEntity());
+        archetypeManager.removeEntity(key.getEntity());
+        entityManager.removeEntity(key.getEntity());
     }
 
     template<typename ComponentType, typename... Args>
-    requires std::derived_from<ComponentType, Component>
-    void addComponent(Entity entity, Args&&... args)
+    void addComponent(const EntityKey& key, Args&&... args)
     {
-        componentManager.addComponent<ComponentType>(entity, std::forward(args)...);
+        componentManager.addComponent<ComponentType>(key.getEntity(), std::forward(args)...);
+        archetypeManager.addComponent<ComponentType>(key.getEntity());
     }
 
-
+    template<typename ComponentType, typename... Args>
+    void removeComponent(const EntityKey& key, Args&&... args)
+    {
+        componentManager.addComponent<ComponentType>(key.getEntity(), std::forward(args)...);
+        archetypeManager.addComponent<ComponentType>(key.getEntity());
+    }
 
     template<typename SystemType, typename... Args>
     requires std::derived_from<SystemType, System>
@@ -58,12 +66,12 @@ public:
 
     void updateSystems(float deltaTime) 
     {
-        systemManager.updateSystems(deltaTime, context);
+        systemManager.updateSystems(deltaTime);
     }
 
 private:
-    EntityIDManager IDManager;
+    EntityManager entityManager;
     ComponentManager componentManager;
+    ArchetypeManager archetypeManager;
     SystemManager systemManager;
-    SystemContext context;
 };

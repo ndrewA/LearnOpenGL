@@ -1,43 +1,72 @@
 #pragma once
 
+#include <iterator>
+
 #include "ComponentManager.h"
-#include "EntityIDManager.h"
+#include "EntityManager.h"
+#include "ArchetypeManager.h"
 
 class SystemContext
 {
 public:
-    SystemContext(EntityIDManager& IDManager, ComponentManager& componentManager)
-        : IDManager(IDManager), componentManager(componentManager)  { }
+    template<typename... ComponentTypes>
+    using updateFn = std::function<void(Entity entity, ComponentTypes&...)>;
+
+    SystemContext(EntityManager& entityManager, ComponentManager& componentManager, ArchetypeManager& archetypeManager)
+        : entityManager(entityManager), componentManager(componentManager), archetypeManager(archetypeManager)  { }
 
     template<typename ComponentType>
-    requires std::derived_from<ComponentType, Component>
-    const ComponentType& getComponent(Entity entity)
-    {
-        return componentManager.getComponent<ComponentType>(entity);
-    }
-
-    template<typename ComponentType>
-    requires std::derived_from<ComponentType, Component>
-    bool hasComponent(Entity entity)
+    bool hasComponent(Entity entity) const
     {
         return componentManager.hasComponent<ComponentType>(entity);
     }
 
-    template<typename... ComponentTypes>
-    requires (std::derived_from<ComponentTypes, Component> && ...)
-    std::vector<Entity> getEntitiesWithComponents()
+    template<typename ComponentType>
+    const ComponentType& getComponent(Entity entity) const
     {
-        std::vector<Entity> entities;
+        return componentManager.getComponent<ComponentType>(entity);
+    }
 
-        auto& activeEntites = IDManager.getActiveEntities();
-        for (const auto& entity : activeEntites)
-            if ((componentManager.hasComponent<ComponentTypes>(entity) && ...))
-                entities.push_back(entity);
+    template<typename... ComponentTypes>
+    void updateEntitiesWithComponents(const updateFn<ComponentTypes...>& update) const
+    {
+        std::vector<std::set<Entity>> entitySets = { archetypeManager.getEntities<ComponentTypes>()... };
 
-        return entities;
+        for (const Entity& entity : findCommonEntities(entitySets)) 
+            update(entity, componentManager.getComponent<ComponentTypes>(entity)...);
     }
 
 private:
-    EntityIDManager& IDManager;
+    std::set<Entity> findCommonEntities(const std::vector<std::set<Entity>>& entitySets)
+    {
+        if (entitySets.empty())
+            return {};
+
+        auto smallestSetIt = std::min_element(entitySets.begin(), entitySets.end(),
+            [](const std::set<Entity>& a, const std::set<Entity>& b) {
+                return a.size() < b.size();
+            });
+
+        std::set<Entity> commonEntities = *smallestSetIt;
+
+        for (auto it = entitySets.begin(); it != entitySets.end(); ++it)
+        {
+            if (it == smallestSetIt)
+                continue;
+
+            std::set<Entity> intersection;
+            std::set_intersection(commonEntities.begin(), commonEntities.end(),
+                it->begin(), it->end(),
+                std::inserter(intersection, intersection.begin()));
+
+            commonEntities = std::move(intersection);
+        }
+
+        return commonEntities;
+    }
+
+private:
+    EntityManager& entityManager;
     ComponentManager& componentManager;
+    ArchetypeManager& archetypeManager;
 };

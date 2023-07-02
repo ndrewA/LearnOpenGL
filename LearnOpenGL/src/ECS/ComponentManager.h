@@ -3,6 +3,7 @@
 #include <typeindex>
 
 #include "ComponentPool.h"
+#include "TypeTag.h"
 
 class ComponentManager
 {
@@ -10,12 +11,11 @@ public:
     template<typename ComponentType, typename... Args>
     void addComponent(Entity entity, Args&&... args)
     {
-        auto component = std::make_unique<ComponentType>(std::forward(args)...);
-        getComponentPool<ComponentType>().addComponent(entity, std::move(component));
+        getComponentPool<ComponentType>().addComponent(entity, std::forward(args)...);
     }
 
     template<typename ComponentType>
-    const ComponentType& getComponent(Entity entity) 
+    ComponentType& getComponent(Entity entity) const
     {
         return getComponentPool<ComponentType>().getComponent(entity);
     }
@@ -26,27 +26,33 @@ public:
         return getComponentPool<ComponentType>().hasComponent(entity);
     }
 
-    void destroyEntityComponents(Entity entity)
+    template<typename ComponentType>
+    void removeComponent(Entity entity)
     {
-        for (auto& [type, pool] : componentPools)
-            pool->destroyEntityComponent(entity);
+        getComponentPool<ComponentType>().removeEntityComponent(entity);
+    }
+
+    void removeEntity(Entity entity)
+    {
+        for (auto& pool : componentPools)
+            pool->removeEntityComponent(entity);
     }
 
 private:
     template<typename ComponentType>
     ComponentPool<ComponentType>& getComponentPool()
     {
-        std::type_index typeIndex(typeid(ComponentType));
+        size_t index = ComponentTypeTag<ComponentType>::index;
 
-        auto it = componentPools.find(typeIndex);
-        if (it == componentPools.end()) {
-            auto newPool = std::make_unique<ComponentPool<ComponentType>>();
-            it = componentPools.emplace(typeIndex, std::move(newPool)).first;
-        }
+        if (index >= componentPools.size())
+            componentPools.resize(index + 1);
 
-        return static_cast<ComponentPool<ComponentType>&>(*it->second);
+        if (componentPools[index] == nullptr)
+            componentPools[index] = std::make_unique<ComponentPool<ComponentType>>();
+
+        return static_cast<ComponentPool<ComponentType>&>(*componentPools[index]);
     }
 
 private:
-    std::unordered_map<std::type_index, std::unique_ptr<BaseComponentPool>> componentPools;
+    std::vector<std::unique_ptr<BaseComponentPool>> componentPools;
 };

@@ -1,12 +1,13 @@
 #pragma once
 
 #include <stdexcept>
+#include <string>
 
 #include "Entity.h"
 
-class ComponentEntityNotFoundException : public std::runtime_error
+class ComponentOutOfBoundsException : public std::runtime_error
 {
 public:
-    ComponentEntityNotFoundException(Entity entity, const std::string& componentType)
-        : std::runtime_error(entity + " not found in component pool: " + componentType) { }
+    ComponentOutOfBoundsException(Entity entity)
+        : std::runtime_error(std::to_string(entity.index) + " is out of bounds!") { }
 };
