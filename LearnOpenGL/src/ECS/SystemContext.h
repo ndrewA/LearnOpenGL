@@ -11,7 +11,7 @@ class SystemContext
 {
 public:
     template<typename... ComponentTypes>
-    using updateFn = std::function<void(Entity entity, ComponentTypes&...)>;
+    using UpdateFn = std::function<void(Entity entity, ComponentTypes&...)>;
 
     SystemContext(const EntityManager& entityManager, 
                   ComponentManager& componentManager,  ArchetypeManager& archetypeManager)
@@ -38,7 +38,7 @@ public:
     } 
 
     template<typename... ComponentTypes>
-    void updateEntitiesWithComponents(const updateFn<ComponentTypes...>& update) const
+    void updateEntitiesWithComponents(const UpdateFn<ComponentTypes...>& update) const
     {
         for (auto entity : archetypeManager.findCommonEntities<ComponentTypes...>())
             update(entity, componentManager.getComponent<ComponentTypes>(entity)...);

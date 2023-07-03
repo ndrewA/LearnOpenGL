@@ -16,16 +16,16 @@ public:
         cache.clear();
     }
 
+    void removeEntity(Entity entity)
+    {
+        archetypeStorage.removeEntity(entity);
+        cache.clear();
+    }
+
     template<typename ComponentType>
     void removeComponent(Entity entity)
     {
         archetypeStorage.removeComponent<ComponentType>(entity);
-        cache.clear();
-    }
-
-    void removeEntity(Entity entity)
-    {
-        archetypeStorage.removeEntity(entity);
         cache.clear();
     }
 

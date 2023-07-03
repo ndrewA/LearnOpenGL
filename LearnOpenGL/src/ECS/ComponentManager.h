@@ -1,7 +1,5 @@
 #pragma once
 
-#include <typeindex>
-
 #include "ComponentPool.h"
 #include "TypeTag.h"
 
@@ -26,17 +24,18 @@ public:
         return getComponentPool<ComponentType>().hasComponent(entity);
     }
 
-    template<typename ComponentType>
-    void removeComponent(Entity entity)
-    {
-        getComponentPool<ComponentType>().removeEntityComponent(entity);
-    }
-
     void removeEntity(Entity entity)
     {
         for (auto& pool : componentPools)
-            pool->removeEntityComponent(entity);
+            pool->relocateComponentToEntity(entity);
     }
+
+    template<typename ComponentType>
+    void removeComponent(Entity entity)
+    {
+        getComponentPool<ComponentType>().removeComponentFromEntity(entity);
+    }
+
 
 private:
     template<typename ComponentType>
@@ -54,5 +53,5 @@ private:
     }
 
 private:
-    std::vector<std::unique_ptr<BaseComponentPool>> componentPools;
+    inline static std::vector<std::unique_ptr<BaseComponentPool>> componentPools;
 };

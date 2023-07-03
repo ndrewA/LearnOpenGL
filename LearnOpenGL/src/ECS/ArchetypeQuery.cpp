@@ -2,10 +2,11 @@
 
 ArchetypeQuery::EntitySet ArchetypeQuery::findCommonEntities(const std::vector<EntitySet>& entitySets) const
 {
-    if (entitySets.empty())
+    auto smallestSetIt = findSmallestSet(entitySets);
+
+    if (smallestSetIt->empty())
         return { };
 
-    auto smallestSetIt = findSmallestSet(entitySets);
     EntitySet commonEntities = *smallestSetIt;
 
     for (auto it = entitySets.begin(); it != entitySets.end(); ++it) {
@@ -31,7 +32,10 @@ ArchetypeQuery::EntitySet ArchetypeQuery::
     intersectUnorderedSets(const EntitySet& set1, const EntitySet& set2) const
 {
     EntitySet intersection;
-    for (const auto& entity : set1)
-        intersection.insert(entity);
+
+    for (const auto& entity : set1) 
+        if (set2.find(entity) != set2.end()) 
+            intersection.insert(entity);
+
     return intersection;
 }

@@ -34,7 +34,7 @@ public:
 	{
 		size_t index = SystemTypeTag<SystemType>::index;
 
-		if(index >= systems.size() || !systems[index])
+		if(index >= systems.size() || systems[index] == nullptr)
 			throw SystemNotFoundException(typeid(SystemType).name());
 
 		systems[index]->onRemoved();
@@ -60,7 +60,7 @@ public:
 	void updateSystems(float deltaTime) const 
 	{
 		for (auto& system : systems)
-			if(system->isEnabled())
+			if(system != nullptr && system->isEnabled())
 				system->update(deltaTime, context);
 	}
 

@@ -1,21 +1,25 @@
 #pragma once
 
-template <typename ComponentType>
-struct ComponentTypeTag 
+struct BaseComponentTypeTag
 {
-	inline static size_t index = []() {
-		static size_t typeCounter = 0;
-		return typeCounter++;
-	}();
+	inline static size_t typeCounter = 0;
 };
 
-template <typename SystemType>
-struct SystemTypeTag 
+template <typename ComponentType>
+struct ComponentTypeTag : public BaseComponentTypeTag
 {
-	inline static size_t index = []() {
-		static size_t typeCounter = 0;
-		return typeCounter++;
-	}();
+	inline static size_t index = typeCounter++;
+};
+
+struct BaseSystemTypeTag
+{
+	inline static size_t typeCounter = 0;
+};
+
+template <typename ComponentType>
+struct SystemTypeTag : public BaseSystemTypeTag
+{
+	inline static size_t index = typeCounter++;
 };
 
 struct BaseVariadicTypeTag 

@@ -97,15 +97,21 @@ class c2 {};
 class c3 {};
 class c4 {};
 
+void TestFunc(Entity e, c1& c)
+{
+
+}
+
 class TestSystem : public System
 {
 public:
     virtual void onAdded() override { };
     virtual void update(const float deltaTime, const SystemContext& context) override 
     { 
-        context.updateEntitiesWithComponents<c1>([](Entity entity, c1& component)
+        context.updateEntitiesWithComponents<TestComponent, c1>(
+            [this](Entity entity, TestComponent& component, c1& c)
         {
-                std::cout << "test\1";
+                std::cout << "IN UPDATE FUNCTION: " << entity.index << '\n';
         });
     };
     virtual void onRemoved() override {} ;
@@ -118,26 +124,17 @@ int main()
     ECS.removeSystem<TestSystem>();
     ECS.addSystem<TestSystem>();
     ECS.removeSystem<TestSystem>();
+    ECS.addSystem<TestSystem>();
     if (ECS.hasSystem<TestSystem>())
         std::cout << "YAAY\n";
     else std::cout << "NO\n";
 
     auto e1 = ECS.createEntity();
-    auto e2 = ECS.createEntity();
-    auto e3 = ECS.createEntity();
-    auto e4 = ECS.createEntity();
-    ECS.addComponent<c1>(e2);
-    ECS.addComponent<c2>(e2);
-    ECS.addComponent<c3>(e2);
-    ECS.addComponent<c4>(e2);
-    ECS.removeEntity(e2);
-    ECS.removeEntity(e3);
-    //entityManager.destroyEntity(1);
+    ECS.addComponent<c1>(e1);
+    ECS.removeComponent<c1>(e1);
     ECS.addComponent<TestComponent>(e1);
-    ECS.addComponent<TestComponent>(e1);
-    //ECS.addComponent<TestComponent>(e3);
-    ECS.addComponent<TestComponent>(e4);
-
+    //ECS.removeEntity(e1);
+    ECS.updateSystems(1.f);
     return 0;
     bool shouldClose = false;
 

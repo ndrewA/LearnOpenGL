@@ -16,14 +16,6 @@ public:
         return { entityManager.createEntity() };
     }
 
-    void removeEntity(const EntityKey& key)
-    {
-        Entity entity = key.getEntity();
-        componentManager.removeEntity(entity);
-        entityManager.removeEntity(entity);
-        archetypeManager.removeEntity(entity);
-    }
-
     template<typename ComponentType, typename... Args>
     void addComponent(const EntityKey& key, Args&&... args)
     {
@@ -32,12 +24,20 @@ public:
         archetypeManager.addComponent<ComponentType>(entity);
     }
 
+    void removeEntity(const EntityKey& key)
+    {
+        Entity entity = key.getEntity();
+        componentManager.removeEntity(entity);
+        archetypeManager.removeEntity(entity);
+        entityManager.removeEntity(entity);
+    }
+
     template<typename ComponentType>
     void removeComponent(const EntityKey& key)
     {
         Entity entity = key.getEntity();
         componentManager.removeComponent<ComponentType>(entity);
-        archetypeManager.removeComponent<ComponentManager>(entity);
+        archetypeManager.removeComponent<ComponentType>(entity);
     }
 
     template<typename SystemType, typename... Args>

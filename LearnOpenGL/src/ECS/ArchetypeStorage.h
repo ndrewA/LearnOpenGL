@@ -15,16 +15,16 @@ public:
 		getArchetype<ComponentType>().addEntity(entity);
 	}
 
-	template<typename ComponentType>
-	void removeComponent(Entity entity)
-	{
-		getArchetype<ComponentType>().removeEntity(entity);
-	}
-
 	void removeEntity(Entity entity)
 	{
 		for (auto& archetype : archetypes)
 			archetype->removeEntity(entity);
+	}
+
+	template<typename ComponentType>
+	void removeComponent(Entity entity)
+	{
+		getArchetype<ComponentType>().removeEntity(entity);
 	}
 
 	template<typename ComponentType>
@@ -38,7 +38,6 @@ private:
 	Archetype<ComponentType>& getArchetype()
 	{
 		size_t index = ComponentTypeTag<ComponentType>::index;
-
 		if (index >= archetypes.size())
 			archetypes.resize(index + 1);
 
@@ -49,5 +48,5 @@ private:
 	}
 
 private:
-	std::vector<std::unique_ptr<BaseArchetype>> archetypes;
+	inline static std::vector<std::unique_ptr<BaseArchetype>> archetypes;
 };

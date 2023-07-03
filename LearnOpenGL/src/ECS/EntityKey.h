@@ -15,7 +15,7 @@ private:
 	EntityKey(std::weak_ptr<Entity> entity)
 		: entity(std::move(entity)), id(IDCounter++) { }
 
-	Entity& getEntity() const 
+	Entity getEntity() const 
 	{ 
 		if (entity.expired()) 
 			throw EntityIsAlreadyDestroyedException();
