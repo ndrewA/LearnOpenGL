@@ -3,58 +3,29 @@
 #include <iterator>
 #include <algorithm>
 
-#include "ArchetypeManager.h"
+#include "ArchetypeStorage.h"
 
 class ArchetypeQuery
 {
 public:
-	ArchetypeQuery(const ArchetypeManager& archetypeManager)
-		: archetypeManager(archetypeManager) { }
+    using EntitySet = std::unordered_set<Entity>;
 
-	template<typename... ComponentTypes>
-	std::set<Entity> findCommonEntities() const
-	{
-		std::vector<std::set<Entity>> entitySets;
-		(entitySets.push_back(getArchetype<ComponentTypes>().getEntities()), ...);
-		return findCommonEntities(entitySets);
-	}
+    ArchetypeQuery(ArchetypeStorage& archetypeStorage)
+        : archetypeStorage(archetypeStorage) { }
 
-	std::set<Entity> findCommonEntities(const std::vector<std::set<Entity>>& entitySets)
-	{
-		if (entitySets.empty())
-			return { };
-
-		auto smallestSetIt = findSmallestSet(entitySets);
-		std::set<Entity> commonEntities = *smallestSetIt;
-
-		for (auto it = entitySets.begin(); it != entitySets.end(); ++it) {
-			if (it == smallestSetIt)
-				continue;
-
-			commonEntities = intersectSets(commonEntities, *it);
-		}
-
-		return commonEntities;
-	}
+    template<typename... ComponentTypes>
+    EntitySet findCommonEntities() 
+    {
+        std::vector<EntitySet> entitySets;
+        (entitySets.push_back(archetypeStorage.getEntities<ComponentTypes>()), ...);
+        return findCommonEntities(entitySets);
+    }
 
 private:
-	std::vector<std::set<Entity>>::const_iterator findSmallestSet(const std::vector<std::set<Entity>>& entitySets)
-	{
-		return std::min_element(entitySets.begin(), entitySets.end(),
-			[](const std::set<Entity>& a, const std::set<Entity>& b) {
-				return a.size() < b.size();
-			});
-	}
-
-	std::set<Entity> intersectSets(const std::set<Entity>& set1, const std::set<Entity>& set2)
-	{
-		std::set<Entity> intersection;
-		std::set_intersection(set1.begin(), set1.end(),
-			set2.begin(), set2.end(),
-			std::inserter(intersection, intersection.begin()));
-		return intersection;
-	}
+    EntitySet findCommonEntities(const std::vector<EntitySet>& entitySets) const;
+    std::vector<EntitySet>::const_iterator findSmallestSet(const std::vector<EntitySet>& entitySets) const;
+    EntitySet intersectUnorderedSets(const EntitySet& set1, const EntitySet& set2) const;
 
 private:
-	const ArchetypeManager& archetypeManager;
+    ArchetypeStorage& archetypeStorage;
 };

@@ -1,53 +1,61 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-
-#include "Archetype.h"
-#include "TypeTag.h"
+#include "Cache.h"
+#include "ArchetypeQuery.h"
 
 class ArchetypeManager
 {
 public:
-	template<typename ComponentType>
-	void addComponent(Entity entity)
-	{
-		getArchetype<ComponentType>().addEntity(entity);
-	}
+    ArchetypeManager()
+        : archetypeQuery(archetypeStorage) { }
 
-	template<typename ComponentType>
-	void removeComponent(Entity entity)
-	{
-		getArchetype<ComponentType>().removeEntity(entity);
-	}
+    template<typename ComponentType>
+    void addComponent(Entity entity)
+    {
+        archetypeStorage.addComponent<ComponentType>(entity);
+        cache.clear();
+    }
 
-	void removeEntity(Entity entity)
-	{
-		for (auto& archetype : archetypes)
-			archetype->removeEntity(entity);
-	}
+    template<typename ComponentType>
+    void removeComponent(Entity entity)
+    {
+        archetypeStorage.removeComponent<ComponentType>(entity);
+        cache.clear();
+    }
 
-	template<typename ComponentType>
-	const std::set<Entity>& getEntities() const
-	{
-		return getArchetype<ComponentType>().getEntities();
-	}
+    void removeEntity(Entity entity)
+    {
+        archetypeStorage.removeEntity(entity);
+        cache.clear();
+    }
+
+    template<typename ComponentType>
+    const std::unordered_set<Entity>& getEntities() const
+    {
+        return archetypeStorage.getEntities<ComponentType>();
+    }
+
+    template<typename... ComponentTypes>
+    std::unordered_set<Entity> findCommonEntities()
+    {
+        auto cachedEntities = cache.retrieve<ComponentTypes...>();
+        if (cachedEntities) {
+            return *cachedEntities;
+        }
+        else {
+            std::unordered_set<Entity> entities = archetypeQuery.findCommonEntities<ComponentTypes...>();
+            cache.store<ComponentTypes...>(entities);
+            return entities;
+        }
+    }
+
+    void clearCache() 
+    {
+        cache.clear();
+    }
 
 private:
-	template<typename ComponentType>
-	Archetype<ComponentType>& getArchetype()
-	{
-		size_t index = ComponentTypeTag<ComponentType>::index;
-
-		if (index >= archetypes.size())
-			archetypes.resize(index + 1);
-
-		if (archetypes[index] == nullptr)
-			archetypes[index] = std::make_unique<Archetype<ComponentType>>();
-
-		return static_cast<Archetype<ComponentType>&>(*archetypes[index]);
-	}
-
-private:
-	std::vector<std::unique_ptr<BaseArchetype>> archetypes;
+    ArchetypeStorage archetypeStorage;
+    ArchetypeQuery archetypeQuery;
+    Cache<std::unordered_set<Entity>> cache;
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <optional>
-#include <unordered_map>
+#include <vector>
 
 #include "TypeTag.h"
 
@@ -12,14 +12,17 @@ public:
     template <typename... ComponentTypes>
     void store(const ResultType& result) 
     { 
-        cache[VariadicTypeTag<ComponentTypes...>::index] = result;  
+        size_t index = VariadicTypeTag<ComponentTypes...>::index;
+        if (index >= cache.size())
+            cache.resize(index + 1);
+        cache[index] = result;
     }
 
     template <typename... ComponentTypes>
     std::optional<ResultType> retrieve() const 
     {
-        auto it = cache.find(VariadicTypeTag<ComponentTypes...>::index);
-        return (it != cache.end()) ? it->second : std::nullopt;
+        size_t index = VariadicTypeTag<ComponentTypes...>::index;
+        return index < cache.size() ? cache[index] : std::nullopt;
     }
 
     void clear() 
@@ -28,5 +31,5 @@ public:
     }
 
 private:
-    std::unordered_map<size_t, ResultType> cache;
+    std::vector<std::optional<ResultType>> cache;
 };

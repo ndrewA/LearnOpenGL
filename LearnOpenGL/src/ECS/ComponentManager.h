@@ -15,7 +15,7 @@ public:
     }
 
     template<typename ComponentType>
-    ComponentType& getComponent(Entity entity) const
+    ComponentType& getComponent(Entity entity)
     {
         return getComponentPool<ComponentType>().getComponent(entity);
     }

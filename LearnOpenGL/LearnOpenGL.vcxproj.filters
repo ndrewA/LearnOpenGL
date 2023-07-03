@@ -1491,10 +1491,11 @@
     <ClInclude Include="src\ECS\ComponentPoolExceptions.h" />
     <ClInclude Include="src\ECS\EntityKey.h" />
     <ClInclude Include="src\ECS\Archetype.h" />
-    <ClInclude Include="src\ECS\ArchetypeManager.h" />
+    <ClInclude Include="src\ECS\ArchetypeStorage.h" />
     <ClInclude Include="src\ECS\TypeTag.h" />
     <ClInclude Include="src\ECS\Cache.h" />
     <ClInclude Include="src\ECS\ArchetypeQuery.h" />
+    <ClInclude Include="src\ECS\ArchetypeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1555,6 +1556,7 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Inputs\InputManager.cpp" />
+    <ClCompile Include="src\ECS\ArchetypeQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\shader.frag">

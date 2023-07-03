@@ -43,7 +43,7 @@ public:
             throw EntityOutOfBoundsException(entity);
 
         if (!pool[entity.index])
-            throw ComponentOutOfBoundsException(entity, typeid(ComponentType).name());
+            throw ComponentOutOfBoundsException(entity);
 
         return *pool[entity.index];
     }
@@ -54,5 +54,5 @@ public:
     }
 
 private:
-    std::vector<std::optional<ComponentType>> pool;
+    inline static std::vector<std::optional<ComponentType>> pool;
 };

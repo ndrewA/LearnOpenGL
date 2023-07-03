@@ -92,18 +92,24 @@ class TestComponent
 
 };
 
-class TestSystem : public System
-{
-public:
-    virtual void onAdded() override { };
-    virtual void update(const float deltaTime, const SystemContext& context) override { };
-    virtual void onRemoved() override {} ;
-};
-
 class c1 {};
 class c2 {};
 class c3 {};
 class c4 {};
+
+class TestSystem : public System
+{
+public:
+    virtual void onAdded() override { };
+    virtual void update(const float deltaTime, const SystemContext& context) override 
+    { 
+        context.updateEntitiesWithComponents<c1>([](Entity entity, c1& component)
+        {
+                std::cout << "test\1";
+        });
+    };
+    virtual void onRemoved() override {} ;
+};
 
 int main()
 {

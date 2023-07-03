@@ -4,7 +4,7 @@
 
 #include "ComponentManager.h"
 #include "EntityManager.h"
-#include "ArchetypeQuery.h"
+#include "ArchetypeManager.h"
 #include "Cache.h"
 
 class SystemContext
@@ -13,8 +13,10 @@ public:
     template<typename... ComponentTypes>
     using updateFn = std::function<void(Entity entity, ComponentTypes&...)>;
 
-    SystemContext(EntityManager& entityManager, ComponentManager& componentManager, ArchetypeQuery archetypeManager)
-        : entityManager(entityManager), componentManager(componentManager), archetypeQuery(archetypeManager) { }
+    SystemContext(const EntityManager& entityManager, 
+                  ComponentManager& componentManager,  ArchetypeManager& archetypeManager)
+        : entityManager(entityManager), 
+          componentManager(componentManager), archetypeManager(archetypeManager) { }
 
     template<typename ComponentType>
     bool hasComponent(Entity entity) const
@@ -28,26 +30,22 @@ public:
         return componentManager.getComponent<ComponentType>(entity);
     }
 
+    template<typename ComponentType, typename... Args>
+    void createComponent(Entity entity, Args&&... args)
+    {
+        componentManager.addComponent<ComponentType>(entity, std::forward(args)...);
+        archetypeManager.addComponent<ComponentType>(entity);
+    } 
+
     template<typename... ComponentTypes>
     void updateEntitiesWithComponents(const updateFn<ComponentTypes...>& update) const
     {
-        auto cachedEntities = entitiesCache.retrieve<ComponentTypes...>();
-        if (cachedEntities) {
-            for (Entity entity : *cachedEntities) 
-                update(entity, componentManager.getComponent<ComponentTypes>(entity)...);
-        }
-        else {
-            std::vector<Entity> entities = archetypeQuery.findCommonEntities<ComponentTypes...>();
-
-            entitiesCache.store<ComponentTypes...>(entities);
-            for (Entity entity : entities) 
-                update(entity, componentManager.getComponent<ComponentTypes>(entity)...);
-        }
+        for (auto entity : archetypeManager.findCommonEntities<ComponentTypes...>())
+            update(entity, componentManager.getComponent<ComponentTypes>(entity)...);
     }
 
 private:
-    EntityManager& entityManager;
+    const EntityManager& entityManager;
     ComponentManager& componentManager;
-    ArchetypeQuery archetypeQuery;
-    Cache<std::vector<Entity>> entitiesCache;
+    ArchetypeManager& archetypeManager;
 };

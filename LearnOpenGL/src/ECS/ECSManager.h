@@ -8,32 +8,36 @@ class ECSManager
 {
 public:
     ECSManager()
-        : systemManager({ entityManager, componentManager, archetypeManager }) { }
+        : systemManager( SystemContext{ entityManager, componentManager, archetypeManager } ) { }
 
     EntityKey createEntity()
     {
+        archetypeManager.clearCache();
         return { entityManager.createEntity() };
     }
 
     void removeEntity(const EntityKey& key)
     {
-        componentManager.removeEntity(key.getEntity());
-        archetypeManager.removeEntity(key.getEntity());
-        entityManager.removeEntity(key.getEntity());
+        Entity entity = key.getEntity();
+        componentManager.removeEntity(entity);
+        entityManager.removeEntity(entity);
+        archetypeManager.removeEntity(entity);
     }
 
     template<typename ComponentType, typename... Args>
     void addComponent(const EntityKey& key, Args&&... args)
     {
-        componentManager.addComponent<ComponentType>(key.getEntity(), std::forward(args)...);
-        archetypeManager.addComponent<ComponentType>(key.getEntity());
+        Entity entity = key.getEntity();
+        componentManager.addComponent<ComponentType>(entity, std::forward(args)...);
+        archetypeManager.addComponent<ComponentType>(entity);
     }
 
-    template<typename ComponentType, typename... Args>
-    void removeComponent(const EntityKey& key, Args&&... args)
+    template<typename ComponentType>
+    void removeComponent(const EntityKey& key)
     {
-        componentManager.addComponent<ComponentType>(key.getEntity(), std::forward(args)...);
-        archetypeManager.addComponent<ComponentType>(key.getEntity());
+        Entity entity = key.getEntity();
+        componentManager.removeComponent<ComponentType>(entity);
+        archetypeManager.removeComponent<ComponentManager>(entity);
     }
 
     template<typename SystemType, typename... Args>

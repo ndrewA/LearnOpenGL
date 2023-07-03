@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "EntityExceptions.h"
-#include "Entity.h"
 
 class EntityKey
 {
@@ -14,7 +13,7 @@ public:
 
 private:
 	EntityKey(std::weak_ptr<Entity> entity)
-		: entity(std::move(entity)), id(IDCount++) { }
+		: entity(std::move(entity)), id(IDCounter++) { }
 
 	Entity& getEntity() const 
 	{ 
@@ -29,7 +28,7 @@ private:
 	size_t id;
 
 private:
-	inline static size_t IDCount = 0;
+	inline static size_t IDCounter = 0;
 
 	friend class ECSManager;
 };
