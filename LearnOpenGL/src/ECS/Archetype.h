@@ -3,36 +3,16 @@
 #include <unordered_set>
 
 #include "Entity.h"
+#include "SparseSet.h"
 
-namespace std
-{
-    template<>
-    struct hash<Entity>
-    {
-        std::size_t operator()(const Entity& entity) const { return std::hash<size_t>{}(entity.index); }
-    };
-}
-
-inline bool operator==(const Entity& lhs, const Entity& rhs) { return lhs.index == rhs.index; }
-
-class BaseArchetype
+class Archetype 
 {
 public:
-	virtual void addEntity(Entity entity) = 0;
-	virtual void removeEntity(Entity entity) = 0;
-
-	virtual const std::unordered_set<Entity>& getEntities() const = 0;
-};
-
-template<typename ComponentType>
-class Archetype : public BaseArchetype
-{
-public:
-	void addEntity(Entity entity) override { entities.insert(entity); }
-	void removeEntity(Entity entity) override { entities.erase(entity); }
-
-	const std::unordered_set<Entity>& getEntities() const override { return entities; }
+    void addEntity(Entity entity) { entities.insert(entity.index, entity); }
+    void removeEntity(Entity entity) { entities.remove(entity.index); }
+    bool hasEntity(Entity entity) const { return entities.has(entity.index); }
+    const std::vector<Entity>& getEntities() const { return entities.getAll(); }
 
 private:
-	std::unordered_set<Entity> entities;
+    SparseSet<Entity> entities;
 };

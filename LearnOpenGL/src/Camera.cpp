@@ -40,8 +40,7 @@ void Camera::processMouseScroll(const float yOffset)
 
 void Camera::processKeyboard(const char directionMask)
 {
-    const float speedOnDeltaTime = MOVEMENT_SPEED * timer.getDeltaTime();
-    timer.resetTimer();
+    const float speedOnDeltaTime = MOVEMENT_SPEED * timer.mark();
 
     if (directionMask & direction::front)
         position += speedOnDeltaTime * cameraFront;
@@ -55,8 +54,6 @@ void Camera::processKeyboard(const char directionMask)
         position += speedOnDeltaTime * worldUp;
     if (directionMask & direction::down)
         position -= speedOnDeltaTime * worldUp;
-    if (directionMask & (char)0x0)
-        timer.resetTimer();
 }
 
 void Camera::updateCameraRotation()

@@ -40,7 +40,7 @@ private:
 	const static float MOUSE_SENSITIVITY;
 
 private:
-	utilities::Timer timer;
+	Timer timer;
 
 	glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
 	glm::vec3 worldUp = glm::vec3(0.f, 1.f, 0.f);

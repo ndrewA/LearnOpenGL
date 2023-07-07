@@ -27,15 +27,14 @@ public:
     void removeEntity(Entity entity)
     {
         for (auto& pool : componentPools)
-            pool->relocateComponentToEntity(entity);
+            pool->removeComponent(entity);
     }
 
     template<typename ComponentType>
     void removeComponent(Entity entity)
     {
-        getComponentPool<ComponentType>().removeComponentFromEntity(entity);
+        getComponentPool<ComponentType>().removeComponent(entity);
     }
-
 
 private:
     template<typename ComponentType>

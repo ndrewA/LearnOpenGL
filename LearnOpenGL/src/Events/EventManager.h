@@ -13,6 +13,13 @@ public:
 		return eventBus.registerListenerFor<EventType>(callBack);
 	}
 
+	template<typename EventType>
+	requires std::derived_from<EventType, Event>
+	void registerPermanentListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
+	{
+		eventBus.registerPermanentListenerFor<EventType>(callBack);
+	}
+
 	void unregisterListener(const EventListenerKey& listenerKey)
 	{ 
 		eventBus.unregisterListener(listenerKey);

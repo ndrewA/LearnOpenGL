@@ -15,19 +15,25 @@ public:
 	template<typename EventType>
 	std::shared_ptr<EventListenerID> registerListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
 	{
-		std::shared_ptr<EventListenerID> listenerID(new EventListenerID(currentID), 
+		std::shared_ptr<EventListenerID> listenerID(new EventListenerID(currentID++), 
 			[this](EventListenerID* listenerID) {
 				this->unregisterListener(*listenerID);
 				delete listenerID;
 			}
 		);
 
-		++currentID;
-
 		std::unique_ptr<BaseEventListener> listener = std::make_unique<EventListener<EventType>>(callBack, *listenerID);
 		listeners.push_back(std::move(listener));
 
 		return listenerID;
+	}
+
+	template<typename EventType>
+	void registerPermanentListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
+	{
+		EventListenerID listenerID(currentID++);
+		std::unique_ptr<BaseEventListener> listener = std::make_unique<EventListener<EventType>>(callBack, listenerID);
+		listeners.push_back(std::move(listener));
 	}
 
 	void unregisterListener(const EventListenerID& listenerID)

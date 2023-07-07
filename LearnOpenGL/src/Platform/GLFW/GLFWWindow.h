@@ -16,7 +16,6 @@ public:
     void update() override;
 
     void hideCursor() override;
-    void swapBuffers() override;
 
     int getWidth() const override { return width; }
     int getHeight() const override { return height; }

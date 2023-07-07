@@ -2,23 +2,29 @@
 
 #include <chrono>
 
-namespace utilities
+class Timer
 {
-	class Timer
-	{
-	private:
-		using time = std::chrono::steady_clock::time_point;
+public:
+    using Clock = std::chrono::high_resolution_clock;
+    using TimePoint = std::chrono::time_point<Clock>;
+    using Duration = std::chrono::duration<float>;
 
-	public:
-		Timer() { }
-		float getDeltaTime();
-		void resetTimer();
 
-	private:
-		time currentTime = getCurrentTime();
-		time lastTime = getCurrentTime();
+    Timer()
+        : startTime(Clock::now()) { }
 
-	private:
-		time getCurrentTime() { return std::chrono::high_resolution_clock::now(); }
-	};
-}
+    float mark()
+    {
+        TimePoint old = startTime;
+        startTime = Clock::now();
+        return Duration(startTime - old).count();
+    }
+
+    float getDeltaTime()
+    {
+        return Duration(Clock::now() - startTime).count();
+    }
+
+private:
+    TimePoint startTime;
+};

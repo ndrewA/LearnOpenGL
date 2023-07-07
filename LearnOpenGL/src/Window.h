@@ -13,7 +13,6 @@ public:
     virtual void close() = 0;
     virtual void update() = 0;
 
-    virtual void swapBuffers() = 0;
     virtual void hideCursor() = 0;
 
     virtual int getWidth() const = 0;

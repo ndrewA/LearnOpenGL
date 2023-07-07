@@ -136,15 +136,10 @@ void GLFWWindow::close()
 void GLFWWindow::update()
 {
 	glfwPollEvents();
-	swapBuffers();
+	renderingContext->swapBuffers();
 }
 
 void GLFWWindow::hideCursor()
 {
 	glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-}
-
-void GLFWWindow::swapBuffers()
-{
-	renderingContext->swapBuffers();
 }

@@ -14,5 +14,5 @@ public:
     size_t getEntityCount() const { return entities.size(); }
 
 private:
-    std::vector<std::shared_ptr<Entity>> entities;
+    inline static std::vector<std::shared_ptr<Entity>> entities;
 };

@@ -2,9 +2,18 @@
 
 #include <string>
 #include <memory>
+#include <stdexcept>
 
 #include "Renderer/Texture.h"
 #include "Renderer/TextureLoader.h"
+
+class TextureFormatNotSupported : std::runtime_error
+{
+public:
+    TextureFormatNotSupported(int channelCount)
+        : runtime_error("Format with: " + std::to_string(channelCount) + " channels not supported!")
+    { }
+};
 
 class OpenGLTexture : public Texture
 {

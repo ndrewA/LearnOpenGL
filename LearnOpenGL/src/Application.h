@@ -3,22 +3,25 @@
 #include "Events/EventManager.h"
 #include "LayerStack.h"
 #include "Platform/GLFW/GLFWWindow.h"
+#include "ECS/ECSManager.h"
 
 class Application
 {
+public:
 	Application();
 
 	void start();
 	void run();
 	void stop();
 
-	void onEvent();
-
+	bool onEvent(const WindowCloseEvent& event);
+	
 private:
 	EventManager eventManager;
-	std::unique_ptr<LayerStack> layerStack;
+	ECSManager ecsManager;
+	LayerStack layerStack;
 	std::unique_ptr<Window> window;
 	
-	bool shouldClose = false;
+	bool isRunning = true;
 };
 

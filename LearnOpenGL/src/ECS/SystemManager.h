@@ -57,7 +57,7 @@ public:
 		systems[index]->enabled(enabled);
 	}
 
-	void updateSystems(float deltaTime) const 
+	void updateSystems(float deltaTime) 
 	{
 		for (auto& system : systems)
 			if(system != nullptr && system->isEnabled())
@@ -65,7 +65,7 @@ public:
 	}
 
 private:
-	std::vector<std::unique_ptr<System>> systems;
+	inline static std::vector<std::unique_ptr<System>> systems;
 
 	SystemContext context;
 };

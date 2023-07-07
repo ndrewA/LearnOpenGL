@@ -8,11 +8,10 @@ class ECSManager
 {
 public:
     ECSManager()
-        : systemManager( SystemContext{ entityManager, componentManager, archetypeManager } ) { }
+        : systemManager( SystemContext{ entityManager, componentManager } ) { }
 
     EntityKey createEntity()
     {
-        archetypeManager.clearCache();
         return { entityManager.createEntity() };
     }
 
@@ -21,14 +20,12 @@ public:
     {
         Entity entity = key.getEntity();
         componentManager.addComponent<ComponentType>(entity, std::forward(args)...);
-        archetypeManager.addComponent<ComponentType>(entity);
     }
 
     void removeEntity(const EntityKey& key)
     {
         Entity entity = key.getEntity();
         componentManager.removeEntity(entity);
-        archetypeManager.removeEntity(entity);
         entityManager.removeEntity(entity);
     }
 
@@ -37,7 +34,6 @@ public:
     {
         Entity entity = key.getEntity();
         componentManager.removeComponent<ComponentType>(entity);
-        archetypeManager.removeComponent<ComponentType>(entity);
     }
 
     template<typename SystemType, typename... Args>
@@ -76,6 +72,5 @@ public:
 private:
     EntityManager entityManager;
     ComponentManager componentManager;
-    ArchetypeManager archetypeManager;
     SystemManager systemManager;
 };

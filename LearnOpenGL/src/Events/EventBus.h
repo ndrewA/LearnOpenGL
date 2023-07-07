@@ -16,6 +16,12 @@ public:
 		return { listeners.registerListenerFor<EventType>(callBack) };
 	}
 
+	template<typename EventType>
+	void registerPermanentListenerFor(const typename EventListener<EventType>::EventCallBackFn& callBack)
+	{
+		listeners.registerPermanentListenerFor<EventType>(callBack);
+	}
+
 	void unregisterListener(const EventListenerKey& listenerKey)
 	{
 		listeners.unregisterListener(listenerKey.getListenerID());
@@ -25,10 +31,8 @@ public:
 	{
 		while (auto event = eventQueue.pop()) 
 			for (const auto& listener : listeners) 
-				if (listener->isEventType(*event)) 
-					if (listener->dispatchEvent(*event))
-						break;
-
+				if (listener->isEventType(*event) && listener->dispatchEvent(*event))
+					break;
 	}
 
 private:

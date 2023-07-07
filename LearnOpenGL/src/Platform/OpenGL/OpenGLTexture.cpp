@@ -1,7 +1,6 @@
 #include "OpenGLTexture.h"
 
 #include <memory>
-#include <stdexcept>
 
 #include <glad/glad.h>
 
@@ -44,17 +43,12 @@ unsigned int OpenGLTexture::determineFormat(int channelCount) const
 {
 	switch (channelCount)
 	{
-	case 1:
-		return GL_RED;
-	case 2:
-		return GL_RG;
-	case 3:
-		return GL_RGB;
-	case 4:
-		return GL_RGBA;
-	default:
-		throw std::runtime_error("Invalid channel count!"); // TODO: add custom error, derived from std::runtime_error
+	case 1: return GL_RED;
+	case 2: return GL_RG;
+	case 3: return GL_RGB;
+	case 4: return GL_RGBA;
 	}
+	throw TextureFormatNotSupported(channelCount);
 }
 
 OpenGLTexture::~OpenGLTexture()

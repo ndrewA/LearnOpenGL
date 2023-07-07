@@ -231,9 +231,6 @@
     <ClInclude Include="src\Renderer\VertexArray.h">
       <Filter>src\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Timer.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Window.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1491,11 +1488,12 @@
     <ClInclude Include="src\ECS\ComponentPoolExceptions.h" />
     <ClInclude Include="src\ECS\EntityKey.h" />
     <ClInclude Include="src\ECS\Archetype.h" />
-    <ClInclude Include="src\ECS\ArchetypeStorage.h" />
     <ClInclude Include="src\ECS\TypeTag.h" />
-    <ClInclude Include="src\ECS\Cache.h" />
-    <ClInclude Include="src\ECS\ArchetypeQuery.h" />
-    <ClInclude Include="src\ECS\ArchetypeManager.h" />
+    <ClInclude Include="src\Timer.h" />
+    <ClInclude Include="src\ECS\SparseSet.h" />
+    <ClInclude Include="src\ECS\ArchetypeNode.h" />
+    <ClInclude Include="src\ECS\ArchetypeIdentifier.h" />
+    <ClInclude Include="src\ECS\ArchetypeGraph.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1549,14 +1547,10 @@
     <ClCompile Include="src\Renderer\BufferLayout.cpp">
       <Filter>src\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Timer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Inputs\InputManager.cpp" />
-    <ClCompile Include="src\ECS\ArchetypeQuery.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\shader.frag">

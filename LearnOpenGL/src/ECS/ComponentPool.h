@@ -11,8 +11,7 @@ class BaseComponentPool
 {
 public:
     virtual ~BaseComponentPool() = default;
-    virtual void removeComponentFromEntity(Entity entity) = 0;
-    virtual void relocateComponentToEntity(Entity entity) = 0;
+    virtual void removeComponent(Entity entity) = 0;
     virtual bool hasComponent(Entity entity) const = 0;
 };
 
@@ -23,46 +22,41 @@ public:
     template<typename... Args>
     void addComponent(Entity entity, Args&&... args)
     {
-        if (entity.index >= pool.size())
-            pool.resize(entity.index + 1);
+        if (entity.index >= sparse.size())
+            sparse.resize(entity.index + 1, -1);
 
-        pool[entity.index] = ComponentType(std::forward<Args>(args)...);
+        dense.push_back(ComponentType(std::forward<Args>(args)...));
+        sparse[entity.index] = dense.size() - 1;
     }
 
-    void relocateComponentToEntity(Entity entity) override
+    void removeComponent(Entity entity) override
     {
-        if (entity.index >= pool.size())
-            throw EntityOutOfBoundsException(entity);
+        if (!hasComponent(entity))
+            throw ComponentOutOfBoundsException(entity);
 
-        pool[entity.index] = std::move(pool.back());
-        pool.pop_back();
+        size_t denseIndex = sparse[entity.index];
+        std::swap(dense[denseIndex], dense.back());
+        dense.pop_back();
+
+        Entity swappedEntity = dense[denseIndex].entity;
+        sparse[swappedEntity.index] = denseIndex;
+        sparse[entity.index] = -1;
     }
-
-    void removeComponentFromEntity(Entity entity) override
-    {
-        if (entity.index >= pool.size())
-            throw EntityOutOfBoundsException(entity);
-
-        pool[entity.index].reset();
-    }
-
 
     ComponentType& getComponent(Entity entity) const
     {
-        if (entity.index >= pool.size())
-            throw EntityOutOfBoundsException(entity);
-
-        if (!pool[entity.index])
+        if (!hasComponent(entity))
             throw ComponentOutOfBoundsException(entity);
 
-        return *pool[entity.index];
+        return dense[sparse[entity.index]];
     }
 
     bool hasComponent(Entity entity) const override
     {
-        return entity.index < pool.size() && pool[entity.index].has_value();
+        return entity.index < sparse.size() && sparse[entity.index] != -1;
     }
 
 private:
-    inline static std::vector<std::optional<ComponentType>> pool;
+    inline static std::vector<ComponentType> dense;
+    inline static std::vector<size_t> sparse;
 };

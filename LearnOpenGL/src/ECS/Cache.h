@@ -31,5 +31,5 @@ public:
     }
 
 private:
-    std::vector<std::optional<ResultType>> cache;
+    inline static std::vector<std::optional<ResultType>> cache;
 };

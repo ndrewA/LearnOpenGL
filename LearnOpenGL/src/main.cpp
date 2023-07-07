@@ -1,3 +1,8 @@
+#pragma once
+
+#include <filesystem>
+#include <iostream>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -8,14 +13,12 @@
 #include "Platform/OpenGL/OpenGLprogram.h"
 #include "Camera.h"
 #include "Model.h"
-
-#include "Events/EventManager.h"
-#include "Platform/GLFW/GLFWWindow.h"
-#include "Inputs/Inputmanager.h"
 #include "ECS/ECSManager.h"
+#include "Inputs/InputManager.h"
 
-#include <filesystem>
-#include <iostream>
+#include "Application.h"
+
+#include "ECS/ARchetypeIdentifier.h"
 
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
@@ -106,35 +109,46 @@ class TestSystem : public System
 {
 public:
     virtual void onAdded() override { };
-    virtual void update(const float deltaTime, const SystemContext& context) override 
-    { 
+    virtual void update(const float deltaTime, SystemContext& context) override
+    {
         context.updateEntitiesWithComponents<TestComponent, c1>(
             [this](Entity entity, TestComponent& component, c1& c)
-        {
+            {
                 std::cout << "IN UPDATE FUNCTION: " << entity.index << '\n';
-        });
+            });
     };
-    virtual void onRemoved() override {} ;
+    virtual void onRemoved() override {};
+};
+
+class TestSystem1 : public System
+{
+public:
+    virtual void onAdded() override { };
+    virtual void update(const float deltaTime, SystemContext& context) override
+    {
+        context.updateEntitiesWithComponents<c1>(
+            [this](Entity entity, c1& c)
+            {
+                std::cout << "IN UPDATE FUNCTION 1: " << entity.index << '\n';
+            });
+    };
+    virtual void onRemoved() override {};
 };
 
 int main()
 {
-    ECSManager ECS;
-    ECS.addSystem<TestSystem>();
-    ECS.removeSystem<TestSystem>();
-    ECS.addSystem<TestSystem>();
-    ECS.removeSystem<TestSystem>();
-    ECS.addSystem<TestSystem>();
-    if (ECS.hasSystem<TestSystem>())
-        std::cout << "YAAY\n";
-    else std::cout << "NO\n";
+    std::cout << identifier<c1, c2, c3, c4>() << '\n';
+    std::cout << identifier<c1, c3, c2, c4>() << '\n';
+    std::cout << identifier<c4, c3, c2, c1>() << '\n';
+    std::cout << identifier<c2, c1, c3>() << '\n';
+    std::cout << identifier<c4, c3, c1>() << '\n';
+    std::cout << identifier<c3        >() << '\n';
+    std::cout << identifier<c3, c2, c1>() << '\n';
 
-    auto e1 = ECS.createEntity();
-    ECS.addComponent<c1>(e1);
-    ECS.removeComponent<c1>(e1);
-    ECS.addComponent<TestComponent>(e1);
-    //ECS.removeEntity(e1);
-    ECS.updateSystems(1.f);
+    return 0;
+    Application app;
+    app.run();
+    app.stop();
     return 0;
     bool shouldClose = false;
 
@@ -196,13 +210,13 @@ int main()
     Model ourModel(modelPath);
 
     size_t frames = 0;
-    utilities::Timer t;
+    Timer t;
     while (!shouldClose)
     {
         glStencilMask(0x00);
         if (t.getDeltaTime() >= 1.0f) {
             std::cout << "fps: " << static_cast<float>(frames) / t.getDeltaTime() << '\n';
-            t.resetTimer();
+            t.mark();
             frames = 0;
         }
         frames++;
