@@ -14,9 +14,10 @@ int main()
 	c1 C1;
 	Entity<> entity1{ 1 };
 	Entity<> entity2{ 2 };
-	graph.addComponent(entity0, C1);
+	auto newEntity0 = graph.addComponent(entity0, C1);
 	graph.addComponent(entity1, C1);
 	graph.addComponent(entity2, C1);
+	graph.removeComponent<c1>(newEntity0);
 	return 0;
 }
 

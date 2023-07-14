@@ -8,12 +8,14 @@
 namespace
 {
     template <typename Tuple, size_t... Is>
-    constexpr auto getFirstHalf(Tuple tuple, std::index_sequence<Is...>) {
+    constexpr auto getFirstHalf(Tuple tuple, std::index_sequence<Is...>) 
+    {
         return std::make_tuple(std::get<Is>(tuple)...);
     }
 
     template <typename Tuple, size_t... Is>
-    constexpr auto getSecondHalf(Tuple tuple, std::index_sequence<Is...>) {
+    constexpr auto getSecondHalf(Tuple tuple, std::index_sequence<Is...>) 
+    {
         constexpr size_t offset = std::tuple_size<Tuple>::value / 2;
         return std::make_tuple(std::get<Is + offset>(tuple)...);
     }

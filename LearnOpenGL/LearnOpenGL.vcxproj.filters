@@ -1500,6 +1500,7 @@
     <ClInclude Include="src\CompileTimeECS\ArchetypeGraph.h" />
     <ClInclude Include="src\CompileTimeECS\TupleComparator.h" />
     <ClInclude Include="src\CompileTimeECS\EmptyArchetype.h" />
+    <ClInclude Include="src\CompileTimeECS\TupleRemove.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">

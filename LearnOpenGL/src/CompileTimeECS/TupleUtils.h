@@ -21,12 +21,23 @@ struct Append<std::tuple<Ts...>, T>
     using type = std::tuple<Ts..., T>;
 };
 
-template <typename T, typename Tuple>
-struct Contains;
+template <typename T, typename... Ts>
+struct Contains
+{
+    static constexpr bool value = Contains<T, std::tuple<Ts...>>::value;
+};
 
 template <typename T, typename... Ts>
 struct Contains<T, std::tuple<Ts...>> {
-    static const bool value = std::disjunction_v<std::is_same<T, Ts>...>;
+    static constexpr bool value = std::disjunction_v<std::is_same<T, Ts>...>;
+};
+
+template <typename Subset, typename Tuple>
+struct isSubset;
+
+template <typename... Ts, typename... Us>
+struct isSubset<std::tuple<Ts...>, std::tuple<Us...>> {
+    static constexpr bool value = (... && (Contains<Ts, std::tuple<Us...>>::value));
 };
 
 template <typename Tuple, template <typename...> class Template>

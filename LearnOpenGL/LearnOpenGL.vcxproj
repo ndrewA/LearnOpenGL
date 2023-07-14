@@ -99,6 +99,7 @@
     <ClInclude Include="src\CompileTimeECS\TupleComparator.h" />
     <ClInclude Include="src\CompileTimeECS\ECSManager.h" />
     <ClInclude Include="src\CompileTimeECS\Entity.h" />
+    <ClInclude Include="src\CompileTimeECS\TupleRemove.h" />
     <ClInclude Include="src\CompileTimeECS\TupleSort.h" />
     <ClInclude Include="src\CompileTimeECS\SparseSet.h" />
     <ClInclude Include="src\CompileTimeECS\System.h" />

@@ -36,8 +36,11 @@ namespace
         >;
     };
 
-    template <typename Tuple>
-    struct QuickSort;
+    template <typename... Ts>
+    struct QuickSort
+    {
+        using type = typename QuickSort<std::tuple<Ts...>>::type;
+    };
 
     template <typename Pivot, typename... Tail>
     struct QuickSort<std::tuple<Pivot, Tail...>>
@@ -75,19 +78,10 @@ namespace
 }
 
 template <typename... Ts>
-using QuickSort_t = typename QuickSort<std::tuple<Ts...>>::type;
-
-template <typename Tuple>
-using QuickSortTuple_t = typename QuickSort<Tuple>::type;
+using QuickSort_t = typename QuickSort<Ts...>::type;
 
 template<typename... Ts>
 struct Identifier
 {
     inline static size_t value = StaticTypeIndex::get<QuickSort_t<Ts...>>();
-};
-
-template<typename Tuple>
-struct TupleIdentifier
-{
-    inline static size_t value = StaticTypeIndex::get<QuickSortTuple_t<Tuple>>();
 };

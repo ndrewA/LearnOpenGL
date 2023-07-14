@@ -15,7 +15,7 @@ public:
 
     ComponentsTuple removeEntityAndGetComponents(Entity entity)
     {
-        return ComponentsTuple{};
+        return ComponentsTuple{ };
     }
 
     template <typename Function>
