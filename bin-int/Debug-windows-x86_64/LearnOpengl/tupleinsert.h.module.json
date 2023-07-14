@@ -1,0 +1,22 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "..\\bin-int\\Debug-windows-x86_64\\LearnOpengl\\TupleInsert.h.obj",
+            "outputs": [
+                "C:\\dev\\LearnOpengl\\bin-int\\Debug-windows-x86_64\\LearnOpengl\\vc143.pdb",
+                "..\\bin-int\\Debug-windows-x86_64\\LearnOpengl\\",
+                "C:\\dev\\LearnOpengl\\bin-int\\Debug-windows-x86_64\\LearnOpengl\\TupleInsert.h.ifc"
+            ],
+            "provides": [
+                {
+                    "logical-name": "src\\CompileTimeECS\\TupleInsert.h",
+                    "source-path": "c:\\dev\\learnopengl\\learnopengl\\src\\compiletimeecs\\tupleinsert.h",
+                    "lookup-method": "absolute"
+                }
+            ],
+            "requires": []
+        }
+    ]
+}
