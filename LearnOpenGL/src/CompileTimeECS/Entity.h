@@ -5,7 +5,7 @@
 template <typename... ComponentTypes>
 struct Entity
 {
-	using signature = std::tuple<ComponentTypes...>;
+	using Signature = std::tuple<ComponentTypes...>;
 	size_t ID;
 };
 

@@ -1501,6 +1501,7 @@
     <ClInclude Include="src\CompileTimeECS\TupleComparator.h" />
     <ClInclude Include="src\CompileTimeECS\EmptyArchetype.h" />
     <ClInclude Include="src\CompileTimeECS\TupleRemove.h" />
+    <ClInclude Include="src\CompileTimeECS\EntityManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">

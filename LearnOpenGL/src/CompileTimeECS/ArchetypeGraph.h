@@ -13,7 +13,7 @@ class ArchetypeGraph
 public:
     template <typename... CurrentComponentTypes, typename NewComponentType>
     requires (Contains<NewComponentType, CurrentComponentTypes...>::value == false)
-    [[nodiscard("Entity type will change, you will need it!")]] 
+    [[nodiscard("Entity type will change, you will need the new one!")]] 
     auto addComponent(Entity<CurrentComponentTypes...> currentEntity, NewComponentType newComponent)
     {
         auto currentComponents = removeEntityFromCurrentArchetype<CurrentComponentTypes...>(currentEntity);
@@ -28,7 +28,7 @@ public:
 
     template <typename RemovedComponentType, typename... CurrentComponentTypes>
     requires (Contains<RemovedComponentType, CurrentComponentTypes...>::value == true)
-    [[nodiscard("Entity type will change, you will need it!")]]
+    [[nodiscard("Entity type will change, you will need the new one!")]]
     auto removeComponent(Entity<CurrentComponentTypes...> currentEntity)
     {
         auto currentComponents = removeEntityFromCurrentArchetype<CurrentComponentTypes...>(currentEntity);
@@ -39,6 +39,12 @@ public:
         NewEntityType newEntity{ currentEntity.ID };
 
         return addEntityToNewArchetype<RemovedTuple>(newEntity, newComponents);
+    }
+
+    template<typename... ComponentTypes>
+    void removeEntity(Entity<ComponentTypes...> entity)
+    {
+        removeEntityFromCurrentArchetype(entity);
     }
 
 private:

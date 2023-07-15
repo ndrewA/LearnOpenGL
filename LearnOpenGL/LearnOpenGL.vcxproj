@@ -96,6 +96,7 @@
     <ClInclude Include="src\CompileTimeECS\Archetype.h" />
     <ClInclude Include="src\CompileTimeECS\ArchetypeGraph.h" />
     <ClInclude Include="src\CompileTimeECS\EmptyArchetype.h" />
+    <ClInclude Include="src\CompileTimeECS\EntityManager.h" />
     <ClInclude Include="src\CompileTimeECS\TupleComparator.h" />
     <ClInclude Include="src\CompileTimeECS\ECSManager.h" />
     <ClInclude Include="src\CompileTimeECS\Entity.h" />
