@@ -28,7 +28,7 @@ public:
 
         std::apply([this](auto&&... component) {
             ((std::get<std::vector<std::decay_t<decltype(component)>>>(componentsData).push_back(std::move(component))), ...);
-            }, std::move(components));
+            }, std::move(components)); // moves from one tuple to another
     }
 
     ComponentsTuple removeEntityAndGetComponents(Entity entity)

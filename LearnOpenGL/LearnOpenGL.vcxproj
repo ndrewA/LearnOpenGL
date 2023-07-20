@@ -93,18 +93,6 @@
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\CompileTimeECS\Archetype.h" />
-    <ClInclude Include="src\CompileTimeECS\ArchetypeGraph.h" />
-    <ClInclude Include="src\CompileTimeECS\EmptyArchetype.h" />
-    <ClInclude Include="src\CompileTimeECS\EntityManager.h" />
-    <ClInclude Include="src\CompileTimeECS\TupleComparator.h" />
-    <ClInclude Include="src\CompileTimeECS\ECSManager.h" />
-    <ClInclude Include="src\CompileTimeECS\Entity.h" />
-    <ClInclude Include="src\CompileTimeECS\TupleRemove.h" />
-    <ClInclude Include="src\CompileTimeECS\TupleSort.h" />
-    <ClInclude Include="src\CompileTimeECS\SparseSet.h" />
-    <ClInclude Include="src\CompileTimeECS\System.h" />
-    <ClInclude Include="src\CompileTimeECS\TupleUtils.h" />
     <ClInclude Include="src\Events\Event.h" />
     <ClInclude Include="src\Events\EventBus.h" />
     <ClInclude Include="src\Events\EventListener.h" />
@@ -126,6 +114,14 @@
     <ClInclude Include="src\LayerStack.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\NewECS\ComponentManager.h" />
+    <ClInclude Include="src\NewECS\ComponentStorage.h" />
+    <ClInclude Include="src\NewECS\ComponentBuffer.h" />
+    <ClInclude Include="src\NewECS\Entity.h" />
+    <ClInclude Include="src\NewECS\EntityManager.h" />
+    <ClInclude Include="src\NewECS\EntityMetadata.h" />
+    <ClInclude Include="src\NewECS\SparseSet.h" />
+    <ClInclude Include="src\NewECS\TypeTag.h" />
     <ClInclude Include="src\Platform\GLFW\GLFWRenderingContext.h" />
     <ClInclude Include="src\Platform\GLFW\GLFWWindow.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBufferLayout.h" />
@@ -578,11 +574,11 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\CompileTimeECS\TupleInsert.h" />
     <ClCompile Include="src\Inputs\InputManager.cpp" />
     <ClCompile Include="src\LayerStack.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\NewECS\EntityManager.cpp" />
     <ClCompile Include="src\Platform\GLFW\GLFWRenderingContext.cpp" />
     <ClCompile Include="src\Platform\GLFW\GLFWWindow.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBufferLayout.cpp" />

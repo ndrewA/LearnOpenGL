@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CompileTimeECS/ArchetypeGraph.h"
+#include "NewECS/ComponentStorage.h"
 
 class c1 {};
 class c2 {};
@@ -9,15 +9,7 @@ class c4 {};
 
 int main()
 {
-	ArchetypeGraph graph;
-	Entity<> entity0{ 0 };
-	c1 C1;
-	Entity<> entity1{ 1 };
-	Entity<> entity2{ 2 };
-	auto newEntity0 = graph.addComponent(entity0, C1);
-	graph.addComponent(entity1, C1);
-	graph.addComponent(entity2, C1);
-	graph.removeComponent<c1>(newEntity0);
+	ComponentStorage<c1> storage;
 	return 0;
 }
 
