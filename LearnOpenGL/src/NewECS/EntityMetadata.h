@@ -35,6 +35,12 @@ public:
         return signatures[entityIndex].test(componentIndex);
     }
 
+    Signature getSignature(Entity entity)
+    {
+        size_t entityIndex = entities.getIndex(entity);
+        return signatures[entityIndex];
+    }
+
     template<typename... ComponentTypes>
     void addToEntity(Entity entity, ComponentTypes... components)
     {

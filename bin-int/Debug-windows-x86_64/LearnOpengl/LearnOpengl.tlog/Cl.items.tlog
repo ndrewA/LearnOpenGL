@@ -4,6 +4,7 @@ C:\dev\LearnOpengl\LearnOpengl\src\Inputs\InputManager.cpp;C:\dev\LearnOpengl\bi
 C:\dev\LearnOpengl\LearnOpengl\src\LayerStack.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\LayerStack.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Mesh.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Mesh.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Model.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\Model.obj
+C:\dev\LearnOpengl\LearnOpengl\src\NewECS\EntityManager.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\EntityManager.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Platform\GLFW\GLFWRenderingContext.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\GLFWRenderingContext.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Platform\GLFW\GLFWWindow.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\GLFWWindow.obj
 C:\dev\LearnOpengl\LearnOpengl\src\Platform\OpenGL\OpenGLBufferLayout.cpp;C:\dev\LearnOpengl\bin-int\Debug-windows-x86_64\LearnOpengl\OpenGLBufferLayout.obj

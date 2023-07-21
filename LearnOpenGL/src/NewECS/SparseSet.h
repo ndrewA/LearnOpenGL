@@ -5,6 +5,7 @@
 
 #include "Entity.h"
 
+template<typename T = Entity>
 class SparseSet
 {
     static constexpr size_t INVALID_ENTITY = std::numeric_limits<size_t>::max();
@@ -49,12 +50,22 @@ public:
         return dense;
     }
 
+    auto begin()
+    {
+        return dense.begin();
+    }
+
+    auto end()
+    {
+        return dense.end();
+    }
+
     size_t size() const
     {
         return dense.size();
     }
 
 private:
-    std::vector<size_t> sparse;
+    std::vector<EntityID> sparse;
     std::vector<Entity> dense;
 };

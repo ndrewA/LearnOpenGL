@@ -1483,7 +1483,14 @@
     <ClInclude Include="src\NewECS\ComponentManager.h" />
     <ClInclude Include="src\NewECS\EntityMetadata.h" />
     <ClInclude Include="src\NewECS\TypeTag.h" />
-    <ClInclude Include="src\NewECS\EntityManager.h" />
+    <ClInclude Include="src\NewECS\EntityGenerator.h" />
+    <ClInclude Include="src\NewECS\FunctionTraits.h" />
+    <ClInclude Include="src\NewECS\SystemManager.h" />
+    <ClInclude Include="src\NewECS\ECS.h" />
+    <ClInclude Include="src\NewECS\SystemMetadata.h" />
+    <ClInclude Include="src\NewECS\HasUpdate.h" />
+    <ClInclude Include="src\NewECS\ComponentCount.h" />
+    <ClInclude Include="src\NewECS\EntitySubscription.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1540,7 +1547,7 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\NewECS\EntityManager.cpp" />
+    <ClCompile Include="src\NewECS\EntityGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Platform\OpenGL\Shaders\shader.frag">

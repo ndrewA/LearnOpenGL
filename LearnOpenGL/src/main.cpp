@@ -1,6 +1,7 @@
 #pragma once
 
 #include "NewECS/ComponentStorage.h"
+#include "NewECS/SystemManager.h"
 
 class c1 {};
 class c2 {};
@@ -9,7 +10,9 @@ class c4 {};
 
 int main()
 {
+	SystemManager<> systems;
 	ComponentStorage<c1> storage;
+
 	return 0;
 }
 
