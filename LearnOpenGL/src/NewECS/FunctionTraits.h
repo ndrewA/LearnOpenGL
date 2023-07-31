@@ -23,3 +23,6 @@ struct FunctionTraits<ReturnType(ClassType::*)(Args...)>
         using type = typename std::tuple_element<N, std::tuple<Args...>>::type;
     };
 };
+
+template <typename T>
+using FunctionTraits_t = typename FunctionTraits<T>::ArgTypes;

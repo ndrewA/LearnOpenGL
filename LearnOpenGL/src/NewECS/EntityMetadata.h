@@ -4,61 +4,86 @@
 
 #include "SparseSet.h"
 #include "TypeTag.h"
+#include "Signature.h"
 
-template <size_t ComponentCount>
+template <size_t N>
 class EntityMetadata
 {
-	using Signature = std::bitset<ComponentCount>;
+    using Signature = EntitySignature<N>;
 
 public:
-    template<typename ComponentType>
-    void addComponent(Entity entity)
+    template<typename... ComponentTypes>
+    void addToEntity(Entity entity)
     {
-        size_t componentIndex = TypeTag::get<ComponentType>();
-        size_t entityIndex = entities.getIndex(entity);
-        signatures[entityIndex].set(componentIndex);
+        entities.insert(entity.id);
+        size_t entityIndex = entities.getIndex(entity.id);
+
+        if (entityIndex >= signatures.size())
+            signatures.resize(entityIndex + 10);
+
+        (addComponent<ComponentTypes>(entity), ...);
     }
 
     template<typename ComponentType>
-    void removeComponent(Entity entity)
+    void removeFromEntity(Entity entity)
     {
-        size_t componentIndex = TypeTag::get<ComponentType>();
-        size_t entityIndex = entities.getIndex(entity);
+        size_t componentIndex = componentTypeTag.get<ComponentType>();
+        size_t entityIndex = entities.getIndex(entity.id);
+
+        if (entityIndex >= signatures.size())
+            throw std::out_of_range("Entity index is out of range!");
+
         signatures[entityIndex].reset(componentIndex);
+    }
+
+    void removeEntity(Entity entity)
+    {
+        size_t entityIndex = entities.getIndex(entity.id);
+
+        if (entityIndex >= signatures.size())
+            throw std::out_of_range("Entity index is out of range!");
+
+        signatures.erase(signatures.begin() + entityIndex);
+        entities.remove(entity.id);
     }
 
     template<typename ComponentType>
     bool hasComponent(Entity entity) const
     {
-        size_t componentIndex = TypeTag::get<ComponentType>();
-        size_t entityIndex = entities.getIndex(entity)
+        size_t componentIndex = componentTypeTag.get<ComponentType>();
+        size_t entityIndex = entities.getIndex(entity);
+
+        if (entityIndex >= signatures.size())
+            throw std::out_of_range("Entity index is out of range!");
+
         return signatures[entityIndex].test(componentIndex);
     }
 
-    Signature getSignature(Entity entity)
+    Signature getSignature(Entity entity) const
     {
-        size_t entityIndex = entities.getIndex(entity);
+        size_t entityIndex = entities.getIndex(entity.id);
+
+        if (entityIndex >= signatures.size())
+            throw std::out_of_range("Entity index is out of range!");
+
         return signatures[entityIndex];
     }
 
-    template<typename... ComponentTypes>
-    void addToEntity(Entity entity, ComponentTypes... components)
+private:
+    template<typename ComponentType>
+    void addComponent(Entity entity)
     {
-        entities.insert(entity);
-        size_t entityIndex = entities.getIndex(entity);
-        signatures[entityIndex] = Signature{};
-        
-        (addComponent<ComponentTypes>(entity), ...);
-    }
+        size_t componentIndex = componentTypeTag.get<ComponentType>();
+        size_t entityIndex = entities.getIndex(entity.id);
 
-    void removeEntity(Entity entity)
-    {
-        size_t entityIndex = entities.getIndex(entity);
-        signatures.erase(entityIndex);
-        entities.remove(entity);
+        if (entityIndex >= signatures.size())
+            throw std::out_of_range("Entity index is out of range!");
+        
+        signatures[entityIndex].set(componentIndex);
     }
 
 private:
-    SparseSet entities;
+    SparseSet<EntityID> entities;
     std::vector<Signature> signatures;
+    TypeTag componentTypeTag;
 };

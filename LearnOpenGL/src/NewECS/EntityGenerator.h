@@ -10,13 +10,11 @@ public:
 	Entity generateEntity();
 	void freeEntity(Entity entity);
 
-	const std::vector<Entity>& getEntities() const { return entities.getEntities(); }
-
 private:
 	Entity generateNewEntity();
 	Entity reuseEntity();
 
 private:
-	SparseSet entities;
+	SparseSet<EntityID> entities;
 	std::queue<EntityID> freeIDs;
 };

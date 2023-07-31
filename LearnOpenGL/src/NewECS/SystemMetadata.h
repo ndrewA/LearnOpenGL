@@ -6,11 +6,13 @@
 #include "TypeTag.h"
 #include "HasUpdate.h"
 #include "ComponentCount.h"
+#include "Signature.h"
 
-template <typename... SystemTypes>
+template <HasUpdate... SystemTypes>
 class SystemMetadata
 {
-    using Signature = std::bitset<ComponentCount<SystemTypes...>>;
+    static constexpr size_t COMPONENT_COUNT = ComponentCount<SystemTypes...>;
+    using SignatureTuple = std::tuple<SystemSignature<SystemTypes, COMPONENT_COUNT>...>;
 
 public:
     SystemMetadata()
@@ -18,35 +20,37 @@ public:
         (setSignature<SystemTypes>(), ...);
     }
 
-    bool matches(Signature entitySignature) const
+    template <typename SystemType>
+    bool matches(const EntitySignature<COMPONENT_COUNT>& entitySignature) const
     {
+        auto& systemSignature = std::get<SystemSignature<SystemType, COMPONENT_COUNT>>(signatures);
         return (systemSignature & entitySignature) == systemSignature;
     }
 
 private:
-    template<HasUpdate System>
+    template<typename System>
     void setSignature()
     {
-        using ArgTypes = typename FunctionTraits<decltype(&System::update)>::arg_types;
-
+        using ArgTypes = typename FunctionTraits<decltype(&System::update)>::ArgTypes;
         setSignatureHelper<System>(std::make_index_sequence<std::tuple_size_v<ArgTypes>>{});
     }
 
-    template<typename System, std::size_t... I>
+    template<typename System, size_t... I>
     void setSignatureHelper(std::index_sequence<I...>)
     {
-        (setComponentSignature<System, std::tuple_element_t<I, ArgTypes>>(), ...);
+        (setComponentSignature<System, std::tuple_element_t<I, FunctionTraits_t<decltype(&System::update)>>>(), ...);
     }
 
     template<typename System, typename Component>
     void setComponentSignature()
     {
-        size_t componentIndex = typeTag.get<Component>();
-        size_t systemIndex = typeTag.get<System>();
-        signatures[systemIndex].set(componentIndex);
+        size_t componentIndex = componentTypeTag.get<Component>();
+        auto& systemSignature = std::get<SystemSignature<System, COMPONENT_COUNT>>(signatures);
+        systemSignature.set(componentIndex);
     }
 
 private:
-    std::array<Signature, sizeof...(SystemTypes)> signatures;
-    TypeTag typeTag;
+    SignatureTuple signatures;
+    TypeTag componentTypeTag;
 };
+

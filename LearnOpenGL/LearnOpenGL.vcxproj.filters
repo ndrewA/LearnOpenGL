@@ -1479,18 +1479,21 @@
     <ClInclude Include="src\NewECS\Entity.h" />
     <ClInclude Include="src\NewECS\ComponentBuffer.h" />
     <ClInclude Include="src\NewECS\SparseSet.h" />
-    <ClInclude Include="src\NewECS\ComponentStorage.h" />
     <ClInclude Include="src\NewECS\ComponentManager.h" />
     <ClInclude Include="src\NewECS\EntityMetadata.h" />
     <ClInclude Include="src\NewECS\TypeTag.h" />
     <ClInclude Include="src\NewECS\EntityGenerator.h" />
     <ClInclude Include="src\NewECS\FunctionTraits.h" />
     <ClInclude Include="src\NewECS\SystemManager.h" />
-    <ClInclude Include="src\NewECS\ECS.h" />
     <ClInclude Include="src\NewECS\SystemMetadata.h" />
     <ClInclude Include="src\NewECS\HasUpdate.h" />
     <ClInclude Include="src\NewECS\ComponentCount.h" />
     <ClInclude Include="src\NewECS\EntitySubscription.h" />
+    <ClInclude Include="src\NewECS\SubscriptionManager.h" />
+    <ClInclude Include="src\NewECS\Signature.h" />
+    <ClInclude Include="src\NewECS\ComponentContext.h" />
+    <ClInclude Include="src\NewECS\TupleToTemplate.h" />
+    <ClInclude Include="src\NewECS\SystemHandle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">

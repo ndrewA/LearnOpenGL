@@ -5,47 +5,44 @@
 
 #include "Entity.h"
 
-template<typename T = Entity>
+template <typename T>
 class SparseSet
 {
-    static constexpr size_t INVALID_ENTITY = std::numeric_limits<size_t>::max();
+    static constexpr T INVALID_ITEM = std::numeric_limits<T>::max();
 
 public:
-    void insert(Entity entity)
+    void insert(T item)
     {
-        EntityID id = entity.id;
-        if (id >= sparse.size())
-            sparse.resize(id + 10, INVALID_ENTITY);
-        dense.push_back(entity);
-        sparse[id] = dense.size() - 1;
+        if (item >= sparse.size())
+            sparse.resize(item + 10, INVALID_ITEM);
+        dense.push_back(item);
+        sparse[item] = dense.size() - 1;
     }
 
-    void remove(Entity entity)
+    void remove(T item)
     {
-        EntityID id = entity.id;
-        if (contains(entity) == false)
+        if (!contains(item))
             return;
-        Entity last = dense.back();
-        dense[sparse[id]] = last;
-        sparse[last.id] = sparse[id];
+        T last = dense.back();
+        dense[sparse[item]] = last;
+        sparse[last] = sparse[item];
         dense.pop_back();
-        sparse[id] = INVALID_ENTITY;
+        sparse[item] = INVALID_ITEM;
     }
 
-    size_t getIndex(Entity entity) const
+    size_t getIndex(T item) const
     {
-        if (contains(entity))
-            return sparse[entity.id];
-        throw std::runtime_error("Entity not found in sparse set!");
+        if (contains(item))
+            return sparse[item];
+        throw std::runtime_error("Item not found in sparse set!");
     }
 
-    bool contains(Entity entity) const
+    bool contains(T item) const
     {
-        EntityID id = entity.id;
-        return id < sparse.size() && sparse[id] < dense.size() && dense[sparse[id]].id == id;
+        return item < sparse.size() && sparse[item] < dense.size() && dense[sparse[item]] == item;
     }
 
-    const std::vector<Entity>& getEntities() const 
+    const std::vector<T>& getItems() const
     {
         return dense;
     }
@@ -66,6 +63,8 @@ public:
     }
 
 private:
-    std::vector<EntityID> sparse;
-    std::vector<Entity> dense;
+    std::vector<T> sparse;
+    std::vector<T> dense;
 };
+
+

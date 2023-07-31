@@ -47,4 +47,7 @@ template <typename Tuple>
 using UniqueTuple_t = typename UniqueTuple<Tuple>::type;
 
 template <typename... SystemTypes>
-constexpr size_t ComponentCount = std::tuple_size<UniqueTuple_t<typename ComponentCollector<SystemTypes...>::type>>::value;
+using UnqiueComponentTuple = UniqueTuple_t<typename ComponentCollector<SystemTypes...>::type>;
+
+template <typename... SystemTypes>
+constexpr size_t ComponentCount = std::tuple_size<UnqiueComponentTuple<SystemTypes...>>::value;

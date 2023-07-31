@@ -1,38 +1,41 @@
 #pragma once
 
-#include "ComponentStorage.h"
-#include "EntityMetadata.h"
+#include "ComponentBuffer.h"
 
 template <typename... ComponentTypes>
 class ComponentManager
 {
 public:
-    template<typename... ComponentTypes>
-    void addToEntity(Entity entity, ComponentTypes... components)
+    template <typename... EntityComponentTypes>
+    void addToEntity(Entity entity, EntityComponentTypes&&... components)
     {
-        componentStorage.addToEntity(entity, components...);
-        entityMetadata.addToEntity(entity, components...);
+        (std::get<ComponentBuffer<EntityComponentTypes>>(componentBuffers)
+            .addComponent(entity, std::forward<EntityComponentTypes>(components)), ...);
+    }
+
+    template <typename ComponentType>
+    void removeFromEntity(Entity entity)
+    {
+        std::get<ComponentBuffer<ComponentType>>(componentBuffers).removeComponent(entity);
     }
 
     void removeEntity(Entity entity)
     {
-        componentStorage.removeEntity(entity);
-        entityMetadata.removeEntity(entity);
+        (std::get<ComponentBuffer<ComponentTypes>>(componentBuffers).removeComponent(entity), ...);
     }
 
     template <typename ComponentType>
     ComponentType& getComponent(Entity entity)
     {
-        return componentStorage.getComponent<ComponentType>(entity);
+        return std::get<ComponentBuffer<ComponentType>>(componentBuffers).getComponent(entity);
     }
 
     template <typename ComponentType>
     bool hasComponent(Entity entity) const
     {
-        return entityMetadata.hasComponent<ComponentType>(entity);
+        return std::get<ComponentBuffer<ComponentType>>(componentBuffers).hasComponent(entity);
     }
 
 private:
-    ComponentStorage<ComponentTypes...> componentStorage;
-    EntityMetadata entityMetadata;
+    std::tuple<ComponentBuffer<ComponentTypes>...> componentBuffers;
 };
