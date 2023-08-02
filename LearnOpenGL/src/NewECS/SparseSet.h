@@ -6,6 +6,7 @@
 #include "Entity.h"
 
 template <typename T>
+requires std::is_integral_v<T>
 class SparseSet
 {
     static constexpr T INVALID_ITEM = std::numeric_limits<T>::max();

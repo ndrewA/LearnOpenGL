@@ -1,11 +1,16 @@
 #pragma once
 
-#include "ComponentBuffer.h"
+#include "ComponentRemover.h"
 
 template <typename... ComponentTypes>
 class ComponentManager
 {
 public:
+    ComponentManager()
+        : componentRemover(componentBuffers)
+    {
+    }
+
     template <typename... EntityComponentTypes>
     void addToEntity(Entity entity, EntityComponentTypes&&... components)
     {
@@ -19,9 +24,10 @@ public:
         std::get<ComponentBuffer<ComponentType>>(componentBuffers).removeComponent(entity);
     }
 
-    void removeEntity(Entity entity)
+    void removeEntity(Entity entity, const std::vector<size_t>& componentIndices)
     {
-        (std::get<ComponentBuffer<ComponentTypes>>(componentBuffers).removeComponent(entity), ...);
+        for (size_t index : componentIndices)
+            componentRemover.removeComponent(entity, index);
     }
 
     template <typename ComponentType>
@@ -38,4 +44,5 @@ public:
 
 private:
     std::tuple<ComponentBuffer<ComponentTypes>...> componentBuffers;
+    ComponentRemover<ComponentTypes...> componentRemover;
 };

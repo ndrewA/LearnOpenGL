@@ -116,8 +116,10 @@
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\NewECS\ComponentContext.h" />
     <ClInclude Include="src\NewECS\ComponentCount.h" />
+    <ClInclude Include="src\NewECS\ComponentIndices.h" />
     <ClInclude Include="src\NewECS\ComponentManager.h" />
     <ClInclude Include="src\NewECS\ComponentBuffer.h" />
+    <ClInclude Include="src\NewECS\ComponentRemover.h" />
     <ClInclude Include="src\NewECS\Entity.h" />
     <ClInclude Include="src\NewECS\EntityGenerator.h" />
     <ClInclude Include="src\NewECS\EntityMetadata.h" />

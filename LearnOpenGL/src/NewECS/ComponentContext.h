@@ -30,7 +30,8 @@ public:
 
     void removeEntity(Entity entity)
     {
-        componentManager.removeEntity(entity);
+        auto& componentIndices = entityMetadata.getIndices(entity);
+        componentManager.removeEntity(entity, componentIndices);;
         entityMetadata.removeEntity(entity);
         subscriptionManager.removeEntity(entity);
     }
