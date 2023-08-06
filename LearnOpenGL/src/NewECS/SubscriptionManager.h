@@ -7,7 +7,7 @@
 template<typename... SystemTypes>
 class SubscriptionManager
 {
-    static constexpr size_t COMPONENT_COUNT = ComponentCount<SystemTypes...>;
+    static constexpr size_t COMPONENT_COUNT = COMPONENT_COUNT<SystemTypes...>;
     using EntitySignature = EntitySignature<COMPONENT_COUNT>;
 
 public:

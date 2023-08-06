@@ -9,7 +9,7 @@ template<typename... SystemTypes>
 class ComponentContext
 {
     using ComponentManager = TupleToTemplate_t<UnqiueComponentTuple<SystemTypes...>, ComponentManager>;
-    static constexpr size_t COMPONENT_COUNT = ComponentCount<SystemTypes...>;
+    static constexpr size_t COMPONENT_COUNT = COMPONENT_COUNT<SystemTypes...>;
 
 public:
     template<typename... EntityComponentTypes>

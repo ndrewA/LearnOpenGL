@@ -1,7 +1,7 @@
 #pragma once
 
 #include <tuple>
-#include <vector>
+#include <array>
 #include <functional>
 
 #include "ComponentBuffer.h"
@@ -10,6 +10,9 @@ template <typename... ComponentTypes>
 class ComponentRemover
 {
 public:
+    static constexpr size_t COMPONENT_COUNT = sizeof...(ComponentTypes);
+    using RemoveComponentFuncs = std::array<std::function<void(Entity)>, COMPONENT_COUNT>;
+
     ComponentRemover(std::tuple<ComponentBuffer<ComponentTypes>...>& componentBuffers)
     {
         createRemoveComponentFuncs(componentBuffers);
@@ -28,14 +31,15 @@ private:
     {
         std::apply(
             [&](auto&&... args) {
-                ((removeComponentFuncs.push_back(
+                size_t i = 0;
+                ((removeComponentFuncs[i++] =
                     [&args](Entity entity) {
                         args.removeComponent(entity);
-                    })), ...);
+                    }), ...);
             },
             componentBuffers);
     }
 
 private:
-    std::vector<std::function<void(Entity)>> removeComponentFuncs;
+    RemoveComponentFuncs removeComponentFuncs;
 };

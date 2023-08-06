@@ -11,7 +11,7 @@
 template <HasUpdate... SystemTypes>
 class SystemMetadata
 {
-    static constexpr size_t COMPONENT_COUNT = ComponentCount<SystemTypes...>;
+    static constexpr size_t COMPONENT_COUNT = COMPONENT_COUNT<SystemTypes...>;
     using SignatureTuple = std::tuple<SystemSignature<SystemTypes, COMPONENT_COUNT>...>;
 
 public:

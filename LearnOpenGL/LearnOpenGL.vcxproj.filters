@@ -1493,9 +1493,15 @@
     <ClInclude Include="src\NewECS\Signature.h" />
     <ClInclude Include="src\NewECS\ComponentContext.h" />
     <ClInclude Include="src\NewECS\TupleToTemplate.h" />
-    <ClInclude Include="src\NewECS\SystemHandle.h" />
+    <ClInclude Include="src\NewECS\SystemNode.h" />
     <ClInclude Include="src\NewECS\ComponentRemover.h" />
     <ClInclude Include="src\NewECS\ComponentIndices.h" />
+    <ClInclude Include="src\NewECS\SystemGraph.h" />
+    <ClInclude Include="src\NewECS\TopologicalIndexSorter.h" />
+    <ClInclude Include="src\NewECS\ConstexprQueue.h" />
+    <ClInclude Include="src\NewECS\Node.h" />
+    <ClInclude Include="src\NewECS\NodeMetafunctions.h" />
+    <ClInclude Include="src\NewECS\TopologicallySortTuple.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
